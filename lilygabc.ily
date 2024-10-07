@@ -21,14 +21,19 @@ music-from-gabc-string =
   (make-music
    'SequentialMusic
    'elements
-   (map
-    (lambda (match)
-     (make-music
-      'NoteEvent
-      'duration
-      (ly:make-duration 2)
-      'pitch
-      (gabc-note-to-pitch (string-ref (match:substring match 1) 0))))
-    (filter
-     (lambda (match) (not (string=? "4" (match:substring match 2))))
-     (list-matches "\\(([a-z])(.)" input)))))
+   (let*
+    ((not-clef
+      (lambda (match) (not (string=? "4" (match:substring match 2)))))
+     (matched-neumes
+      (filter not-clef (list-matches "\\(([a-z])(.)" input)))
+     (match-note-name
+      (lambda (match) (string-ref (match:substring match 1) 0))))
+    (map
+     (lambda (match)
+      (make-music
+       'NoteEvent
+       'duration
+       (ly:make-duration 2)
+       'pitch
+       (gabc-note-to-pitch (match-note-name match))))
+     matched-neumes))))
