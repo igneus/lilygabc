@@ -31,10 +31,8 @@ music-from-gabc-string =
    'SequentialMusic
    'elements
    (let*
-    ((not-clef
-      (lambda (match) (not (string=? "4" (match:substring match 2)))))
-     (matched-neumes
-      (filter not-clef (list-matches "\\(([a-z])(.)" input)))
+    ((matched-neumes
+      (list-matches "\\(([a-z])[^1-4]" input))
      (match-note-name
       (lambda (match) (string-ref (match:substring match 1) 0))))
     (map
