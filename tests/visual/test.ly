@@ -9,6 +9,22 @@
 \bookpart {
   \header { subtitle = "single note" }
 
+  \markup\justify{
+    Each line consists of a series of score pairs.
+    The odd scores are manually coded expected results,
+    the even ones are actual results produced by lilygabc.
+  }
+
+  \markup\fill-line{
+    ""
+
+    \score { a4 }
+    \score { \music-from-gabc-string "(c4) (a)" }
+
+    \score { b4 }
+    \score { \music-from-gabc-string "(c4) (b)" }
+  }
+
   \markup\fill-line{
     \score { c'4 }
     \score { \music-from-gabc-string "(c4) (c)" }
@@ -35,7 +51,19 @@
     \score { b'4 }
     \score { \music-from-gabc-string "(c4) (i)" }
 
-    ""
+    \score { c''4 }
+    \score { \music-from-gabc-string "(c4) (j)" }
+
+    \score { d''4 }
+    \score { \music-from-gabc-string "(c4) (k)" }
+  }
+
+  \markup\fill-line{
+    \score { e''4 }
+    \score { \music-from-gabc-string "(c4) (l)" }
+
+    \score { f''4 }
+    \score { \music-from-gabc-string "(c4) (m)" }
 
     ""
   }

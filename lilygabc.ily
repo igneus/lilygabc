@@ -1,18 +1,27 @@
 % Load gabc scores and render them in LilyPond
 
 #(use-modules (ice-9 regex))
+#(use-modules (srfi srfi-26))
 
 #(define gabc-note-names
-  '((#\c . 0)
-    (#\d . 1)
-    (#\e . 2)
-    (#\f . 3)
-    (#\g . 4)
-    (#\h . 5)
-    (#\i . 6)))
+  (let*
+   ((irange ; integer range, final element included
+     (lambda (x y) (iota (+ (- y x) 1) x)))
+    (char-range
+     (lambda (x y)
+      (map integer->char
+       (apply irange (map char->integer (list x y)))))))
+    (char-range #\a #\m)))
+
+#(display gabc-note-names)
 
 #(define (gabc-note-to-pitch note)
-  (ly:make-pitch 0 (assoc-ref gabc-note-names note)))
+  (let*
+   ((note-index (list-index (cut char=? note <>) gabc-note-names))
+    (note-num (+ 5 note-index))
+    (note (modulo note-num 7))
+    (octave (- (truncate-quotient note-num 7) 1)))
+   (ly:make-pitch octave note)))
 
 music-from-gabc-string =
 #(define-scheme-function
