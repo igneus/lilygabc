@@ -39,15 +39,27 @@
 
     ""
   }
+
+  % pitches beyond the single octave
+
+  % flats
 }
 
-% pitches beyond the single octave
+\bookpart {
+  \header { subtitle = "multiple notes" }
 
-% multiple notes
+  \markup\fill-line{
+    \score { \relative { c'4 d } }
+    \score { \music-from-gabc-string "(c4) (c) (d)" }
+
+    \score { \relative { e'4 f g } }
+    \score { \music-from-gabc-string "(c4) (e) (f) (g)" }
+  }
+}
 
 % melisma
 
-% modifiers
+% articulations (limited support), neumatic spaces, note shapes, adiastematic neumes (ignored)
 
 % lyrics: single syllables
 
