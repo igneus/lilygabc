@@ -17,6 +17,13 @@
        (octave (- (truncate-quotient note-num 7) 1)))
     (ly:make-pitch octave note)))
 
+; mapping Gregorio divisiones -> LilyPond bars
+; (single line full height bar is default, not included)
+(define divisiones-mapping
+  '(("," . "'")
+    (";" . ",")
+    ("::" . "||")))
+
 ; accepts string containing gabc notation,
 ; returns LilyPond music
 (define music-from-gabc-string
@@ -35,7 +42,7 @@
            (cut apply append <>))
           (note-name
            (lambda (note) (string-ref (second note) 0)))
-          (make-ly-note
+          (make-ly-note ; TODO extract to a separate function
            (lambda (note slur-direction)
              (apply
               make-music
@@ -47,21 +54,31 @@
                    '())
                (list
                 'duration (ly:make-duration 2)
-                'pitch (gabc-note-to-pitch clef (note-name note)))))))
-          (slice
-           (lambda (lst start end)
-             (list-head (list-tail lst start) (- end start)))))
+                'pitch (gabc-note-to-pitch clef (note-name note))))))))
        (flatten
         (map
          (lambda (syllable)
-           (let*
-               ((notes (filter (lambda (x) (eq? 'note (car x))) syllable))
-                (is-melisma (< 1 (length notes))))
-             (if is-melisma
-                 (append
-                  (list (make-ly-note (first notes) -1))
-                  (map (cut make-ly-note <> #f)
-                       (slice notes 1 (- (length notes) 1)))
-                  (list (make-ly-note (last notes) 1)))
-                 (map (cut make-ly-note <> #f) notes))))
+           (let* ((notes (filter (lambda (x) (eq? 'note (car x))) syllable))
+                  (is-melisma (< 1 (length notes)))
+                  (is-melisma-beginning (lambda (i) (= 1 i)))
+                  (is-melisma-end (lambda (i) (= (length notes) i)))
+                  (note-i 0))
+             (filter-map
+              (lambda (item)
+                (cond
+                 ((eq? 'note (first item))
+                  (set! note-i (+ 1 note-i))
+                  (make-ly-note
+                   item
+                   (if is-melisma
+                       (cond ((is-melisma-beginning note-i) -1)
+                             ((is-melisma-end note-i) 1)
+                             (else #f))
+                       #f)))
+                 ((eq? 'divisio (first item))
+                  (make-music 'BarEvent 'bar-type
+                              (or (assoc-ref divisiones-mapping (second item))
+                                  "|")))
+                 (else #f)))
+              syllable)))
          syllables))))))

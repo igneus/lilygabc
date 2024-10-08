@@ -27,13 +27,24 @@
              (parse ""))
  (test-equal '()
              (parse "   "))
+
  (test-equal '(((note "c")))
              (parse "(c)"))
  (test-equal '(((note "c")) ((note "d")))
              (parse "(c) (d)"))
  (test-equal '(((note "c") (note "d")))
              (parse "(cd)"))
+
  (test-equal '(((clef "c" 4 #f)))
-             (parse "(c4)")))
+             (parse "(c4)"))
+
+ (test-equal '(((divisio ",")))
+             (parse "(,)"))
+ (test-equal '(((divisio ";")))
+             (parse "(;)"))
+ (test-equal '(((divisio ":")))
+             (parse "(:)"))
+ (test-equal '(((divisio "::")))
+             (parse "(::)")))
 
 (test-end suite-name)

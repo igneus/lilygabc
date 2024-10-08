@@ -137,7 +137,7 @@ allGabcNotes = " (a) (b) (c) (d) (e) (f) (g) (h) (i) (j) (k) (l) (m)"
 % accidentals
 
 \bookpart {
-  \header { subtitle = "melisma" }
+  \header { subtitle = "melismata" }
 
   \markup\fill-line{
     \score { \relative { g'4( a) } }
@@ -145,6 +145,13 @@ allGabcNotes = " (a) (b) (c) (d) (e) (f) (g) (h) (i) (j) (k) (l) (m)"
 
     \score { \relative { g'4( a g) } }
     \score { \music-from-gabc-string "(c4) (ghg)" }
+  }
+
+  \markup\fill-line{
+    \score { \relative { g'4 g( a) g } }
+    \score { \music-from-gabc-string "(c4) (g) (gh) (g)" }
+
+    ""
   }
 
   \markup\fill-line{
@@ -157,9 +164,56 @@ allGabcNotes = " (a) (b) (c) (d) (e) (f) (g) (h) (i) (j) (k) (l) (m)"
 
 % articulations (limited support), neumatic spaces, note shapes, adiastematic neumes (ignored)
 
-% divisiones
+\bookpart {
+  \header { subtitle = "divisiones" }
+
+  \markup\fill-line{
+    \score { \relative { g'4 \bar "'" } }
+    \score { \music-from-gabc-string "(c4) (g) (,)" }
+
+    \score { \relative { g'4 \bar "," } }
+    \score { \music-from-gabc-string "(c4) (g) (;)" }
+  }
+
+  \markup\fill-line{
+    \score { \relative { g'4 \bar "|" } }
+    \score { \music-from-gabc-string "(c4) (g) (:)" }
+
+    \score { \relative { g'4 \bar "||" } }
+    \score { \music-from-gabc-string "(c4) (g) (::)" }
+  }
+
+  % all the supported exotic forms
+}
 
 % lyrics: single syllables
 
 % lyrics: words
 
+\bookpart {
+  \header { subtitle = "real-life score" }
+
+  \markup\justify{
+    (There is no hand-coded expected result,
+    all scores showcase lilygabc chant rendering using the provided styles.)
+  }
+  \score {
+    \music-from-gabc-string
+      "(c4) Ju(e)bi(f)lá(g')te(f) De(d_f)o(f'_) (,)
+      o(f)mnis(f) ter(e_f)ra,(d) al(f)le(fg)lú(e.)ia.(e.) (::)
+      E(h) u(g) o(h) u(ih) a(gf) e.(e.) (::)"
+    \header {
+      piece = \markup\with-url "https://gregobase.selapa.net/chant.php?id=12115" {GregoBase 12115}
+    }
+    % LilyPond defaults (bars, time signature):
+    \layout {}
+    % quarter notes with stems:
+    \layout {
+      \lilygabcModernGregorianLayout
+    }
+    % stemless quarter notes:
+    \layout {
+      \lilygabcModernGregorianStemlessLayout
+    }
+  }
+}

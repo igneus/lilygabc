@@ -30,10 +30,14 @@
    (list-matches "\\(([^\\)]*)\\)" gabc-str)))
 
 (define (parse-music-syllable str)
-  (let ((matches (list-matches "(([cf])([1-4])|([a-m]))" str)))
+  (let ((matches (list-matches "(([cf])([1-4])|([a-m])|([,;:]+))" str)))
     (map
      (lambda (m)
-       (if (match:substring m 3)
-           (list 'clef (match:substring m 2) (string->number (match:substring m 3)) #f)
-           (list 'note (match:substring m 4))))
+       (cond
+        ((match:substring m 3)
+         (list 'clef (match:substring m 2) (string->number (match:substring m 3)) #f))
+        ((match:substring m 5)
+         (list 'divisio (match:substring m 5)))
+        (else
+         (list 'note (match:substring m 4)))))
      matches)))
