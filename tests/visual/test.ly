@@ -146,6 +146,13 @@ allGabcNotes = " (a) (b) (c) (d) (e) (f) (g) (h) (i) (j) (k) (l) (m)"
     \score { \relative { g'4( a g) } }
     \score { \music-from-gabc-string "(c4) (ghg)" }
   }
+
+  \markup\fill-line{
+    \score { \relative { g'4( a c a b a g) } }
+    \score { \music-from-gabc-string "(c4) (ghjhihg)" }
+
+    ""
+  }
 }
 
 % articulations (limited support), neumatic spaces, note shapes, adiastematic neumes (ignored)

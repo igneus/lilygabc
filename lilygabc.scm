@@ -29,21 +29,39 @@
      (let*
          ((clef
            (gabc:find-clef input))
-          (parsed
+          (syllables
            (gabc:parse input))
           (flatten
            (cut apply append <>))
-          (notes
-           (filter (lambda (x) (eq? 'note (first x)))
-                   (flatten parsed)))
           (note-name
-           (lambda (note) (string-ref (second note) 0))))
-       (map
-        (lambda (note)
-          (make-music
-           'NoteEvent
-           'duration
-           (ly:make-duration 2)
-           'pitch
-           (gabc-note-to-pitch clef (note-name note))))
-        notes)))))
+           (lambda (note) (string-ref (second note) 0)))
+          (make-ly-note
+           (lambda (note slur-direction)
+             (apply
+              make-music
+              (append
+               (list 'NoteEvent)
+               (if slur-direction
+                   (list 'articulations
+                         (list (make-music 'SlurEvent 'span-direction slur-direction)))
+                   '())
+               (list
+                'duration (ly:make-duration 2)
+                'pitch (gabc-note-to-pitch clef (note-name note)))))))
+          (slice
+           (lambda (lst start end)
+             (list-head (list-tail lst start) (- end start)))))
+       (flatten
+        (map
+         (lambda (syllable)
+           (let*
+               ((notes (filter (lambda (x) (eq? 'note (car x))) syllable))
+                (is-melisma (< 1 (length notes))))
+             (if is-melisma
+                 (append
+                  (list (make-ly-note (first notes) -1))
+                  (map (cut make-ly-note <> #f)
+                       (slice notes 1 (- (length notes) 1)))
+                  (list (make-ly-note (last notes) 1)))
+                 (map (cut make-ly-note <> #f) notes))))
+         syllables))))))
