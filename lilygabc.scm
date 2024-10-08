@@ -29,16 +29,21 @@
      (let*
          ((clef
            (gabc:find-clef input))
-          (matched-neumes
-           (list-matches "\\(([a-z])[^1-4]" input))
-          (match-note-name
-           (lambda (match) (string-ref (match:substring match 1) 0))))
+          (parsed
+           (gabc:parse input))
+          (flatten
+           (cut apply append <>))
+          (notes
+           (filter (lambda (x) (eq? 'note (first x)))
+                   (flatten parsed)))
+          (note-name
+           (lambda (note) (string-ref (second note) 0))))
        (map
-        (lambda (match)
+        (lambda (note)
           (make-music
            'NoteEvent
            'duration
            (ly:make-duration 2)
            'pitch
-           (gabc-note-to-pitch clef (match-note-name match))))
-        matched-neumes)))))
+           (gabc-note-to-pitch clef (note-name note))))
+        notes)))))

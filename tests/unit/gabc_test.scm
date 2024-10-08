@@ -21,4 +21,19 @@
  (test-equal '((type . "f") (line . 2) (b . #f))
              (find-clef "(f2)")))
 
+(test-group
+ "parse"
+ (test-equal '()
+             (parse ""))
+ (test-equal '()
+             (parse "   "))
+ (test-equal '(((note "c")))
+             (parse "(c)"))
+ (test-equal '(((note "c")) ((note "d")))
+             (parse "(c) (d)"))
+ (test-equal '(((note "c") (note "d")))
+             (parse "(cd)"))
+ (test-equal '(((clef "c" 4 #f)))
+             (parse "(c4)")))
+
 (test-end suite-name)

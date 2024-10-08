@@ -67,8 +67,6 @@
 
     ""
   }
-
-  % flats
 }
 
 \bookpart {
@@ -136,9 +134,23 @@ allGabcNotes = " (a) (b) (c) (d) (e) (f) (g) (h) (i) (j) (k) (l) (m)"
 
 % clef changes
 
-% melisma
+% accidentals
+
+\bookpart {
+  \header { subtitle = "melisma" }
+
+  \markup\fill-line{
+    \score { \relative { g'4( a) } }
+    \score { \music-from-gabc-string "(c4) (gh)" }
+
+    \score { \relative { g'4( a g) } }
+    \score { \music-from-gabc-string "(c4) (ghg)" }
+  }
+}
 
 % articulations (limited support), neumatic spaces, note shapes, adiastematic neumes (ignored)
+
+% divisiones
 
 % lyrics: single syllables
 
