@@ -30,31 +30,31 @@
   (define-scheme-function
     (input)
     (string?)
-    (make-music
-     'SequentialMusic
-     'elements
-     (let*
-         ((clef
-           (gabc:find-clef input))
-          (syllables
-           (gabc:parse input))
-          (flatten
-           (cut apply append <>))
-          (note-name
-           (lambda (note) (string-ref (second note) 0)))
-          (make-ly-note ; TODO extract to a separate function
-           (lambda (note slur-direction)
-             (apply
-              make-music
-              (append
-               (list 'NoteEvent)
-               (if slur-direction
-                   (list 'articulations
-                         (list (make-music 'SlurEvent 'span-direction slur-direction)))
-                   '())
-               (list
-                'duration (ly:make-duration 2)
-                'pitch (gabc-note-to-pitch clef (note-name note))))))))
+    (let*
+        ((clef
+          (gabc:find-clef input))
+         (syllables
+          (gabc:parse input))
+         (flatten
+          (cut apply append <>))
+         (note-name
+          (lambda (note) (string-ref (second note) 0)))
+         (make-ly-note ; TODO extract to a separate function
+          (lambda (note slur-direction)
+            (apply
+             make-music
+             (append
+              (list 'NoteEvent)
+              (if slur-direction
+                  (list 'articulations
+                        (list (make-music 'SlurEvent 'span-direction slur-direction)))
+                  '())
+              (list
+               'duration (ly:make-duration 2)
+               'pitch (gabc-note-to-pitch clef (note-name note))))))))
+      (make-music
+       'SequentialMusic
+       'elements
        (flatten
         (map
          (lambda (syllable)
