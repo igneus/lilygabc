@@ -94,9 +94,16 @@
       (map
        (lambda (word)
          (let ((lyrics
-                (filter
-                 (lambda (x) (eq? 'lyrics (first x)))
-                 (map first word))))
+                (filter-map
+                 (lambda (syllable)
+                   (let ((lyr (first syllable)))
+                     (cond
+                      ((eq? 'lyrics (first lyr))
+                       lyr)
+                      ((find (lambda (item) (eq? 'note (first item))) syllable)
+                       '(lyrics ""))
+                      (else #f))))
+                 word)))
            (map
             (lambda (lyr)
               (apply

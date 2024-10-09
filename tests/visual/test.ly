@@ -204,12 +204,22 @@ allGabcNotes = " (a) (b) (c) (d) (e) (f) (g) (h) (i) (j) (k) (l) (m)"
     ""
   }
 
-  \markup\line{
+  \markup\fill-line{
     \score { \relative { g'4( a g) f( g) } \addlyrics { A -- men. } }
     \score { \music-from-gabc-string "(c4) A(ghg)men(fg)" }
+
+    ""
   }
 
-  % all the supported exotic forms
+  \markup\fill-line{
+    % lyrics with no music
+    \score { \relative { g'4 \hideNotes g \unHideNotes g } \addlyrics { La "*" la } }
+    \score { \music-from-gabc-string "(c4) La(g) *() la(g)" }
+
+    % music with no lyrics
+    \score { \relative { g'4 g g } \addlyrics { La "" la } }
+    \score { \music-from-gabc-string "(c4) La(g) (g) la(g)" }
+  }
 }
 
 \bookpart {
