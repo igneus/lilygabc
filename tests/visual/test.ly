@@ -238,4 +238,11 @@ allGabcNotes = " (a) (b) (c) (d) (e) (f) (g) (h) (i) (j) (k) (l) (m)"
       \lilygabcModernGregorianStemlessLayout
     }
   }
+
+  \score {
+    \music-from-gabc-file "../examples/aquam_quam_ego.gabc"
+    \layout {
+      \lilygabcModernGregorianStemlessLayout
+    }
+  }
 }

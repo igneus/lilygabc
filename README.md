@@ -42,6 +42,8 @@ Status on other versions is unknown.
 \include "lilygabc.ily"
 
 \score { \music-from-gabc-string "(c4) (d)" }
+
+\score { \music-from-gabc-file "path/to/score.gabc" }
 ```
 
 It's necessary to add the lilygabc root directory to LilyPond
