@@ -25,12 +25,19 @@
      '(b . #f))))
 
 (define (parse gabc-str)
-  (map
-   (lambda (x)
-     (parse-music-syllable
-      (string-trim-both (match:substring x 1))
-      (match:substring x 2)))
-   (list-matches "([^\\(]*)\\(([^\\)]*)\\)" gabc-str)))
+  (let*
+      ((header-delimiter "\n%%\n")
+       (delimiter-position (string-contains gabc-str header-delimiter))
+       (headerless
+        (if delimiter-position
+            (substring gabc-str (+ delimiter-position (string-length header-delimiter)))
+            gabc-str)))
+    (map
+     (lambda (x)
+       (parse-music-syllable
+        (string-trim-both (match:substring x 1))
+        (match:substring x 2)))
+     (list-matches "([^\\(]*)\\(([^\\)]*)\\)" headerless))))
 
 (define (parse-music-syllable lyrics music)
   (let ((matches (list-matches "(([cf])([1-4])|([a-m])|([,;:]+))" music)))

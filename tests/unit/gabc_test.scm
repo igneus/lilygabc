@@ -50,6 +50,9 @@
  (test-equal '(((lyrics "la") (note "g")))
              (parse "la(g)"))
  (test-equal '(((lyrics "la") (note "g")) ((lyrics "la") (note "g")))
-             (parse "la(g)la(g)")))
+             (parse "la(g)la(g)"))
+
+ (test-equal '(((clef "c" 4 #f))) ; header is ignored
+             (parse "book: No Book;\n%%\n(c4)")))
 
 (test-end suite-name)

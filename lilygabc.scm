@@ -133,15 +133,6 @@
   (define-scheme-function
     (path)
     (string?)
-    (let*
-        ((gabc-str
-          (call-with-input-file
-              path ; TODO: resolve path relative to the current lilypond file, not to cwd
-            (lambda (fr) (get-string-all fr))))
-         (header-delimiter "\n%%\n")
-         (delimiter-position (string-contains gabc-str header-delimiter))
-         (headerless
-          (if delimiter-position
-              (substring gabc-str (+ delimiter-position (string-length header-delimiter)))
-              gabc-str)))
-      (music-from-gabc-string headerless))))
+    (call-with-input-file
+        path ; TODO: resolve path relative to the current lilypond file, not to cwd
+      (lambda (fr) (music-from-gabc-string (get-string-all fr))))))
