@@ -38,7 +38,7 @@
  (test-equal '((((clef "c" 4 #f))))
              (parse "(c4)"))
 
- (test-equal '((())) ; TODO: word with no lyrics and no music is meaningless and should be ignored, not represented as a syllable of no elements
+ (test-equal '((())) ; note: void syllable is rendered as \bar "" , allowing line-break when it's not allowed anywhere
              (parse "()"))
 
  (test-equal '((((divisio ","))))

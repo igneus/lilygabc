@@ -38,32 +38,36 @@
     (util:flatten
      (map
       (lambda (syllable)
-        (let* ((notes (filter (lambda (x) (eq? 'note (car x))) syllable))
+        (let* ((notes (filter (lambda (x) (eq? 'note (first x))) syllable))
                (is-melisma (< 1 (length notes)))
                (is-melisma-beginning (lambda (i) (= 1 i)))
                (is-melisma-end (lambda (i) (= (length notes) i)))
                (note-i 0))
-          (if (and (gabc:syl-has-lyrics? syllable)
-                   (not (gabc:syl-has-notes? syllable)))
-              (list (make-invisible-note))
-              (filter-map
-               (lambda (item)
-                 (case (first item)
-                   ((note)
-                    (set! note-i (+ 1 note-i))
-                    (make-ly-note
-                     (gabc-note-to-pitch clef (second item))
-                     (if is-melisma
-                         (cond ((is-melisma-beginning note-i) -1)
-                               ((is-melisma-end note-i) 1)
-                               (else #f))
-                         #f)))
-                   ((divisio)
-                    (make-music 'BarEvent 'bar-type
-                                (or (assoc-ref divisiones-mapping (second item))
-                                    default-bar)))
-                   (else #f)))
-               syllable))))
+          (cond
+           ((eq? '() syllable) ; void syllable rendered as invisible bar
+            (list (make-music 'BarEvent 'bar-type "")))
+           ((and (gabc:syl-has-lyrics? syllable)
+                 (not (gabc:syl-has-notes? syllable)))
+            (list (make-invisible-note)))
+           (else
+            (filter-map
+             (lambda (item)
+               (case (first item)
+                 ((note)
+                  (set! note-i (+ 1 note-i))
+                  (make-ly-note
+                   (gabc-note-to-pitch clef (second item))
+                   (if is-melisma
+                       (cond ((is-melisma-beginning note-i) -1)
+                             ((is-melisma-end note-i) 1)
+                             (else #f))
+                       #f)))
+                 ((divisio)
+                  (make-music 'BarEvent 'bar-type
+                              (or (assoc-ref divisiones-mapping (second item))
+                                  default-bar)))
+                 (else #f)))
+             syllable)))))
       (util:flatten words))))))
 
 (define (make-ly-note pitch slur-direction)
