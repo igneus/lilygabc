@@ -99,12 +99,21 @@
                  (map first word))))
            (map
             (lambda (lyr)
-              (make-music
-               'LyricEvent
-               'text
-               (second lyr)
-               'duration
-               (ly:make-duration 2)))
+              (apply
+               make-music
+               (append
+                (list
+                 'LyricEvent)
+                (if (and (> (length word) 1)
+                         (not (eq? lyr (last lyrics))))
+                    (list 'articulations
+                          (list (make-music 'HyphenEvent)))
+                    '())
+                (list
+                 'text
+                 (second lyr)
+                 'duration
+                 (ly:make-duration 2)))))
             lyrics)))
        words))
      (make-music 'CompletizeExtenderEvent)))
