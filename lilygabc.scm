@@ -133,6 +133,5 @@
   (define-scheme-function
     (path)
     (string?)
-    (call-with-input-file
-        path ; TODO: resolve path relative to the current lilypond file, not to cwd
-      (lambda (fr) (music-from-gabc-string (get-string-all fr))))))
+    (music-from-gabc-string
+     (call-with-input-file path get-string-all)))) ; TODO: resolve path relative to the current lilypond file, not to cwd
