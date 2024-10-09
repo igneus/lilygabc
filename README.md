@@ -6,19 +6,19 @@ allowing easy inclusion of gabc scores in LilyPond documents.
 
 Inspired by [this post](https://forum.musicasacra.com/forum/discussion/comment/256478#Comment_256478):
 
-    GABC is a description language for chant ... Chant described
-    in GABC can be displayed by any software that supports it.
-    ...
-    Gregobase has twenty thousand entries, Neumz has about half that,
-    all in GABC, and Repertorium has trained optical music recognition
-    software using GABC as training data, which means the contents
-    of thousands of manuscripts may soon become available as GABC.
-    ...
-    An alternative to GABC is a score description language
-    with the ability to represent chant, polyphony and modern
-    notation - and if the creator of this language has one teaspoon
-    of wisdom, they will make it so existing GABC can be effortlessly
-    and reliably converted into that more powerful description language.
+> GABC is a description language for chant ... Chant described
+> in GABC can be displayed by any software that supports it.
+> ...
+> Gregobase has twenty thousand entries, Neumz has about half that,
+> all in GABC, and Repertorium has trained optical music recognition
+> software using GABC as training data, which means the contents
+> of thousands of manuscripts may soon become available as GABC.
+> ...
+> An alternative to GABC is a score description language
+> with the ability to represent chant, polyphony and modern
+> notation - and if the creator of this language has one teaspoon
+> of wisdom, they will make it so existing GABC can be effortlessly
+> and reliably converted into that more powerful description language.
 
 LilyPond is not great at chant rendering.
 But for those use cases when chant rendering in LilyPond
