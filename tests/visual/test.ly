@@ -220,6 +220,14 @@ allGabcNotes = " (a) (b) (c) (d) (e) (f) (g) (h) (i) (j) (k) (l) (m)"
     \score { \relative { g'4 g g } \addlyrics { La "" la } }
     \score { \gabc "(c4) La(g) (g) la(g)" }
   }
+
+  \markup\fill-line{
+    % void syllable
+    \score { \relative { g'4 \bar "" g } \addlyrics { La la } }
+    \score { \gabc "(c4) La(g) () la(g)" }
+
+    ""
+  }
 }
 
 \bookpart {

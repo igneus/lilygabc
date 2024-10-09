@@ -56,7 +56,7 @@
      words)))
 
 (define (syl-has-lyrics? syllable)
-  (eq? 'lyrics (first (first syllable))))
+  (find (lambda (x) (eq? 'lyrics (first x))) syllable))
 
 (define (syl-has-notes? syllable)
   (find (lambda (x) (eq? 'note (first x))) syllable))
