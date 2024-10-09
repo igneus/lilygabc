@@ -1,13 +1,11 @@
 # lilygabc
 
-What if LilyPond understood the gabc notation format?
-What if you could have an existing gabc score rendered by LilyPond
-using a single LilyPond command, no need to invoke any converter
-script?
+LilyPond library which reads chant scores encoded in the
+[gabc][gabc] format and translates them to LilyPond data structures,
+allowing easy inclusion of gabc scores in LilyPond documents.
 
 Inspired by [this post](https://forum.musicasacra.com/forum/discussion/comment/256478#Comment_256478):
 
-    ...
     GABC is a description language for chant ... Chant described
     in GABC can be displayed by any software that supports it.
     ...
@@ -22,17 +20,21 @@ Inspired by [this post](https://forum.musicasacra.com/forum/discussion/comment/2
     of wisdom, they will make it so existing GABC can be effortlessly
     and reliably converted into that more powerful description language.
 
-LilyPond is not great at chant rendering and it will probably
-never be. But for those use cases when chant rendering is desirable
-anyway, lilygabc strives to make the use of scores
+LilyPond is not great at chant rendering.
+But for those use cases when chant rendering in LilyPond
+is desirable anyway, lilygabc strives to make the use of scores
 in the gabc format as convenient as possible.
+
+## Project Status & Roadmap
+
+- [ ] render contents of gabc files in modern notation
+- [ ] fundamental support for the chant notation styles supported by LilyPond
+- [ ] neume detection/interpretation mimicking Gregorio (for all basic neumes and at least the most common composed ones)
 
 ## Prerequisites
 
 Developed with
-
-- LilyPond 2.24
-- Guile 2.2
+LilyPond 2.24 (built with Guile 2.2).
 
 Status on other versions is unknown.
 
@@ -41,9 +43,19 @@ Status on other versions is unknown.
 ```lilypond
 \include "lilygabc.ily"
 
-\score { \music-from-gabc-string "(c4) (d)" }
+\score {
+  \music-from-gabc-string "(c4) (d)"
+  \layout {
+    \lilygabcModernGregorianLayout
+  }
+}
 
-\score { \music-from-gabc-file "path/to/score.gabc" }
+\score {
+  \music-from-gabc-file "path/to/score.gabc"
+  \layout {
+    \lilygabcModernGregorianStemlessLayout
+  }
+}
 ```
 
 It's necessary to add the lilygabc root directory to LilyPond
@@ -61,3 +73,9 @@ include paths:
 
 engrave the documents in `tests/visual/`,
 check results according to the instructions in the resulting documents.
+
+## License
+
+GNU GPL v3
+
+[gabc]: http://gregorio-project.github.io/gabc/index.html
