@@ -38,6 +38,9 @@
  (test-equal '(((clef "c" 4 #f)))
              (parse "(c4)"))
 
+ (test-equal '(())
+             (parse "()"))
+
  (test-equal '(((divisio ",")))
              (parse "(,)"))
  (test-equal '(((divisio ";")))
@@ -51,6 +54,8 @@
              (parse "la(g)"))
  (test-equal '(((lyrics "la") (note "g")) ((lyrics "la") (note "g")))
              (parse "la(g)la(g)"))
+ (test-equal '(((lyrics "la")))
+             (parse "la()"))
 
  (test-equal '(((clef "c" 4 #f))) ; header is ignored
              (parse "book: No Book;\n%%\n(c4)")))
