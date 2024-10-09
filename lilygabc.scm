@@ -135,7 +135,7 @@
 
 ; accepts string containing gabc notation,
 ; returns LilyPond music
-(define music-from-gabc-string
+(define gabc
   (define-scheme-function
     (input)
     (string?)
@@ -152,9 +152,9 @@
         (make-notes clef words context-id)
         (make-lyrics words context-id))))))
 
-(define music-from-gabc-file
+(define gabc-file
   (define-scheme-function
     (path)
     (string?)
-    (music-from-gabc-string
+    (gabc
      (call-with-input-file path get-string-all)))) ; TODO: resolve path relative to the current lilypond file, not to cwd

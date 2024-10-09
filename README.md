@@ -40,18 +40,26 @@ Status on other versions is unknown.
 
 ## Usage
 
+Command `\gabc` loads music from a gabc string,
+`\gabc-file` from a file.
+The resulting scores are by default very bare-bones.
+Two layout variables with settings suitable for chant in modern
+notation are provided.
+
 ```lilypond
 \include "lilygabc.ily"
 
 \score {
-  \music-from-gabc-string "(c4) (d)"
+  \gabc "(c4) (d)"
+
   \layout {
     \lilygabcModernGregorianLayout
   }
 }
 
 \score {
-  \music-from-gabc-file "path/to/score.gabc"
+  \gabc-file "path/to/score.gabc"
+
   \layout {
     \lilygabcModernGregorianStemlessLayout
   }

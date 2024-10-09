@@ -19,51 +19,51 @@
     ""
 
     \score { a4 }
-    \score { \music-from-gabc-string "(c4) (a)" }
+    \score { \gabc "(c4) (a)" }
 
     \score { b4 }
-    \score { \music-from-gabc-string "(c4) (b)" }
+    \score { \gabc "(c4) (b)" }
   }
 
   \markup\fill-line{
     \score { c'4 }
-    \score { \music-from-gabc-string "(c4) (c)" }
+    \score { \gabc "(c4) (c)" }
 
     \score { d'4 }
-    \score { \music-from-gabc-string "(c4) (d)" }
+    \score { \gabc "(c4) (d)" }
 
     \score { e'4 }
-    \score { \music-from-gabc-string "(c4) (e)" }
+    \score { \gabc "(c4) (e)" }
   }
 
   \markup\fill-line{
     \score { f'4 }
-    \score { \music-from-gabc-string "(c4) (f)" }
+    \score { \gabc "(c4) (f)" }
 
     \score { g'4 }
-    \score { \music-from-gabc-string "(c4) (g)" }
+    \score { \gabc "(c4) (g)" }
 
     \score { a'4 }
-    \score { \music-from-gabc-string "(c4) (h)" }
+    \score { \gabc "(c4) (h)" }
   }
 
   \markup\fill-line{
     \score { b'4 }
-    \score { \music-from-gabc-string "(c4) (i)" }
+    \score { \gabc "(c4) (i)" }
 
     \score { c''4 }
-    \score { \music-from-gabc-string "(c4) (j)" }
+    \score { \gabc "(c4) (j)" }
 
     \score { d''4 }
-    \score { \music-from-gabc-string "(c4) (k)" }
+    \score { \gabc "(c4) (k)" }
   }
 
   \markup\fill-line{
     \score { e''4 }
-    \score { \music-from-gabc-string "(c4) (l)" }
+    \score { \gabc "(c4) (l)" }
 
     \score { f''4 }
-    \score { \music-from-gabc-string "(c4) (m)" }
+    \score { \gabc "(c4) (m)" }
 
     ""
   }
@@ -74,10 +74,10 @@
 
   \markup\fill-line{
     \score { \relative { c'4 d } }
-    \score { \music-from-gabc-string "(c4) (c) (d)" }
+    \score { \gabc "(c4) (c) (d)" }
 
     \score { \relative { e'4 f g } }
-    \score { \music-from-gabc-string "(c4) (e) (f) (g)" }
+    \score { \gabc "(c4) (e) (f) (g)" }
   }
 }
 
@@ -93,42 +93,42 @@ allGabcNotes = " (a) (b) (c) (d) (e) (f) (g) (h) (i) (j) (k) (l) (m)"
 
   \markup\line{
     \score { \relative { a4 f'' } }
-    \score { \music-from-gabc-string #(string-append "(c4)" allGabcNotes) }
+    \score { \gabc #(string-append "(c4)" allGabcNotes) }
   }
 
   \markup\line{
     \score { \relative { c'4 a'' } }
-    \score { \music-from-gabc-string #(string-append "(c3)" allGabcNotes) }
+    \score { \gabc #(string-append "(c3)" allGabcNotes) }
   }
 
   \markup\line{
     \score { \relative { e'4 c'' } }
-    \score { \music-from-gabc-string #(string-append "(c2)" allGabcNotes) }
+    \score { \gabc #(string-append "(c2)" allGabcNotes) }
   }
 
   \markup\line{
     \score { \relative { g'4 e'' } }
-    \score { \music-from-gabc-string #(string-append "(c1)" allGabcNotes) }
+    \score { \gabc #(string-append "(c1)" allGabcNotes) }
   }
 
   \markup\line{
     \score { \relative { d4 b'' } }
-    \score { \music-from-gabc-string #(string-append "(f4)" allGabcNotes) }
+    \score { \gabc #(string-append "(f4)" allGabcNotes) }
   }
 
   \markup\line{
     \score { \relative { f4 d'' } }
-    \score { \music-from-gabc-string #(string-append "(f3)" allGabcNotes) }
+    \score { \gabc #(string-append "(f3)" allGabcNotes) }
   }
 
   \markup\line{
     \score { \relative { a4 f'' } }
-    \score { \music-from-gabc-string #(string-append "(f2)" allGabcNotes) }
+    \score { \gabc #(string-append "(f2)" allGabcNotes) }
   }
 
   \markup\line{
     \score { \relative { c'4 a'' } }
-    \score { \music-from-gabc-string #(string-append "(f1)" allGabcNotes) }
+    \score { \gabc #(string-append "(f1)" allGabcNotes) }
   }
 }
 
@@ -141,22 +141,22 @@ allGabcNotes = " (a) (b) (c) (d) (e) (f) (g) (h) (i) (j) (k) (l) (m)"
 
   \markup\fill-line{
     \score { \relative { g'4( a) } }
-    \score { \music-from-gabc-string "(c4) (gh)" }
+    \score { \gabc "(c4) (gh)" }
 
     \score { \relative { g'4( a g) } }
-    \score { \music-from-gabc-string "(c4) (ghg)" }
+    \score { \gabc "(c4) (ghg)" }
   }
 
   \markup\fill-line{
     \score { \relative { g'4 g( a) g } }
-    \score { \music-from-gabc-string "(c4) (g) (gh) (g)" }
+    \score { \gabc "(c4) (g) (gh) (g)" }
 
     ""
   }
 
   \markup\fill-line{
     \score { \relative { g'4( a c a b a g) } }
-    \score { \music-from-gabc-string "(c4) (ghjhihg)" }
+    \score { \gabc "(c4) (ghjhihg)" }
 
     ""
   }
@@ -169,18 +169,18 @@ allGabcNotes = " (a) (b) (c) (d) (e) (f) (g) (h) (i) (j) (k) (l) (m)"
 
   \markup\fill-line{
     \score { \relative { g'4 \bar "'" } }
-    \score { \music-from-gabc-string "(c4) (g) (,)" }
+    \score { \gabc "(c4) (g) (,)" }
 
     \score { \relative { g'4 \bar "," } }
-    \score { \music-from-gabc-string "(c4) (g) (;)" }
+    \score { \gabc "(c4) (g) (;)" }
   }
 
   \markup\fill-line{
     \score { \relative { g'4 \bar "|" } }
-    \score { \music-from-gabc-string "(c4) (g) (:)" }
+    \score { \gabc "(c4) (g) (:)" }
 
     \score { \relative { g'4 \bar "||" } }
-    \score { \music-from-gabc-string "(c4) (g) (::)" }
+    \score { \gabc "(c4) (g) (::)" }
   }
 
   % all the supported exotic forms
@@ -191,22 +191,22 @@ allGabcNotes = " (a) (b) (c) (d) (e) (f) (g) (h) (i) (j) (k) (l) (m)"
 
   \markup\fill-line{
     \score { \relative { g'4 } \addlyrics { La } }
-    \score { \music-from-gabc-string "(c4) La(g)" }
+    \score { \gabc "(c4) La(g)" }
 
     \score { \relative { g'4 g } \addlyrics { La la } }
-    \score { \music-from-gabc-string "(c4) La(g) la(g)" }
+    \score { \gabc "(c4) La(g) la(g)" }
   }
 
   \markup\fill-line{
     \score { \relative { g'4 g } \addlyrics { La -- la } }
-    \score { \music-from-gabc-string "(c4) La(g)la(g)" }
+    \score { \gabc "(c4) La(g)la(g)" }
 
     ""
   }
 
   \markup\fill-line{
     \score { \relative { g'4( a g) f( g) } \addlyrics { A -- men. } }
-    \score { \music-from-gabc-string "(c4) A(ghg)men(fg)" }
+    \score { \gabc "(c4) A(ghg)men(fg)" }
 
     ""
   }
@@ -214,11 +214,11 @@ allGabcNotes = " (a) (b) (c) (d) (e) (f) (g) (h) (i) (j) (k) (l) (m)"
   \markup\fill-line{
     % lyrics with no music
     \score { \relative { g'4 \hideNotes g \unHideNotes g } \addlyrics { La "*" la } }
-    \score { \music-from-gabc-string "(c4) La(g) *() la(g)" }
+    \score { \gabc "(c4) La(g) *() la(g)" }
 
     % music with no lyrics
     \score { \relative { g'4 g g } \addlyrics { La "" la } }
-    \score { \music-from-gabc-string "(c4) La(g) (g) la(g)" }
+    \score { \gabc "(c4) La(g) (g) la(g)" }
   }
 }
 
@@ -230,7 +230,7 @@ allGabcNotes = " (a) (b) (c) (d) (e) (f) (g) (h) (i) (j) (k) (l) (m)"
     all scores showcase lilygabc chant rendering using the provided styles.)
   }
   \score {
-    \music-from-gabc-string
+    \gabc
       "(c4) Ju(e)bi(f)lá(g')te(f) De(d_f)o(f'_) (,)
       o(f)mnis(f) ter(e_f)ra,(d) al(f)le(fg)lú(e.)ia.(e.) (::)
       E(h) u(g) o(h) u(ih) a(gf) e.(e.) (::)"
@@ -250,7 +250,7 @@ allGabcNotes = " (a) (b) (c) (d) (e) (f) (g) (h) (i) (j) (k) (l) (m)"
   }
 
   \score {
-    \music-from-gabc-file "../examples/aquam_quam_ego.gabc"
+    \gabc-file "../examples/aquam_quam_ego.gabc"
     \layout {
       \lilygabcModernGregorianStemlessLayout
     }
