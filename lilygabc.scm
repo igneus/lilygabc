@@ -43,24 +43,27 @@
                (is-melisma-beginning (lambda (i) (= 1 i)))
                (is-melisma-end (lambda (i) (= (length notes) i)))
                (note-i 0))
-          (filter-map
-           (lambda (item)
-             (case (first item)
-               ((note)
-                (set! note-i (+ 1 note-i))
-                (make-ly-note
-                 (gabc-note-to-pitch clef (second item))
-                 (if is-melisma
-                     (cond ((is-melisma-beginning note-i) -1)
-                           ((is-melisma-end note-i) 1)
-                           (else #f))
-                     #f)))
-               ((divisio)
-                (make-music 'BarEvent 'bar-type
-                            (or (assoc-ref divisiones-mapping (second item))
-                                default-bar)))
-               (else #f)))
-           syllable)))
+          (if (and (gabc:syl-has-lyrics? syllable)
+                   (not (gabc:syl-has-notes? syllable)))
+              (list (make-invisible-note))
+              (filter-map
+               (lambda (item)
+                 (case (first item)
+                   ((note)
+                    (set! note-i (+ 1 note-i))
+                    (make-ly-note
+                     (gabc-note-to-pitch clef (second item))
+                     (if is-melisma
+                         (cond ((is-melisma-beginning note-i) -1)
+                               ((is-melisma-end note-i) 1)
+                               (else #f))
+                         #f)))
+                   ((divisio)
+                    (make-music 'BarEvent 'bar-type
+                                (or (assoc-ref divisiones-mapping (second item))
+                                    default-bar)))
+                   (else #f)))
+               syllable))))
       (util:flatten words))))))
 
 (define (make-ly-note pitch slur-direction)
@@ -96,13 +99,12 @@
          (let ((lyrics
                 (filter-map
                  (lambda (syllable)
-                   (let ((lyr (first syllable)))
-                     (cond
-                      ((eq? 'lyrics (first lyr))
-                       lyr)
-                      ((find (lambda (item) (eq? 'note (first item))) syllable)
-                       '(lyrics ""))
-                      (else #f))))
+                   (cond
+                    ((gabc:syl-has-lyrics? syllable)
+                     (first syllable))
+                    ((gabc:syl-has-notes? syllable)
+                     '(lyrics ""))
+                    (else #f)))
                  word)))
            (map
             (lambda (lyr)

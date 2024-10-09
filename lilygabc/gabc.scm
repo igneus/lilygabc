@@ -3,7 +3,9 @@
 (define-module (lilygabc gabc)
   #:export (note-names
             find-clef
-            parse)
+            parse
+            syl-has-lyrics?
+            syl-has-notes?)
   #:use-module (srfi srfi-1) ; required to use the correct version of `iota`
   #:use-module (ice-9 regex)
   #:use-module ((lilygabc util) #:prefix util:))
@@ -52,6 +54,12 @@
         (string-trim-both (match:substring x 1))
         (match:substring x 2)))
      words)))
+
+(define (syl-has-lyrics? syllable)
+  (eq? 'lyrics (first (first syllable))))
+
+(define (syl-has-notes? syllable)
+  (find (lambda (x) (eq? 'note (first x))) syllable))
 
 (define (parse-music-syllable lyrics music)
   (let ((matches (list-matches "(([cf])([1-4])|([a-m])|([,;:]+))" music)))

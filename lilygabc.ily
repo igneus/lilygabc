@@ -11,3 +11,7 @@ lilygabcModernGregorianStemlessLayout = \layout {
 
   \override Stem.length = 0
 }
+
+make-invisible-note =
+#(define-music-function () ()
+  #{ \hideNotes g'4 \unHideNotes #})
