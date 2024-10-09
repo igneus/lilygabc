@@ -53,32 +53,77 @@
                'duration (ly:make-duration 2)
                'pitch (gabc-note-to-pitch clef (note-name note))))))))
       (make-music
-       'SequentialMusic
+       'SimultaneousMusic
        'elements
-       (flatten
-        (map
-         (lambda (syllable)
-           (let* ((notes (filter (lambda (x) (eq? 'note (car x))) syllable))
-                  (is-melisma (< 1 (length notes)))
-                  (is-melisma-beginning (lambda (i) (= 1 i)))
-                  (is-melisma-end (lambda (i) (= (length notes) i)))
-                  (note-i 0))
-             (filter-map
-              (lambda (item)
-                (cond
-                 ((eq? 'note (first item))
-                  (set! note-i (+ 1 note-i))
-                  (make-ly-note
-                   item
-                   (if is-melisma
-                       (cond ((is-melisma-beginning note-i) -1)
-                             ((is-melisma-end note-i) 1)
-                             (else #f))
-                       #f)))
-                 ((eq? 'divisio (first item))
-                  (make-music 'BarEvent 'bar-type
-                              (or (assoc-ref divisiones-mapping (second item))
-                                  "|")))
-                 (else #f)))
-              syllable)))
-         syllables))))))
+       (list
+        (make-music ; notes
+         'ContextSpeccedMusic
+         'context-id
+         "uniqueContext0"
+         'context-type
+         'Voice
+         'element
+         (make-music
+          'SequentialMusic
+          'elements
+          (flatten
+           (map
+            (lambda (syllable)
+              (let* ((notes (filter (lambda (x) (eq? 'note (car x))) syllable))
+                     (is-melisma (< 1 (length notes)))
+                     (is-melisma-beginning (lambda (i) (= 1 i)))
+                     (is-melisma-end (lambda (i) (= (length notes) i)))
+                     (note-i 0))
+                (filter-map
+                 (lambda (item)
+                   (cond
+                    ((eq? 'note (first item))
+                     (set! note-i (+ 1 note-i))
+                     (make-ly-note
+                      item
+                      (if is-melisma
+                          (cond ((is-melisma-beginning note-i) -1)
+                                ((is-melisma-end note-i) 1)
+                                (else #f))
+                          #f)))
+                    ((eq? 'divisio (first item))
+                     (make-music 'BarEvent 'bar-type
+                                 (or (assoc-ref divisiones-mapping (second item))
+                                     "|")))
+                    (else #f)))
+                 syllable)))
+            syllables))))
+        (make-music ; lyrics
+         'ContextSpeccedMusic
+         'element
+         (make-music
+          'LyricCombineMusic
+          'associated-context-type
+          'Voice
+          'associated-context
+          "uniqueContext0"
+          'element
+          (make-music
+           'SequentialMusic
+           'elements
+           (flatten
+            (filter-map
+             (lambda (syllable)
+               (let ((lyr (first syllable)))
+                 (if (eq? 'lyrics (first lyr))
+                     (list
+                      (make-music
+                       'LyricEvent
+                       'text
+                       (second lyr)
+                       'duration
+                       (ly:make-duration 2))
+                      (make-music 'CompletizeExtenderEvent))
+                     #f)))
+             syllables))))
+         'property-operations
+         '()
+         'context-type
+         'Lyrics
+         'create-new
+         #t))))))

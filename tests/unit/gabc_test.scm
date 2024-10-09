@@ -45,6 +45,11 @@
  (test-equal '(((divisio ":")))
              (parse "(:)"))
  (test-equal '(((divisio "::")))
-             (parse "(::)")))
+             (parse "(::)"))
+
+ (test-equal '(((lyrics "la") (note "g")))
+             (parse "la(g)"))
+ (test-equal '(((lyrics "la") (note "g")) ((lyrics "la") (note "g")))
+             (parse "la(g)la(g)")))
 
 (test-end suite-name)

@@ -26,18 +26,28 @@
 
 (define (parse gabc-str)
   (map
-   (lambda (x) (parse-music-syllable (match:substring x 1)))
-   (list-matches "\\(([^\\)]*)\\)" gabc-str)))
+   (lambda (x)
+     (parse-music-syllable
+      (string-trim-both (match:substring x 1))
+      (match:substring x 2)))
+   (list-matches "([^\\(]*)\\(([^\\)]*)\\)" gabc-str)))
 
-(define (parse-music-syllable str)
-  (let ((matches (list-matches "(([cf])([1-4])|([a-m])|([,;:]+))" str)))
-    (map
-     (lambda (m)
-       (cond
-        ((match:substring m 3)
-         (list 'clef (match:substring m 2) (string->number (match:substring m 3)) #f))
-        ((match:substring m 5)
-         (list 'divisio (match:substring m 5)))
-        (else
-         (list 'note (match:substring m 4)))))
-     matches)))
+(define (parse-music-syllable lyrics music)
+  (let ((matches (list-matches "(([cf])([1-4])|([a-m])|([,;:]+))" music)))
+    (filter
+     (lambda (x) (not (eq? #f x)))
+     (append
+      (list
+       (if (> (string-length lyrics) 0)
+           (list 'lyrics lyrics)
+           #f))
+      (map
+       (lambda (m)
+         (cond
+          ((match:substring m 3)
+           (list 'clef (match:substring m 2) (string->number (match:substring m 3)) #f))
+          ((match:substring m 5)
+           (list 'divisio (match:substring m 5)))
+          (else
+           (list 'note (match:substring m 4)))))
+       matches)))))
