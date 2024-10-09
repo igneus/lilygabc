@@ -17,11 +17,11 @@
     (ly:make-pitch octave note)))
 
 ; mapping Gregorio divisiones -> LilyPond bars
-; (single line full height bar is default, not included)
 (define divisiones-mapping
   '(("," . "'")
     (";" . ",")
     ("::" . "||")))
+(define default-bar "|") ; used for all not explicitly mapped
 
 ; accepts string containing gabc notation,
 ; returns LilyPond music
@@ -88,7 +88,7 @@
                      ((divisio)
                       (make-music 'BarEvent 'bar-type
                                   (or (assoc-ref divisiones-mapping (second item))
-                                      "|")))
+                                      default-bar)))
                      (else #f)))
                  syllable)))
             syllables))))
