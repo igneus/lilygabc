@@ -1,4 +1,4 @@
-; gabc parsing - pure Scheme, no LilyPond-specific types/functions
+;; gabc parsing - pure Scheme, no LilyPond-specific types/functions
 
 (define-module (lilygabc gabc)
   #:export (note-names
@@ -7,7 +7,7 @@
   #:use-module (srfi srfi-1) ; required to use the correct version of `iota`
   #:use-module (ice-9 regex))
 
-; list of gabc note names, in an ascending order, as strings
+;; list of gabc note names, in an ascending order, as strings
 (define note-names
   (let*
       ((irange ; integer range, final element included
@@ -25,6 +25,12 @@
      `(line . ,(string->number (match:substring match 2)))
      '(b . #f))))
 
+;; Parses gabc string and returns its tree-like representation.
+;; Score is a list of syllables.
+;; Syllable is a list of syllable elements.
+;;   Lyrics, if present, are always the first element of a syllable.
+;; Syllable element is a list where the first item is a symbol
+;;   specifying element type, subsequent items vary depending on type.
 (define (parse gabc-str)
   (let*
       ((header-delimiter "\n%%\n")
