@@ -10,7 +10,7 @@
        (clef-line (assoc-ref clef 'line))
        (clef-shift
         (* 2 (- 4 clef-line (if (string=? "f" clef-type) 2 0))))
-       (note-index (list-index (cut char=? note <>) gabc:note-names))
+       (note-index (list-index (cut string=? note <>) gabc:note-names))
        (note-num (+ 5 note-index clef-shift))
        (note (modulo note-num 7))
        (octave (- (truncate-quotient note-num 7) 1)))
@@ -36,8 +36,6 @@
           (gabc:parse input))
          (flatten
           (cut apply append <>))
-         (note-name
-          (lambda (note) (string-ref (second note) 0)))
          (make-ly-note ; TODO extract to a separate function
           (lambda (note slur-direction)
             (apply
@@ -50,7 +48,7 @@
                   '())
               (list
                'duration (ly:make-duration 2)
-               'pitch (gabc-note-to-pitch clef (note-name note))))))))
+               'pitch (gabc-note-to-pitch clef (second note))))))))
       (make-music
        'SimultaneousMusic
        'elements

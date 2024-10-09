@@ -7,13 +7,14 @@
   #:use-module (srfi srfi-1) ; required to use the correct version of `iota`
   #:use-module (ice-9 regex))
 
+; list of gabc note names, in an ascending order, as strings
 (define note-names
   (let*
       ((irange ; integer range, final element included
         (lambda (x y) (iota (+ (- y x) 1) x)))
        (char-range
         (lambda (x y)
-          (map integer->char
+          (map (lambda (x) (string (integer->char x)))
                (apply irange (map char->integer (list x y)))))))
     (char-range #\a #\m)))
 
