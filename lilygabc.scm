@@ -23,6 +23,21 @@
     ("::" . "||")))
 (define default-bar "|") ; used for all not explicitly mapped
 
+(define flatten (cut apply append <>))
+
+(define (make-ly-note pitch slur-direction)
+  (apply
+   make-music
+   (append
+    (list 'NoteEvent)
+    (if slur-direction
+        (list 'articulations
+              (list (make-music 'SlurEvent 'span-direction slur-direction)))
+        '())
+    (list
+     'duration (ly:make-duration 2)
+     'pitch pitch))))
+
 ; accepts string containing gabc notation,
 ; returns LilyPond music
 (define music-from-gabc-string
@@ -33,27 +48,12 @@
         ((clef
           (gabc:find-clef input))
          (syllables
-          (gabc:parse input))
-         (flatten
-          (cut apply append <>))
-         (make-ly-note ; TODO extract to a separate function
-          (lambda (note slur-direction)
-            (apply
-             make-music
-             (append
-              (list 'NoteEvent)
-              (if slur-direction
-                  (list 'articulations
-                        (list (make-music 'SlurEvent 'span-direction slur-direction)))
-                  '())
-              (list
-               'duration (ly:make-duration 2)
-               'pitch (gabc-note-to-pitch clef (second note))))))))
+          (gabc:parse input)))
       (make-music
        'SimultaneousMusic
        'elements
        (list
-        (make-music ; notes
+        (make-music
          'ContextSpeccedMusic
          'context-id
          "uniqueContext0"
@@ -77,7 +77,7 @@
                      ((note)
                       (set! note-i (+ 1 note-i))
                       (make-ly-note
-                       item
+                       (gabc-note-to-pitch clef (second item))
                        (if is-melisma
                            (cond ((is-melisma-beginning note-i) -1)
                                  ((is-melisma-end note-i) 1)
