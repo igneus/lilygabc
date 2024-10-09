@@ -5,7 +5,8 @@
             find-clef
             parse)
   #:use-module (srfi srfi-1) ; required to use the correct version of `iota`
-  #:use-module (ice-9 regex))
+  #:use-module (ice-9 regex)
+  #:use-module ((lilygabc util) #:prefix util:))
 
 ;; list of gabc note names, in an ascending order, as strings
 (define note-names
@@ -26,7 +27,8 @@
      '(b . #f))))
 
 ;; Parses gabc string and returns its tree-like representation.
-;; Score is a list of syllables.
+;; Score is a list of words.
+;; Word is a list of syllables.
 ;; Syllable is a list of syllable elements.
 ;;   Lyrics, if present, are always the first element of a syllable.
 ;; Syllable element is a list where the first item is a symbol
@@ -38,13 +40,18 @@
        (headerless
         (if delimiter-position
             (substring gabc-str (+ delimiter-position (string-length header-delimiter)))
-            gabc-str)))
-    (map
+            gabc-str))
+       (syllables (list-matches "([^\\(]*)\\(([^\\)]*)\\)" headerless))
+       (words
+        (util:split-at
+         (lambda (x) (string-prefix? " " (match:substring x 0)))
+         syllables)))
+    (util:map2
      (lambda (x)
        (parse-music-syllable
         (string-trim-both (match:substring x 1))
         (match:substring x 2)))
-     (list-matches "([^\\(]*)\\(([^\\)]*)\\)" headerless))))
+     words)))
 
 (define (parse-music-syllable lyrics music)
   (let ((matches (list-matches "(([cf])([1-4])|([a-m])|([,;:]+))" music)))

@@ -28,36 +28,36 @@
  (test-equal '()
              (parse "   "))
 
- (test-equal '(((note "c")))
+ (test-equal '((((note "c"))))
              (parse "(c)"))
- (test-equal '(((note "c")) ((note "d")))
+ (test-equal '((((note "c"))) (((note "d"))))
              (parse "(c) (d)"))
- (test-equal '(((note "c") (note "d")))
+ (test-equal '((((note "c") (note "d"))))
              (parse "(cd)"))
 
- (test-equal '(((clef "c" 4 #f)))
+ (test-equal '((((clef "c" 4 #f))))
              (parse "(c4)"))
 
- (test-equal '(())
+ (test-equal '((()))
              (parse "()"))
 
- (test-equal '(((divisio ",")))
+ (test-equal '((((divisio ","))))
              (parse "(,)"))
- (test-equal '(((divisio ";")))
+ (test-equal '((((divisio ";"))))
              (parse "(;)"))
- (test-equal '(((divisio ":")))
+ (test-equal '((((divisio ":"))))
              (parse "(:)"))
- (test-equal '(((divisio "::")))
+ (test-equal '((((divisio "::"))))
              (parse "(::)"))
 
- (test-equal '(((lyrics "la") (note "g")))
+ (test-equal '((((lyrics "la") (note "g"))))
              (parse "la(g)"))
- (test-equal '(((lyrics "la") (note "g")) ((lyrics "la") (note "g")))
+ (test-equal '((((lyrics "la") (note "g")) ((lyrics "la") (note "g"))))
              (parse "la(g)la(g)"))
- (test-equal '(((lyrics "la")))
+ (test-equal '((((lyrics "la"))))
              (parse "la()"))
 
- (test-equal '(((clef "c" 4 #f))) ; header is ignored
+ (test-equal '((((clef "c" 4 #f)))) ; header is ignored
              (parse "book: No Book;\n%%\n(c4)")))
 
 (test-end suite-name)

@@ -2,7 +2,8 @@
  (ice-9 regex)
  (ice-9 textual-ports)
  (srfi srfi-26)
- ((lilygabc gabc) #:prefix gabc:))
+ ((lilygabc gabc) #:prefix gabc:)
+ ((lilygabc util) #:prefix util:))
 
 (define (gabc-note-to-pitch clef note)
   (let*
@@ -23,9 +24,7 @@
     ("::" . "||")))
 (define default-bar "|") ; used for all not explicitly mapped
 
-(define flatten (cut apply append <>))
-
-(define (make-notes clef syllables context-id)
+(define (make-notes clef words context-id)
   (make-music
    'ContextSpeccedMusic
    'context-id
@@ -36,7 +35,7 @@
    (make-music
     'SequentialMusic
     'elements
-    (flatten
+    (util:flatten
      (map
       (lambda (syllable)
         (let* ((notes (filter (lambda (x) (eq? 'note (car x))) syllable))
@@ -62,7 +61,7 @@
                                 default-bar)))
                (else #f)))
            syllable)))
-      syllables)))))
+      (util:flatten words))))))
 
 (define (make-ly-note pitch slur-direction)
   (apply
@@ -77,7 +76,7 @@
      'duration (ly:make-duration 2)
      'pitch pitch))))
 
-(define (make-lyrics syllables context-id)
+(define (make-lyrics words context-id)
   (make-music
    'ContextSpeccedMusic
    'element
@@ -91,21 +90,24 @@
     (make-music
      'SequentialMusic
      'elements
-     (flatten
-      (filter-map
-       (lambda (syllable)
-         (let ((lyr (first syllable)))
-           (if (eq? 'lyrics (first lyr))
-               (list
-                (make-music
-                 'LyricEvent
-                 'text
-                 (second lyr)
-                 'duration
-                 (ly:make-duration 2))
-                (make-music 'CompletizeExtenderEvent))
-               #f)))
-       syllables))))
+     (util:flatten
+      (map
+       (lambda (word)
+         (let ((lyrics
+                (filter
+                 (lambda (x) (eq? 'lyrics (first x)))
+                 (map first word))))
+           (map
+            (lambda (lyr)
+              (make-music
+               'LyricEvent
+               'text
+               (second lyr)
+               'duration
+               (ly:make-duration 2)))
+            lyrics)))
+       words))
+     (make-music 'CompletizeExtenderEvent)))
    'property-operations
    '()
    'context-type
@@ -122,15 +124,15 @@
     (let*
         ((clef
           (gabc:find-clef input))
-         (syllables
+         (words
           (gabc:parse input))
          (context-id "uniqueContext0"))
       (make-music
        'SimultaneousMusic
        'elements
        (list
-        (make-notes clef syllables context-id)
-        (make-lyrics syllables context-id))))))
+        (make-notes clef words context-id)
+        (make-lyrics words context-id))))))
 
 (define music-from-gabc-file
   (define-scheme-function
