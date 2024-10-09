@@ -25,11 +25,11 @@
 
 (define flatten (cut apply append <>))
 
-(define (make-notes clef syllables)
+(define (make-notes clef syllables context-id)
   (make-music
    'ContextSpeccedMusic
    'context-id
-   "uniqueContext0"
+   context-id
    'context-type
    'Voice
    'element
@@ -77,7 +77,7 @@
      'duration (ly:make-duration 2)
      'pitch pitch))))
 
-(define (make-lyrics syllables)
+(define (make-lyrics syllables context-id)
   (make-music
    'ContextSpeccedMusic
    'element
@@ -86,7 +86,7 @@
     'associated-context-type
     'Voice
     'associated-context
-    "uniqueContext0"
+    context-id
     'element
     (make-music
      'SequentialMusic
@@ -123,13 +123,14 @@
         ((clef
           (gabc:find-clef input))
          (syllables
-          (gabc:parse input)))
+          (gabc:parse input))
+         (context-id "uniqueContext0"))
       (make-music
        'SimultaneousMusic
        'elements
        (list
-        (make-notes clef syllables)
-        (make-lyrics syllables))))))
+        (make-notes clef syllables context-id)
+        (make-lyrics syllables context-id))))))
 
 (define music-from-gabc-file
   (define-scheme-function
