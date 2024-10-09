@@ -1,5 +1,3 @@
-(add-to-load-path (dirname (current-filename)))
-
 (use-modules
  (ice-9 regex)
  (ice-9 textual-ports)

@@ -1,3 +1,4 @@
+#(add-to-load-path (dirname (current-filename)))
 #(load "lilygabc.scm")
 
 lilygabcModernGregorianLayout = \layout {
