@@ -77,21 +77,21 @@
                      (note-i 0))
                 (filter-map
                  (lambda (item)
-                   (cond
-                    ((eq? 'note (first item))
-                     (set! note-i (+ 1 note-i))
-                     (make-ly-note
-                      item
-                      (if is-melisma
-                          (cond ((is-melisma-beginning note-i) -1)
-                                ((is-melisma-end note-i) 1)
-                                (else #f))
-                          #f)))
-                    ((eq? 'divisio (first item))
-                     (make-music 'BarEvent 'bar-type
-                                 (or (assoc-ref divisiones-mapping (second item))
-                                     "|")))
-                    (else #f)))
+                   (case (first item)
+                     ((note)
+                      (set! note-i (+ 1 note-i))
+                      (make-ly-note
+                       item
+                       (if is-melisma
+                           (cond ((is-melisma-beginning note-i) -1)
+                                 ((is-melisma-end note-i) 1)
+                                 (else #f))
+                           #f)))
+                     ((divisio)
+                      (make-music 'BarEvent 'bar-type
+                                  (or (assoc-ref divisiones-mapping (second item))
+                                      "|")))
+                     (else #f)))
                  syllable)))
             syllables))))
         (make-music ; lyrics
