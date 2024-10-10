@@ -67,7 +67,7 @@
 (define (parse-music-syllable lyrics music)
   (let ((matches (list-matches "(([cf])([1-4])|([a-mA-M])([n-zN-Z~<>]+)?|([,;:]+)|(\\|(.*$)))" music)))
     (filter
-     (lambda (x) (not (eq? #f x)))
+     values
      (append
       (list
        (if (> (string-length lyrics) 0)
