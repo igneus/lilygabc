@@ -54,6 +54,10 @@
              (parse "la(g)"))
  (test-equal '((((lyrics "la") (note "g")) ((lyrics "la") (note "g"))))
              (parse "la(g)la(g)"))
+ (test-equal '((((lyrics "la") (note "g"))) (((lyrics "la") (note "g"))))
+             (parse "la(g) la(g)"))
+ (test-equal '((((lyrics "la") (note "g"))) (((lyrics "la") (note "g"))))
+             (parse "la(g)\nla(g)"))
  (test-equal '((((lyrics "la"))))
              (parse "la()"))
 

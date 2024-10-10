@@ -46,7 +46,10 @@
        (syllables (list-matches "([^\\(]*)\\(([^\\)]*)\\)" headerless))
        (words
         (util:split-at
-         (lambda (x) (string-prefix? " " (match:substring x 0)))
+         (lambda (x)
+           (let ((str (match:substring x 0)))
+             (or (string-prefix? " " str)
+                 (string-prefix? "\n" str))))
          syllables)))
     (util:map2
      (lambda (x)
