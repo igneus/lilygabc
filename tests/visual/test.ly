@@ -162,7 +162,18 @@ allGabcNotes = " (a) (b) (c) (d) (e) (f) (g) (h) (i) (j) (k) (l) (m)"
   }
 }
 
-% articulations (limited support), neumatic spaces, note shapes, adiastematic neumes (ignored)
+\bookpart {
+  \header { subtitle = "note shapes, articulations, other music elements" }
+
+  % articulations (limited support), neumatic spaces, note shapes, adiastematic neumes (ignored)
+
+  \markup\fill-line{
+    \score { \relative { g'4 } }
+    \score { \gabc "(c4) (g|vihg)" } % nabc
+
+    ""
+  }
+}
 
 \bookpart {
   \header { subtitle = "divisiones" }
@@ -261,6 +272,20 @@ allGabcNotes = " (a) (b) (c) (d) (e) (f) (g) (h) (i) (j) (k) (l) (m)"
     \gabc-file "../examples/aquam_quam_ego.gabc"
     \layout {
       \lilygabcModernGregorianStemlessLayout
+    }
+    \header {
+      piece = "score loaded from a file"
+    }
+  }
+
+  \score {
+    \gabc "(c4) BE(f|pu)ne(g|vi)dí(gh|vihg)xit(f|pu) *()
+    fí(g|vi)li(fe|cl)is(d|pu) tu(f|vi)is(g|vi) in(g|vi>) te.(f|pu) (::)"
+    \layout {
+      \lilygabcModernGregorianStemlessLayout
+    }
+    \header {
+      piece = "score with nabc (nabc is ignored)"
     }
   }
 }
