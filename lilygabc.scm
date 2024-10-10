@@ -96,11 +96,13 @@
 ;; apply features of the gabc note
 ;; on a modern notation LilyPond note
 (define (apply-note-features gabc-note ly-note)
-  (let ((tests-and-transformations
-         `((,gabc:note-is-punctum-inclinatum? . ,small-note)
-           (,gabc:note-is-diminutive? . ,small-note)
-           (,gabc:note-has-ictus? . ,apply-ictus)
-           (,gabc:note-has-horizontal-episema? . ,apply-horizontal-episema))))
+  (let* ((virga-side (gabc:note-virga-side gabc-note))
+         (tests-and-transformations
+          `((,gabc:note-is-punctum-inclinatum? . ,small-note)
+            (,gabc:note-is-diminutive? . ,small-note)
+            (,gabc:note-has-ictus? . ,apply-ictus)
+            (,gabc:note-has-horizontal-episema? . ,apply-horizontal-episema)
+            (,gabc:note-virga-side . ,(cut apply-virga virga-side <>)))))
     (fold
      (lambda (x r)
        (let ((test (car x))

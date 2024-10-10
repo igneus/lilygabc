@@ -195,6 +195,35 @@ allGabcNotes = " (a) (b) (c) (d) (e) (f) (g) (h) (i) (j) (k) (l) (m)"
 
     "" ""
   }
+
+  \markup\fill-line{
+    \score {
+      \relative {
+        \stemDown
+        \once \revert Stem.length
+        \once \override NoteHead.stem-attachment = #'(0.8 . 0.3)
+        g'4( \teeny f e d) \normalsize g
+      }
+      \layout { \lilygabcModernGregorianStemlessLayout } % virga only makes a difference in the stemless settings
+    }
+    \score {
+      \gabc "(c4) (gvFED) (g)" % virga right
+      \layout { \lilygabcModernGregorianStemlessLayout }
+    }
+
+    \score {
+      \relative {
+        \stemDown
+        \once \revert Stem.length
+        g'4( \teeny f e d) \normalsize g
+      }
+      \layout { \lilygabcModernGregorianStemlessLayout }
+    }
+    \score {
+      \gabc "(c4) (gVFED) (g)" % virga left
+      \layout { \lilygabcModernGregorianStemlessLayout }
+    }
+  }
 }
 
 \bookpart {

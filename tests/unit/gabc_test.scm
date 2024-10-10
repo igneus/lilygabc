@@ -102,6 +102,10 @@
              (parse "(gs)"))
  (test-equal '((((note "g" "s<"))))
              (parse "(gs<)"))
+ (test-equal '((((note "g" "v"))))
+             (parse "(gv)"))
+ (test-equal '((((note "g" "V"))))
+             (parse "(gV)"))
 
  ;; articulations
  (test-equal '((((note "g" "."))))

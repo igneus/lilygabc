@@ -10,7 +10,8 @@
             note-is-diminutive?
             note-has-punctum-mora?
             note-has-ictus?
-            note-has-horizontal-episema?)
+            note-has-horizontal-episema?
+            note-virga-side)
   #:use-module (srfi srfi-1) ; required to use the correct version of `iota`
   #:use-module (ice-9 regex)
   #:use-module ((lilygabc util) #:prefix util:))
@@ -88,6 +89,13 @@
 
 (define (note-has-horizontal-episema? note)
   (string-index (note-additional note) #\_))
+
+(define (note-virga-side note)
+  (let ((a (note-additional note)))
+    (cond
+     ((string-index a #\V) 'left)
+     ((string-index a #\v) 'right)
+     (else #f))))
 
 (define (parse-music-syllable lyrics music)
   (let ((matches (list-matches "([cf][1-4])|([a-mA-M])([n-zN-Z~<>\\._']+)?|([,;:`]+)|\\|(.*$)" music)))
