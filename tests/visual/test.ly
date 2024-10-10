@@ -177,7 +177,8 @@ allGabcNotes = " (a) (b) (c) (d) (e) (f) (g) (h) (i) (j) (k) (l) (m)"
     \score { \relative { g'4( \teeny f) } }
     \score { \gabc "(c4) (gf~)" } % diminutive liquescence
 
-    ""
+    \score { \relative { g'4. g4 } }
+    \score { \gabc "(c4) (g.) (g)" } % punctum mora
   }
 }
 

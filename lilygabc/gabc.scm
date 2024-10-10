@@ -7,7 +7,8 @@
             syl-has-lyrics?
             syl-has-notes?
             note-is-punctum-inclinatum?
-            note-is-diminutive?)
+            note-is-diminutive?
+            note-has-punctum-mora?)
   #:use-module (srfi srfi-1) ; required to use the correct version of `iota`
   #:use-module (ice-9 regex)
   #:use-module ((lilygabc util) #:prefix util:))
@@ -73,8 +74,12 @@
   (and (>= (length note) 3)
        (string-prefix? "~" (third note))))
 
+(define (note-has-punctum-mora? note)
+  (and (>= (length note) 3)
+       (string-index (third note) #\.)))
+
 (define (parse-music-syllable lyrics music)
-  (let ((matches (list-matches "([cf][1-4])|([a-mA-M])([n-zN-Z~<>]+)?|([,;:`]+)|\\|(.*$)" music)))
+  (let ((matches (list-matches "([cf][1-4])|([a-mA-M])([n-zN-Z~<>\\.]+)?|([,;:`]+)|\\|(.*$)" music)))
     (filter
      values
      (append

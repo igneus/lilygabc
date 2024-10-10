@@ -60,6 +60,9 @@
                    item
                    (make-ly-note
                     (gabc-note-to-pitch clef (second item))
+                    (if (gabc:note-has-punctum-mora? item)
+                        (ly:make-duration 2 1)
+                        (ly:make-duration 2))
                     (if is-melisma
                         (cond ((is-melisma-beginning note-i) -1)
                               ((is-melisma-end note-i) 1)
@@ -77,7 +80,7 @@
              syllable)))))
       (util:flatten words))))))
 
-(define (make-ly-note pitch slur-direction)
+(define (make-ly-note pitch duration slur-direction)
   (apply
    make-music
    (append
@@ -87,7 +90,7 @@
               (list (make-music 'SlurEvent 'span-direction slur-direction)))
         '())
     (list
-     'duration (ly:make-duration 2)
+     'duration duration
      'pitch pitch))))
 
 ;; apply on a modern notation LilyPond note features

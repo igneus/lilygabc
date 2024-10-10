@@ -101,6 +101,10 @@
  (test-equal '((((note "g" "s"))))
              (parse "(gs)"))
  (test-equal '((((note "g" "s<"))))
-             (parse "(gs<)")))
+             (parse "(gs<)"))
+
+ ;; articulations
+ (test-equal '((((note "g" "."))))
+             (parse "(g.)")))
 
 (test-end suite-name)
