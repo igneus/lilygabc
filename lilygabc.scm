@@ -88,7 +88,8 @@
 ;; apply on a modern notation LilyPond note features
 ;; of the gabc note
 (define (apply-note-style gabc-note ly-note)
-  (if (gabc:note-is-punctum-inclinatum? gabc-note)
+  (if (or (gabc:note-is-punctum-inclinatum? gabc-note)
+          (gabc:note-is-diminutive? gabc-note))
       (small-note ly-note)
       ly-note))
 

@@ -169,8 +169,15 @@ allGabcNotes = " (a) (b) (c) (d) (e) (f) (g) (h) (i) (j) (k) (l) (m)"
     \score { \relative { g'4 } }
     \score { \gabc "(c4) (g|vihg)" } % nabc
 
-    \score { \relative { \displayMusic { g'4( \teeny f e d) \normalsize g } } }
+    \score { \relative { g'4( \teeny f e d) \normalsize g } }
     \score { \gabc "(c4) (gFED) (g)" } % punctum inclinatum
+  }
+
+  \markup\fill-line{
+    \score { \relative { g'4( \teeny f) } }
+    \score { \gabc "(c4) (gf~)" } % diminutive liquescence
+
+    ""
   }
 }
 
