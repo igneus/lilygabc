@@ -56,7 +56,7 @@
                (case (first item)
                  ((note)
                   (set! note-i (+ 1 note-i))
-                  (apply-note-style
+                  (apply-note-features
                    item
                    (make-ly-note
                     (gabc-note-to-pitch clef (second item))
@@ -95,7 +95,7 @@
 
 ;; apply features of the gabc note
 ;; on a modern notation LilyPond note
-(define (apply-note-style gabc-note ly-note)
+(define (apply-note-features gabc-note ly-note)
   (let ((tests-and-transformations
          `((,gabc:note-is-punctum-inclinatum? . ,small-note)
            (,gabc:note-is-diminutive? . ,small-note)
