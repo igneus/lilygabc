@@ -93,13 +93,23 @@
      'duration duration
      'pitch pitch))))
 
-;; apply on a modern notation LilyPond note features
-;; of the gabc note
+;; apply features of the gabc note
+;; on a modern notation LilyPond note
 (define (apply-note-style gabc-note ly-note)
-  (if (or (gabc:note-is-punctum-inclinatum? gabc-note)
-          (gabc:note-is-diminutive? gabc-note))
-      (small-note ly-note)
-      ly-note))
+  (let ((tests-and-transformations
+         `((,gabc:note-is-punctum-inclinatum? . ,small-note)
+           (,gabc:note-is-diminutive? . ,small-note)
+           (,gabc:note-has-ictus? . ,apply-ictus)
+           (,gabc:note-has-horizontal-episema? . ,apply-horizontal-episema))))
+    (fold
+     (lambda (x r)
+       (let ((test (car x))
+             (transformation (cdr x)))
+         (if (test gabc-note)
+             (transformation r)
+             r)))
+     ly-note
+     tests-and-transformations)))
 
 (define (make-lyrics words context-id)
   (make-music

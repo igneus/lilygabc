@@ -180,6 +180,21 @@ allGabcNotes = " (a) (b) (c) (d) (e) (f) (g) (h) (i) (j) (k) (l) (m)"
     \score { \relative { g'4. g4 } }
     \score { \gabc "(c4) (g.) (g)" } % punctum mora
   }
+
+  \markup\fill-line{
+    \score { \relative { g'4_! } }
+    \score { \gabc "(c4) (g')" } % ictus / vertical episema
+
+    \score { \relative { g'4^- } }
+    \score { \gabc "(c4) (g_)" } % horizontal episema
+  }
+
+  \markup\fill-line{
+    \score { \relative { g'4^-_! } }
+    \score { \gabc "(c4) (g_')" } % both ictus and horizontal episema
+
+    "" ""
+  }
 }
 
 \bookpart {

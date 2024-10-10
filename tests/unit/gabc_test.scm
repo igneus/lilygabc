@@ -105,6 +105,12 @@
 
  ;; articulations
  (test-equal '((((note "g" "."))))
-             (parse "(g.)")))
+             (parse "(g.)"))
+ (test-equal '((((note "g" "'"))))
+             (parse "(g')"))
+ (test-equal '((((note "g" "_"))))
+             (parse "(g_)"))
+ (test-equal '((((note "g" "_'"))))
+             (parse "(g_')")))
 
 (test-end suite-name)

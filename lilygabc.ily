@@ -24,3 +24,11 @@ make-invisible-note =
 small-note =
 #(define-music-function (note) (ly:music?)
   #{ \teeny #note \normalsize #})
+
+apply-ictus =
+#(define-music-function (note) (ly:music?)
+  #{ #note _! #})
+
+apply-horizontal-episema =
+#(define-music-function (note) (ly:music?)
+  #{ #note ^- #})
