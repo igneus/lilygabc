@@ -16,56 +16,54 @@
   }
 
   \markup\fill-line{
-    ""
-
     \score { a4 }
     \score { \gabc "(c4) (a)" }
 
     \score { b4 }
     \score { \gabc "(c4) (b)" }
+
+    \score { c'4 }
+    \score { \gabc "(c4) (c)" }
   }
 
   \markup\fill-line{
-    \score { c'4 }
-    \score { \gabc "(c4) (c)" }
-
     \score { d'4 }
     \score { \gabc "(c4) (d)" }
 
     \score { e'4 }
     \score { \gabc "(c4) (e)" }
+
+    \score { f'4 }
+    \score { \gabc "(c4) (f)" }
   }
 
   \markup\fill-line{
-    \score { f'4 }
-    \score { \gabc "(c4) (f)" }
-
     \score { g'4 }
     \score { \gabc "(c4) (g)" }
 
     \score { a'4 }
     \score { \gabc "(c4) (h)" }
+
+    \score { b'4 }
+    \score { \gabc "(c4) (i)" }
   }
 
   \markup\fill-line{
-    \score { b'4 }
-    \score { \gabc "(c4) (i)" }
-
     \score { c''4 }
     \score { \gabc "(c4) (j)" }
 
     \score { d''4 }
     \score { \gabc "(c4) (k)" }
+
+    \score { e''4 }
+    \score { \gabc "(c4) (l)" }
   }
 
   \markup\fill-line{
-    \score { e''4 }
-    \score { \gabc "(c4) (l)" }
-
     \score { f''4 }
     \score { \gabc "(c4) (m)" }
 
-    ""
+    "" "" "" ""
   }
 }
 
