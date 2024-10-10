@@ -65,7 +65,7 @@
   (find (lambda (x) (eq? 'note (first x))) syllable))
 
 (define (parse-music-syllable lyrics music)
-  (let ((matches (list-matches "(([cf])([1-4])|([a-m])|([,;:]+)|(\\|(.*$)))" music)))
+  (let ((matches (list-matches "(([cf])([1-4])|([a-mA-M])([n-zN-Z~<>]+)?|([,;:]+)|(\\|(.*$)))" music)))
     (filter
      (lambda (x) (not (eq? #f x)))
      (append
@@ -78,10 +78,12 @@
          (cond
           ((match:substring m 3)
            (list 'clef (match:substring m 2) (string->number (match:substring m 3)) #f))
-          ((match:substring m 5)
-           (list 'divisio (match:substring m 5)))
-          ((match:substring m 7)
-           (list 'nabc (match:substring m 7)))
+          ((match:substring m 6)
+           (list 'divisio (match:substring m 6)))
+          ((match:substring m 8)
+           (list 'nabc (match:substring m 8)))
           (else
-           (list 'note (match:substring m 4)))))
+           (append
+            (list 'note (match:substring m 4))
+            (if (match:substring m 5) (list (match:substring m 5)) '())))))
        matches)))))

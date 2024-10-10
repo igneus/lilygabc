@@ -23,11 +23,14 @@
 
 (test-group
  "parse"
+
+ ;; empty score
  (test-equal '()
              (parse ""))
  (test-equal '()
              (parse "   "))
 
+ ;; music syllables and words
  (test-equal '((((note "c"))))
              (parse "(c)"))
  (test-equal '((((note "c"))) (((note "d"))))
@@ -41,6 +44,7 @@
  (test-equal '((())) ; note: void syllable is rendered as \bar "" , allowing line-break when it's not allowed anywhere
              (parse "()"))
 
+ ;; divisiones
  (test-equal '((((divisio ","))))
              (parse "(,)"))
  (test-equal '((((divisio ";"))))
@@ -50,6 +54,7 @@
  (test-equal '((((divisio "::"))))
              (parse "(::)"))
 
+ ;; lyrics
  (test-equal '((((lyrics "la") (note "g"))))
              (parse "la(g)"))
  (test-equal '((((lyrics "la") (note "g")) ((lyrics "la") (note "g"))))
@@ -61,12 +66,39 @@
  (test-equal '((((lyrics "la"))))
              (parse "la()"))
 
+ ;; score header
  (test-equal '((((clef "c" 4 #f)))) ; header is ignored
              (parse "book: No Book;\n%%\n(c4)"))
 
+ ;; nabc - adiastematic neumes
  (test-equal '((((lyrics "la") (note "g") (nabc "pu"))))
              (parse "la(g|pu)"))
  (test-equal '((((lyrics "la") (note "g") (nabc "vihg"))))
-             (parse "la(g|vihg)")))
+             (parse "la(g|vihg)"))
+
+ ;; note shapes
+ ;; http://gregorio-project.github.io/gabc/index.html#onenote
+ (test-equal '((((note "g"))))
+             (parse "(g)"))
+ (test-equal '((((note "G"))))
+             (parse "(G)"))
+ (test-equal '((((note "g" "~"))))
+             (parse "(g~)"))
+ (test-equal '((((note "g" "<"))))
+             (parse "(g<)"))
+ (test-equal '((((note "g" ">"))))
+             (parse "(g>)"))
+ (test-equal '((((note "g" "o"))))
+             (parse "(go)"))
+ (test-equal '((((note "g" "o~"))))
+             (parse "(go~)"))
+ (test-equal '((((note "g" "o<"))))
+             (parse "(go<)"))
+ (test-equal '((((note "g" "w"))))
+             (parse "(gw)"))
+ (test-equal '((((note "g" "s"))))
+             (parse "(gs)"))
+ (test-equal '((((note "g" "s<"))))
+             (parse "(gs<)")))
 
 (test-end suite-name)
