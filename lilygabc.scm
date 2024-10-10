@@ -55,13 +55,15 @@
                (case (first item)
                  ((note)
                   (set! note-i (+ 1 note-i))
-                  (make-ly-note
-                   (gabc-note-to-pitch clef (second item))
-                   (if is-melisma
-                       (cond ((is-melisma-beginning note-i) -1)
-                             ((is-melisma-end note-i) 1)
-                             (else #f))
-                       #f)))
+                  (apply-note-style
+                   item
+                   (make-ly-note
+                    (gabc-note-to-pitch clef (second item))
+                    (if is-melisma
+                        (cond ((is-melisma-beginning note-i) -1)
+                              ((is-melisma-end note-i) 1)
+                              (else #f))
+                        #f))))
                  ((divisio)
                   (make-music 'BarEvent 'bar-type
                               (or (assoc-ref divisiones-mapping (second item))
@@ -82,6 +84,13 @@
     (list
      'duration (ly:make-duration 2)
      'pitch pitch))))
+
+;; apply on a modern notation LilyPond note features
+;; of the gabc note
+(define (apply-note-style gabc-note ly-note)
+  (if (gabc:note-is-punctum-inclinatum? gabc-note)
+      (small-note ly-note)
+      ly-note))
 
 (define (make-lyrics words context-id)
   (make-music

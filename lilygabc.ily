@@ -12,6 +12,15 @@ lilygabcModernGregorianStemlessLayout = \layout {
   \override Stem.length = 0
 }
 
+
+
+% utility music functions used by the Scheme code,
+% not part of the public interface
+
 make-invisible-note =
 #(define-music-function () ()
   #{ \hideNotes g'4 \unHideNotes #})
+
+small-note =
+#(define-music-function (note) (ly:music?)
+  #{ \teeny #note \normalsize #})
