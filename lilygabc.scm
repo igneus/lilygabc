@@ -19,10 +19,11 @@
 
 ; mapping Gregorio divisiones -> LilyPond bars
 (define divisiones-mapping
-  '(("," . "'")
-    (";" . ",")
-    ("::" . "||")))
-(define default-bar "|") ; used for all not explicitly mapped
+  '(("," . (bar . "'"))
+    (";" . (bar . ","))
+    ("::" . (bar . "||"))
+    ("`" . (breathe . #f))))
+(define default-bar '(bar . "|")) ; used for all not explicitly mapped
 
 (define (make-notes clef words context-id)
   (make-music
@@ -65,9 +66,13 @@
                               (else #f))
                         #f))))
                  ((divisio)
-                  (make-music 'BarEvent 'bar-type
-                              (or (assoc-ref divisiones-mapping (second item))
-                                  default-bar)))
+                  (let* ((lilybar
+                          (or (assoc-ref divisiones-mapping (second item))
+                              default-bar))
+                         (bartype (cdr lilybar)))
+                    (if (eq? 'breathe (car lilybar))
+                        (breathe)
+                        (make-music 'BarEvent 'bar-type bartype))))
                  (else #f)))
              syllable)))))
       (util:flatten words))))))

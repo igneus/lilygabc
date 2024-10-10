@@ -74,7 +74,7 @@
        (string-prefix? "~" (third note))))
 
 (define (parse-music-syllable lyrics music)
-  (let ((matches (list-matches "([cf][1-4])|([a-mA-M])([n-zN-Z~<>]+)?|([,;:]+)|\\|(.*$)" music)))
+  (let ((matches (list-matches "([cf][1-4])|([a-mA-M])([n-zN-Z~<>]+)?|([,;:`]+)|\\|(.*$)" music)))
     (filter
      values
      (append
