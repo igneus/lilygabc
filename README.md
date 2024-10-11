@@ -4,28 +4,19 @@ LilyPond library which reads chant scores encoded in the
 [gabc][gabc] format and translates them to LilyPond data structures,
 allowing easy inclusion of gabc scores in LilyPond documents.
 
-Inspired by [this post](https://forum.musicasacra.com/forum/discussion/comment/256478#Comment_256478):
+Originally inspired by [this forum post](https://forum.musicasacra.com/forum/discussion/comment/256478#Comment_256478).
+Given the vast amount of chant transcriptions available
+in the gabc format, it makes sense to provide first class support
+for this music encoding format in LilyPond.
 
-> GABC is a description language for chant ... Chant described
-> in GABC can be displayed by any software that supports it.
-> ...
-> Gregobase has twenty thousand entries, Neumz has about half that,
-> all in GABC, and Repertorium has trained optical music recognition
-> software using GABC as training data, which means the contents
-> of thousands of manuscripts may soon become available as GABC.
-> ...
-> An alternative to GABC is a score description language
-> with the ability to represent chant, polyphony and modern
-> notation - and if the creator of this language has one teaspoon
-> of wisdom, they will make it so existing GABC can be effortlessly
-> and reliably converted into that more powerful description language.
-
-LilyPond is not great at chant rendering.
-But for those use cases when chant rendering in LilyPond
-is desirable anyway, lilygabc strives to make the use of scores
-in the gabc format as convenient as possible.
+While LilyPond is not the first option for chant typesetting
+in terms of output quality, there are still plenty of use cases
+where a convenient way to include existing gabc scores
+is useful.
 
 ## Project Status & Roadmap
+
+*Only rendering in modern notation supported so far, several fundamental features still missing.*
 
 - [ ] render contents of gabc files in modern notation
 - [ ] fundamental support for the chant notation styles supported by LilyPond
