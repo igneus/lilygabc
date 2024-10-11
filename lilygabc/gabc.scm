@@ -1,7 +1,7 @@
 ;; gabc parsing - pure Scheme, no LilyPond-specific types/functions
 
 (define-module (lilygabc gabc)
-  #:export (note-names
+  #:export (note-pitch
             find-clef
             parse
             syl-has-lyrics?
@@ -13,6 +13,7 @@
             note-has-horizontal-episema?
             note-virga-side)
   #:use-module (srfi srfi-1) ; required to use the correct version of `iota`
+  #:use-module (srfi srfi-26)
   #:use-module (ice-9 regex)
   #:use-module ((lilygabc util) #:prefix util:))
 
@@ -26,6 +27,21 @@
           (map (lambda (x) (string (integer->char x)))
                (apply irange (map char->integer (list x y)))))))
     (char-range #\a #\m)))
+
+;; Translates a gabc note
+;; to a pitch specified by two integers specifying octave and step
+;; (the system is the same as LilyPond uses).
+(define (note-pitch clef note)
+  (let*
+      ((clef-type (assoc-ref clef 'type))
+       (clef-line (assoc-ref clef 'line))
+       (clef-shift
+        (* 2 (- 4 clef-line (if (string=? "f" clef-type) 2 0))))
+       (note-index (list-index (cut string=? (string-downcase note) <>) note-names))
+       (note-num (+ 5 note-index clef-shift))
+       (note (modulo note-num 7))
+       (octave (- (truncate-quotient note-num 7) 1)))
+    (list octave note)))
 
 (define (find-clef gabc-str)
   (let ((match (string-match "\\(([cf])([1-4])" gabc-str)))

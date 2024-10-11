@@ -6,16 +6,7 @@
  ((lilygabc util) #:prefix util:))
 
 (define (gabc-note-to-pitch clef note)
-  (let*
-      ((clef-type (assoc-ref clef 'type))
-       (clef-line (assoc-ref clef 'line))
-       (clef-shift
-        (* 2 (- 4 clef-line (if (string=? "f" clef-type) 2 0))))
-       (note-index (list-index (cut string=? (string-downcase note) <>) gabc:note-names))
-       (note-num (+ 5 note-index clef-shift))
-       (note (modulo note-num 7))
-       (octave (- (truncate-quotient note-num 7) 1)))
-    (ly:make-pitch octave note)))
+  (apply ly:make-pitch (gabc:note-pitch clef note)))
 
 ; mapping Gregorio divisiones -> LilyPond bars
 (define divisiones-mapping
