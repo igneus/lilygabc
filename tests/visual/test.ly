@@ -307,6 +307,13 @@ allGabcNotes = " (a) (b) (c) (d) (e) (f) (g) (h) (i) (j) (k) (l) (m)"
     \score { \relative { g'4 \hideNotes g \unHideNotes \bar "|" g } \addlyrics { La T.P. la } }
     \score { \gabc "(c4) La(g) T.P.(:) la(g)" }
   }
+
+  \markup\fill-line{
+    \score { \relative { g'4( a g \bar "'" g c) c } \addlyrics { La la } }
+    \score { \gabc "(c4) La(ghg,gj) la(j)" } % divisio inside a music syllable
+
+    ""
+  }
 }
 
 \bookpart {
