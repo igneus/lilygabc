@@ -39,9 +39,9 @@
         (* 2 (- 4 clef-line (if (string=? "f" clef-type) 2 0))))
        (note-index (list-index (cut string=? (string-downcase note) <>) note-names))
        (note-num (+ 5 note-index clef-shift))
-       (note (modulo note-num 7))
+       (step (modulo note-num 7))
        (octave (- (truncate-quotient note-num 7) 1)))
-    (list octave note)))
+    (list octave step)))
 
 (define (find-clef gabc-str)
   (let ((match (string-match "\\(([cf])([1-4])" gabc-str)))
