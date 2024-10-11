@@ -5,9 +5,6 @@
  ((lilygabc gabc) #:prefix gabc:)
  ((lilygabc util) #:prefix util:))
 
-(define (gabc-note-to-pitch clef note)
-  (apply ly:make-pitch (gabc:note-pitch clef note)))
-
 ; mapping Gregorio divisiones -> LilyPond bars
 (define divisiones-mapping
   '(("," . (bar . "'"))
@@ -50,7 +47,7 @@
                   (apply-note-features
                    item
                    (make-ly-note
-                    (gabc-note-to-pitch clef (second item))
+                    (apply ly:make-pitch (gabc:note-pitch clef item))
                     (if (gabc:note-has-punctum-mora? item)
                         (ly:make-duration 2 1)
                         (ly:make-duration 2))

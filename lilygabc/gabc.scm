@@ -37,7 +37,7 @@
        (clef-line (assoc-ref clef 'line))
        (clef-shift
         (* 2 (- 4 clef-line (if (string=? "f" clef-type) 2 0))))
-       (note-index (list-index (cut string=? (string-downcase note) <>) note-names))
+       (note-index (list-index (cut string=? (string-downcase (second note)) <>) note-names))
        (note-num (+ 5 note-index clef-shift))
        (step (modulo note-num 7))
        (octave (- (truncate-quotient note-num 7) 1)))
