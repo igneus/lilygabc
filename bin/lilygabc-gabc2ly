@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+
+# Takes path of a gabc file, prints it to the stdout
+# converted to LilyPond.
+
+BIN_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
+
+GABC2LY_INPUT_FILE=$1 lilypond $BIN_DIR/gabc2ly.ly
