@@ -43,4 +43,5 @@ apply-virga =
        #{ \once \override NoteHead.stem-attachment = #'(0.8 . 0.3) #}
        #{ #})
      #note
+     \stemNeutral
    #})
