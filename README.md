@@ -33,9 +33,10 @@ in the gabc format as convenient as possible.
 
 ## Prerequisites
 
+LilyPond.
+
 Developed with
 LilyPond 2.24 (built with Guile 2.2).
-
 Status on other versions is unknown.
 
 ## Usage
