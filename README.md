@@ -72,6 +72,8 @@ include paths:
 
 `$ lilypond --include=path/to/lilygabc my_document.ly`
 
+[![Example output](/doc/example.png)](/doc/example.ly)
+
 ## Running tests
 
 **Unit tests:**
