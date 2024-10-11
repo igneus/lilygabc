@@ -15,6 +15,8 @@
       1))
 
   top-margin = 1.5\cm
+  left-margin = 1\mm
+  right-margin = 1\mm
 }
 
 \layout {
@@ -24,6 +26,7 @@
   \set Score.forbidBreakBetweenBarLines = ##f
 }
 
+% https://gregobase.selapa.net/chant.php?id=12115
 \score {
   \gabc
     "(c4) Ju(e)bi(f)lá(g')te(f) De(d_f)o(f'_) (,)
