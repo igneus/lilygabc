@@ -51,7 +51,10 @@ notation are provided.
 \include "lilygabc.ily"
 
 \score {
-  \gabc "(c4) (d)"
+  \gabc
+    "(c4) Ju(e)bi(f)lá(g')te(f) De(d_f)o(f'_) (,)
+    o(f)mnis(f) ter(e_f)ra,(d) al(f)le(fg)lú(e.)ia.(e.) (::)
+    E(h) u(g) o(h) u(ih) a(gf) e.(e.) (::)"
 
   \layout {
     \lilygabcModernGregorianLayout
