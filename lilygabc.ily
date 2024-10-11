@@ -36,15 +36,11 @@ apply-horizontal-episema =
 apply-virga =
 #(define-music-function (side note) (boolean-or-symbol? ly:music?)
   ; TODO it would be safer to check first that Stem.length is actually overridden to 0
-  (if (eq? 'right side)
    #{
      \stemDown
      \once \revert Stem.length
-     \once \override NoteHead.stem-attachment = #'(0.8 . 0.3)
+     #(if (eq? 'right side)
+       #{ \once \override NoteHead.stem-attachment = #'(0.8 . 0.3) #}
+       #{ #})
      #note
-   #}
-   #{
-     \stemDown
-     \once \revert Stem.length
-     #note
-   #}))
+   #})
