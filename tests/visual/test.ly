@@ -295,7 +295,17 @@ allGabcNotes = " (a) (b) (c) (d) (e) (f) (g) (h) (i) (j) (k) (l) (m)"
     \score { \relative { g'4 \bar "" g } \addlyrics { La la } }
     \score { \gabc "(c4) La(g) () la(g)" }
 
-    ""
+    "" ""
+  }
+
+  \markup\fill-line{
+    % lyrics under a divisio:
+    % LilyPond doesn't support that -> use an invisible note as a workaround
+    \score { \relative { g'4 \hideNotes g \unHideNotes \bar "'" g } \addlyrics { La "*" la } }
+    \score { \gabc "(c4) La(g) *(,) la(g)" }
+
+    \score { \relative { g'4 \hideNotes g \unHideNotes \bar "|" g } \addlyrics { La T.P. la } }
+    \score { \gabc "(c4) La(g) T.P.(:) la(g)" }
   }
 }
 

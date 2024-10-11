@@ -36,36 +36,48 @@
            ((eq? '() syllable) ; void syllable rendered as invisible bar
             (list (make-music 'BarEvent 'bar-type "")))
            ((and (gabc:syl-has-lyrics? syllable)
-                 (not (gabc:syl-has-notes? syllable)))
+                 (not (gabc:syl-has-notes? syllable))
+                 (= 1 (length syllable))) ; the syllable has only lyrics, no renderable music elements
             (list (make-invisible-note)))
            (else
-            (filter-map
-             (lambda (item)
-               (case (first item)
-                 ((note)
-                  (set! note-i (+ 1 note-i))
-                  (apply-note-features
-                   item
-                   (make-ly-note
-                    (apply ly:make-pitch (gabc:note-pitch clef item))
-                    (if (gabc:note-has-punctum-mora? item)
-                        (ly:make-duration 2 1)
-                        (ly:make-duration 2))
-                    (if is-melisma
-                        (cond ((is-melisma-beginning note-i) -1)
-                              ((is-melisma-end note-i) 1)
-                              (else #f))
-                        #f))))
-                 ((divisio)
-                  (let* ((lilybar
-                          (or (assoc-ref divisiones-mapping (second item))
-                              default-bar))
-                         (bartype (cdr lilybar)))
-                    (if (eq? 'breathe (car lilybar))
-                        (breathe)
-                        (make-music 'BarEvent 'bar-type bartype))))
-                 (else #f)))
-             syllable)))))
+            (util:flatten
+             (filter-map
+              (lambda (item)
+                (case (first item)
+                  ((note)
+                   (set! note-i (+ 1 note-i))
+                   (list
+                    (apply-note-features
+                     item
+                     (make-ly-note
+                      (apply ly:make-pitch (gabc:note-pitch clef item))
+                      (if (gabc:note-has-punctum-mora? item)
+                          (ly:make-duration 2 1)
+                          (ly:make-duration 2))
+                      (if is-melisma
+                          (cond ((is-melisma-beginning note-i) -1)
+                                ((is-melisma-end note-i) 1)
+                                (else #f))
+                          #f)))))
+                  ((divisio)
+                   (let* ((lilybar
+                           (or (assoc-ref divisiones-mapping (second item))
+                               default-bar))
+                          (bartype (cdr lilybar)))
+                     (filter
+                      values
+                      (list
+                       (if (and (gabc:syl-has-lyrics? syllable)
+                                (not (gabc:syl-has-notes? syllable)))
+                           ;; lyrics under a divisio are very common in gabc,
+                           ;; but unsupported in LilyPond
+                           (make-invisible-note)
+                           #f)
+                       (if (eq? 'breathe (car lilybar))
+                           (breathe)
+                           (make-music 'BarEvent 'bar-type bartype))))))
+                  (else #f)))
+              syllable))))))
       (util:flatten words))))))
 
 (define (make-ly-note pitch duration slur-direction)
