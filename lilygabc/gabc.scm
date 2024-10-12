@@ -87,8 +87,14 @@
 
 (define map-syl-elements util:map3)
 
+;; maps gabc accidentals to symbols we return in the parsing results
+(define accidentals
+  '(("x" . flat)
+    ("#" . sharp)
+    ("y" . natural)))
+
 (define (parse-music-syllable lyrics music)
-  (let ((matches (list-matches "([cf][1-4])|([a-mA-M])([n-zN-Z~<>\\._']+)?|([,;:`]+)|\\|(.*$)" music)))
+  (let ((matches (list-matches "([cf][1-4])|([a-m][xy#])|([a-mA-M])([n-zN-Z~<>\\._']+)?|([,;:`]+)|\\|(.*$)" music)))
     (filter
      values
      (append
@@ -99,13 +105,20 @@
       (map
        (lambda (m)
          (let ((clef (match:substring m 1))
-               (note (match:substring m 2))
-               (note-shape (match:substring m 3))
-               (divisio (match:substring m 4))
-               (nabc (match:substring m 5)))
+               (accidental (match:substring m 2))
+               (note (match:substring m 3))
+               (note-shape (match:substring m 4))
+               (divisio (match:substring m 5))
+               (nabc (match:substring m 6)))
            (cond
             (clef
-             (list 'clef (substring clef 0 1) (string->number (substring clef 1 2)) #f))
+             (list 'clef
+                   (substring clef 0 1)
+                   (string->number (substring clef 1 2)) #f))
+            (accidental
+             (list 'accidental
+                   (substring accidental 0 1)
+                   (assoc-ref accidentals (substring accidental 1 2))))
             (divisio
              (list 'divisio divisio))
             (nabc

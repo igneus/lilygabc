@@ -38,6 +38,49 @@
  (test-equal
   '((((clef "c" 3 #f)
       (note-with-pitch (note "j") (pitch 1 2)))))
-  (decorate-notes '((((clef "c" 3 #f) (note "j")))))))
+  (decorate-notes '((((clef "c" 3 #f) (note "j"))))))
+
+ ;; accidentals:
+ ;; - natural on its own has no effect
+ (test-equal '((((accidental "i" natural)
+                 (note-with-pitch (note "i") (pitch 0 6)))))
+             (decorate-notes '((((accidental "i" natural)
+                                 (note "i"))))))
+ ;; - the same note is affected
+ (test-equal '((((accidental "i" flat)
+                 (note-with-pitch (note "i") (pitch 0 6 -1/2)))))
+             (decorate-notes '((((accidental "i" flat)
+                                 (note "i"))))))
+ (test-equal '((((accidental "i" sharp)
+                 (note-with-pitch (note "i") (pitch 0 6 1/2)))))
+             (decorate-notes '((((accidental "i" sharp)
+                                 (note "i"))))))
+ ;; - different note is not affected
+ (test-equal '((((accidental "g" flat)
+                 (note-with-pitch (note "i") (pitch 0 6)))))
+             (decorate-notes '((((accidental "g" flat)
+                                 (note "i"))))))
+ ;; - natural cancels the accidental
+ (test-equal '((((accidental "i" flat)
+                 (note-with-pitch (note "i") (pitch 0 6 -1/2))
+                 (accidental "i" natural)
+                 (note-with-pitch (note "i") (pitch 0 6)))))
+             (decorate-notes '((((accidental "i" flat)
+                                 (note "i")
+                                 (accidental "i" natural)
+                                 (note "i"))))))
+ ;; - the same note in the next word is never more affected
+ (test-equal '((((accidental "i" flat)
+                 (note-with-pitch (note "i") (pitch 0 6 -1/2))))
+               (((note-with-pitch (note "i") (pitch 0 6)))))
+             (decorate-notes '((((accidental "i" flat)
+                                 (note "i")))
+                               (((note "i")))))) ; new word
+
+ ;; clefs with accidentals:
+ ;; - b is flat
+ ;; - natural cancels the clef accidental
+ ;; - but only until the end of the word
+ )
 
 (test-end suite-name)

@@ -188,7 +188,38 @@ allGabcNotes = " (a) (b) (c) (d) (e) (f) (g) (h) (i) (j) (k) (l) (m)"
   }
 }
 
-% accidentals
+\bookpart {
+  \header { subtitle = "accidentals" }
+
+  \markup { inline: }
+
+  \markup\line{
+    \score { \relative { ges'4 } }
+    \score { \gabc "(c4) (gxg)" }
+
+    \score { \relative { ges'4( g) } }
+    \score { \gabc "(c4) (gxggyg)" }
+  }
+
+  \markup\line{
+    \score { \relative { gis'4 } }
+    \score { \gabc "(c4) (g#g)" }
+
+    \score { \relative { gis'4( g) } }
+    \score { \gabc "(c4) (g#ggyg)" }
+  }
+
+  % accidentals last until the end of the word
+  \markup\line{
+    \score { \relative { ges'4 g } }
+    \score { \gabc "(c4) (gxg) (g)" }
+
+    \score { \relative { gis'4 g } }
+    \score { \gabc "(c4) (g#g) (g)" }
+  }
+
+  % clefs with accidentals
+}
 
 \bookpart {
   \header { subtitle = "melismata" }

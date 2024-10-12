@@ -99,6 +99,14 @@
  (test-equal '((((note "g" "_"))))
              (parse "(g_)"))
  (test-equal '((((note "g" "_'"))))
-             (parse "(g_')")))
+             (parse "(g_')"))
+
+ ;; accidentals
+ (test-equal '((((accidental "g" flat))))
+             (parse "(gx)"))
+ (test-equal '((((accidental "g" sharp))))
+             (parse "(g#)"))
+ (test-equal '((((accidental "g" natural))))
+             (parse "(gy)")))
 
 (test-end suite-name)

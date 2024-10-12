@@ -32,16 +32,33 @@
 ;; Decorates each note with pitch
 (define (decorate-notes score)
   (let ((clef default-clef))
-    (gabc:map-syl-elements
-     (lambda (x)
-       (cond
-        ((eq? 'clef (first x))
-         (set! clef x)
-         x)
-        ((eq? 'note (first x))
-           (list
-            'note-with-pitch
-            x
-            (append '(pitch) (note-pitch clef x))))
-        (else x)))
+    (map
+     (lambda (word)
+       (let ((active-accidentals '()))
+         (util:map2
+          (lambda (x)
+            (case (first x)
+              ((clef)
+               (set! clef x)
+               x)
+              ((note)
+               (let ((accidental (assoc-ref active-accidentals (string-downcase (second x)))))
+                 (append
+                  (list
+                   'note-with-pitch
+                   x
+                   (append
+                    '(pitch)
+                    (note-pitch clef x)
+                    (if accidental
+                        (list (if (eq? 'sharp accidental) 1/2 -1/2))
+                        '()))))))
+              ((accidental)
+               (set! active-accidentals
+                     (if (eq? 'natural (third x))
+                         (assoc-remove! active-accidentals (second x))
+                         (assoc-set! active-accidentals (second x) (third x))))
+               x)
+              (else x)))
+          word)))
      score)))
