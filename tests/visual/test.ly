@@ -232,8 +232,8 @@ allGabcNotes = " (a) (b) (c) (d) (e) (f) (g) (h) (i) (j) (k) (l) (m)"
   }
 
   \markup\fill-line{
-    \score { \relative { g'4^-_! } }
-    \score { \gabc "(c4) (g_')" } % both ictus and horizontal episema
+    \score { \relative { g'4.^-_! } }
+    \score { \gabc "(c4) (g._')" } % all supported articulations at once
 
     "" ""
   }
