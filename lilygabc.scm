@@ -3,6 +3,7 @@
  (ice-9 textual-ports)
  (srfi srfi-26)
  ((lilygabc gabc) #:prefix gabc:)
+ ((lilygabc pitch) #:prefix pitch:)
  ((lilygabc util) #:prefix util:))
 
 ; mapping Gregorio divisiones -> LilyPond bars
@@ -50,7 +51,7 @@
                     (apply-note-features
                      item
                      (make-ly-note
-                      (apply ly:make-pitch (gabc:note-pitch clef item))
+                      (apply ly:make-pitch (pitch:note-pitch clef item))
                       (if (gabc:note-has-punctum-mora? item)
                           (ly:make-duration 2 1)
                           (ly:make-duration 2))
