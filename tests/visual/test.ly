@@ -266,6 +266,15 @@ allGabcNotes = " (a) (b) (c) (d) (e) (f) (g) (h) (i) (j) (k) (l) (m)"
       \layout { \lilygabcModernGregorianStemlessLayout }
     }
   }
+
+  \markup\fill-line{
+    % when stems are not hidden by default, virga should have no visible effect:
+    \score { \relative { g'4 g( \teeny f e d) \normalsize } }
+    \score { \gabc "(c4) (g) (gvFED)" \layout { \xfail } } % virga right
+
+    \score { \relative { g'4 g( \teeny f e d) \normalsize } }
+    \score { \gabc "(c4) (g) (gVFED)" \layout { \xfail } } % virga left
+  }
 }
 
 \bookpart {
