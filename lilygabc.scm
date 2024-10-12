@@ -98,8 +98,8 @@
 (define (apply-note-features gabc-note ly-note)
   (let* ((virga-side (gabc:note-virga-side gabc-note))
          (tests-and-transformations
-          `((,gabc:note-is-punctum-inclinatum? . ,small-note)
-            (,gabc:note-is-diminutive? . ,small-note)
+          `((,gabc:note-is-punctum-inclinatum? . ,tiny-note)
+            (,gabc:note-is-diminutive? . ,teeny-note)
             (,gabc:note-has-ictus? . ,apply-ictus)
             (,gabc:note-has-horizontal-episema? . ,apply-horizontal-episema)
             (,gabc:note-virga-side . ,(cut apply-virga virga-side <>)))))

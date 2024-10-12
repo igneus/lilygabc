@@ -244,7 +244,7 @@ allGabcNotes = " (a) (b) (c) (d) (e) (f) (g) (h) (i) (j) (k) (l) (m)"
         \stemDown
         \once \revert Stem.length
         \once \override NoteHead.stem-attachment = #'(0.8 . 0.3)
-        g'4( \teeny f e d) \normalsize g
+        g'4( \tiny f e d) \normalsize g
       }
       \layout { \lilygabcModernGregorianStemlessLayout } % virga only makes a difference in the stemless settings
     }
@@ -257,7 +257,7 @@ allGabcNotes = " (a) (b) (c) (d) (e) (f) (g) (h) (i) (j) (k) (l) (m)"
       \relative {
         \stemDown
         \once \revert Stem.length
-        g'4( \teeny f e d) \normalsize g
+        g'4( \tiny f e d) \normalsize g
       }
       \layout { \lilygabcModernGregorianStemlessLayout }
     }
@@ -269,10 +269,10 @@ allGabcNotes = " (a) (b) (c) (d) (e) (f) (g) (h) (i) (j) (k) (l) (m)"
 
   \markup\fill-line{
     % when stems are not hidden by default, virga should have no visible effect:
-    \score { \relative { g'4 g( \teeny f e d) \normalsize } }
+    \score { \relative { g'4 g( \tiny f e d) \normalsize } }
     \score { \gabc "(c4) (g) (gvFED)" \layout { \xfail } } % virga right
 
-    \score { \relative { g'4 g( \teeny f e d) \normalsize } }
+    \score { \relative { g'4 g( \tiny f e d) \normalsize } }
     \score { \gabc "(c4) (g) (gVFED)" \layout { \xfail } } % virga left
   }
 }

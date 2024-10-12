@@ -21,7 +21,11 @@ make-invisible-note =
 #(define-music-function () ()
   #{ \hideNotes g'4 \unHideNotes #})
 
-small-note =
+tiny-note =
+#(define-music-function (note) (ly:music?)
+  #{ \tiny #note \normalsize #})
+
+teeny-note =
 #(define-music-function (note) (ly:music?)
   #{ \teeny #note \normalsize #})
 
