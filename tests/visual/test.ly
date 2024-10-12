@@ -6,14 +6,56 @@
   title = "lilygabc visual tests"
 }
 
+\paper {
+  markup-markup-spacing.padding = #2
+}
+
+% https://lsr.di.unimi.it/LSR/Snippet?id=726
+bgcolor =
+#(define-music-function (color) (string?)
+ #{\override Staff.StaffSymbol.stencil = $(lambda (grob)
+    (let* ((staff (ly:staff-symbol::print grob))
+           (X-ext (ly:stencil-extent staff X))
+           (Y-ext (ly:stencil-extent staff Y)))
+         (set! Y-ext (cons
+            (- (car Y-ext) 2)
+            (+ (cdr Y-ext) 2)))
+         (ly:grob-set-property! grob 'layer -10)
+         (ly:stencil-add
+           (ly:make-stencil (list 'color (eval-string color)
+               (ly:stencil-expr (ly:round-filled-box X-ext Y-ext 0))
+               X-ext Y-ext))
+           staff)))
+#})
+
+% mark an example as a known failing test
+xfail = { \bgcolor "(x11-color 'Gold)" }
+
 \bookpart {
-  \header { subtitle = "single note" }
+  \header { subtitle = "Introduction" }
 
   \markup\justify{
-    Each line consists of a series of score pairs.
-    The odd scores are manually coded expected results,
-    the even ones are actual results produced by lilygabc.
+    Unless stated otherwise, each section consists
+    of lines, each containing one or more \bold{score pairs.}
+    In each pair the first score is a manually coded expected result,
+    the second one is actual result produced by lilygabc.
+    For a test to be considered successful the two scores must be the same.
   }
+
+  \markup\justify{
+    Scores marked with a background colour
+  }
+
+  \score { \gabc "(c4) (a)" \layout { \xfail } }
+
+  \markup\justify{
+    are known failing tests,
+    showcasing features not yet supported by lilygabc or known bugs.
+  }
+}
+
+\bookpart {
+  \header { subtitle = "single note" }
 
   \markup\fill-line{
     \score { a4 }
