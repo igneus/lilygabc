@@ -133,6 +133,11 @@ allGabcNotes = " (a) (b) (c) (d) (e) (f) (g) (h) (i) (j) (k) (l) (m)"
 
   \markup\line{
     \score { \relative { a4 f'' } }
+    \score { \gabc \allGabcNotes } % clef not specified in gabc
+  }
+
+  \markup\line{
+    \score { \relative { a4 f'' } }
     \score { \gabc #(string-append "(c4)" allGabcNotes) }
   }
 
@@ -172,7 +177,16 @@ allGabcNotes = " (a) (b) (c) (d) (e) (f) (g) (h) (i) (j) (k) (l) (m)"
   }
 }
 
-% clef changes
+\bookpart {
+  \header { subtitle = "clef changes" }
+
+  \markup\line{
+    \score { \relative { d'4 f a c } }
+    \score { \gabc "(c4) (d) (c3) (d) (c2) (d) (c1) (d)" }
+
+    "" ""
+  }
+}
 
 % accidentals
 

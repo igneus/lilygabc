@@ -1,8 +1,7 @@
 ;; gabc parsing - pure Scheme, no LilyPond-specific types/functions
 
 (define-module (lilygabc gabc)
-  #:export (find-clef
-            parse
+  #:export (parse
             syl-has-lyrics?
             syl-has-notes?
             note-is-punctum-inclinatum?
@@ -10,18 +9,12 @@
             note-has-punctum-mora?
             note-has-ictus?
             note-has-horizontal-episema?
-            note-virga-side)
+            note-virga-side
+            map-syl-elements)
   #:use-module (srfi srfi-1) ; required to use the correct version of `iota`
   #:use-module (srfi srfi-26)
   #:use-module (ice-9 regex)
   #:use-module ((lilygabc util) #:prefix util:))
-
-(define (find-clef gabc-str)
-  (let ((match (string-match "\\(([cf])([1-4])" gabc-str)))
-    (list
-     `(type . ,(match:substring match 1))
-     `(line . ,(string->number (match:substring match 2)))
-     '(b . #f))))
 
 ;; Parses gabc string and returns its tree-like representation.
 ;; Score is a list of words.
@@ -53,6 +46,8 @@
         (match:substring x 2)))
      words)))
 
+;; syllable predicates
+
 (define (syl-has-lyrics? syllable)
   (find (lambda (x) (eq? 'lyrics (first x))) syllable))
 
@@ -61,6 +56,8 @@
 
 (define (note-is-punctum-inclinatum? note)
   (char-upper-case? (string-ref (second note) 0)))
+
+;; note predicates
 
 (define (note-additional note)
   (if (>= (length note) 3)
@@ -85,6 +82,10 @@
      ((string-index a #\V) 'left)
      ((string-index a #\v) 'right)
      (else #f))))
+
+;; operations on the score data structure
+
+(define map-syl-elements util:map3)
 
 (define (parse-music-syllable lyrics music)
   (let ((matches (list-matches "([cf][1-4])|([a-mA-M])([n-zN-Z~<>\\._']+)?|([,;:`]+)|\\|(.*$)" music)))

@@ -14,7 +14,7 @@
     ("`" . (breathe . #f))))
 (define default-bar '(bar . "|")) ; used for all not explicitly mapped
 
-(define (make-notes clef words context-id)
+(define (make-notes words context-id)
   (make-music
    'ContextSpeccedMusic
    'context-id
@@ -28,7 +28,7 @@
     (util:flatten
      (map
       (lambda (syllable)
-        (let* ((notes (filter (lambda (x) (eq? 'note (first x))) syllable))
+        (let* ((notes (filter (lambda (x) (eq? 'note-with-pitch (first x))) syllable))
                (is-melisma (< 1 (length notes)))
                (is-melisma-beginning (lambda (i) (= 1 i)))
                (is-melisma-end (lambda (i) (= (length notes) i)))
@@ -45,21 +45,23 @@
              (filter-map
               (lambda (item)
                 (case (first item)
-                  ((note)
+                  ((note-with-pitch)
                    (set! note-i (+ 1 note-i))
-                   (list
-                    (apply-note-features
-                     item
-                     (make-ly-note
-                      (apply ly:make-pitch (pitch:note-pitch clef item))
-                      (if (gabc:note-has-punctum-mora? item)
-                          (ly:make-duration 2 1)
-                          (ly:make-duration 2))
-                      (if is-melisma
-                          (cond ((is-melisma-beginning note-i) -1)
-                                ((is-melisma-end note-i) 1)
-                                (else #f))
-                          #f)))))
+                   (let ((note (second item))
+                         (pitch-nums (list-tail (third item) 1)))
+                     (list
+                      (apply-note-features
+                       note
+                       (make-ly-note
+                        (apply ly:make-pitch pitch-nums)
+                        (if (gabc:note-has-punctum-mora? note)
+                            (ly:make-duration 2 1)
+                            (ly:make-duration 2))
+                        (if is-melisma
+                            (cond ((is-melisma-beginning note-i) -1)
+                                  ((is-melisma-end note-i) 1)
+                                  (else #f))
+                            #f))))))
                   ((divisio)
                    (let* ((lilybar
                            (or (assoc-ref divisiones-mapping (second item))
@@ -175,17 +177,14 @@
     (input)
     (string?)
     (let*
-        ((clef
-          (gabc:find-clef input))
-         (words
-          (gabc:parse input))
+        ((score (gabc:parse input))
          (context-id "uniqueContext0"))
       (make-music
        'SimultaneousMusic
        'elements
        (list
-        (make-notes clef words context-id)
-        (make-lyrics words context-id))))))
+        (make-notes (pitch:decorate-notes score) context-id)
+        (make-lyrics score context-id))))))
 
 (define gabc-file
   (define-scheme-function

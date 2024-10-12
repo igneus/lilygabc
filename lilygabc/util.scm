@@ -4,6 +4,7 @@
   #:export (flatten
             split-at
             map2
+            map3
             irange
             char-range)
   #:use-module (srfi srfi-1)
@@ -30,6 +31,9 @@
 ;; Two-dimensional map
 (define (map2 fn lst)
   (map (cut map fn <>) lst))
+
+(define (map3 fn lst)
+  (map (cut map2 fn <>) lst))
 
 ;; Generating lists of value ranges
 
