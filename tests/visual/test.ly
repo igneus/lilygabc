@@ -295,24 +295,24 @@ allGabcNotes = " (a) (b) (c) (d) (e) (f) (g) (h) (i) (j) (k) (l) (m)"
   \header { subtitle = "divisiones" }
 
   \markup\fill-line{
-    \score { \relative { g'4 \bar "'" } }
-    \score { \gabc "(c4) (g) (,)" }
+    \score { \relative { g'4 \bar "'" g } }
+    \score { \gabc "(c4) (g) (,) (g)" }
 
-    \score { \relative { g'4 \bar "," } }
-    \score { \gabc "(c4) (g) (;)" }
+    \score { \relative { g'4 \bar "," g } }
+    \score { \gabc "(c4) (g) (;) (g)" }
   }
 
   \markup\fill-line{
-    \score { \relative { g'4 \bar "|" } }
-    \score { \gabc "(c4) (g) (:)" }
+    \score { \relative { g'4 \bar "|" g } }
+    \score { \gabc "(c4) (g) (:) (g)" }
 
-    \score { \relative { g'4 \bar "||" } }
-    \score { \gabc "(c4) (g) (::)" }
+    \score { \relative { g'4 \bar "||" g } }
+    \score { \gabc "(c4) (g) (::) (g)" }
   }
 
   \markup\fill-line{
-    \score { \relative { g'4 \breathe } }
-    \score { \gabc "(c4) (g) (`)" }
+    \score { \relative { g'4 \breathe g } }
+    \score { \gabc "(c4) (g) (`) (g)" }
 
     "" ""
   }
