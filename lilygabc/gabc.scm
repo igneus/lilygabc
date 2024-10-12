@@ -18,15 +18,7 @@
   #:use-module ((lilygabc util) #:prefix util:))
 
 ;; list of gabc note names, in an ascending order, as strings
-(define note-names
-  (let*
-      ((irange ; integer range, final element included
-        (lambda (x y) (iota (+ (- y x) 1) x)))
-       (char-range
-        (lambda (x y)
-          (map (lambda (x) (string (integer->char x)))
-               (apply irange (map char->integer (list x y)))))))
-    (char-range #\a #\m)))
+(define note-names (util:char-range #\a #\m))
 
 ;; Translates a gabc note
 ;; to a pitch specified by two integers specifying octave and step
