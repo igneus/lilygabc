@@ -7,6 +7,7 @@
             clef-has-bflat?
             note-is-punctum-inclinatum?
             note-is-diminutive?
+            note-is-debilis?
             note-has-punctum-mora?
             note-has-ictus?
             note-has-horizontal-episema?
@@ -74,6 +75,9 @@
 (define (note-is-diminutive? note)
   (string-prefix? "~" (note-additional note)))
 
+(define (note-is-debilis? note)
+  (string-suffix? "-" (note-additional note)))
+
 (define (note-has-punctum-mora? note)
   (string-index (note-additional note) #\.))
 
@@ -101,7 +105,7 @@
     ("y" . natural)))
 
 (define (parse-music-syllable lyrics music)
-  (let ((matches (list-matches "([cf][1-4]b?)|([a-m][xy#])|([a-mA-M])([n-zN-Z~<>\\._']+)?|([,;:`]+)|\\|(.*$)" music)))
+  (let ((matches (list-matches "([cf][1-4]b?)|([a-m][xy#])|(-)?([a-mA-M])([n-zN-Z~<>\\._']+)?|([,;:`]+)|([!@ ]|/{1,2})|\\|(.*$)" music)))
     (filter
      values
      (append
@@ -113,10 +117,12 @@
        (lambda (m)
          (let ((clef (match:substring m 1))
                (accidental (match:substring m 2))
-               (note (match:substring m 3))
-               (note-shape (match:substring m 4))
-               (divisio (match:substring m 5))
-               (nabc (match:substring m 6)))
+               (note-debilis (match:substring m 3))
+               (note (match:substring m 4))
+               (note-shape (match:substring m 5))
+               (divisio (match:substring m 6))
+               (space (match:substring m 7))
+               (nabc (match:substring m 8)))
            (cond
             (clef
              (list 'clef
@@ -129,10 +135,20 @@
                    (assoc-ref accidentals (substring accidental 1 2))))
             (divisio
              (list 'divisio divisio))
+            (space
+             (list 'space space))
             (nabc
              (list 'nabc nabc))
             (else
              (append
               (list 'note note)
-              (if note-shape (list note-shape) '()))))))
+              (if (or note-shape note-debilis)
+                  ;; TODO: check if it is safe to append the "-"
+                  ;;   of initium debilis to the end of the shape
+                  ;;   specifying characters or if it also has other
+                  ;;   uses beyond in. deb. and must be handled differently
+                  ;;   (probably by redesigning the parsed representation
+                  ;;   of note features)
+                  (list (string-join (filter values (list note-shape note-debilis)) ""))
+                  '()))))))
        matches)))))

@@ -75,6 +75,8 @@
              (parse "(G)"))
  (test-equal '((((note "g" "~"))))
              (parse "(g~)"))
+ (test-equal '((((note "g" "-"))))
+             (parse "(-g)"))
  (test-equal '((((note "g" "<"))))
              (parse "(g<)"))
  (test-equal '((((note "g" ">"))))
@@ -112,6 +114,18 @@
  (test-equal '((((accidental "g" sharp))))
              (parse "(g#)"))
  (test-equal '((((accidental "g" natural))))
-             (parse "(gy)")))
+             (parse "(gy)"))
+
+ ;; spaces
+ (test-equal '((((space "!"))))
+             (parse "(!)"))
+ (test-equal '((((space "@"))))
+             (parse "(@)"))
+ (test-equal '((((space "/"))))
+             (parse "(/)"))
+ (test-equal '((((space "//"))))
+             (parse "(//)"))
+ (test-equal '((((space " "))))
+             (parse "( )")))
 
 (test-end suite-name)

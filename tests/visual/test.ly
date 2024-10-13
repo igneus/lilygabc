@@ -356,6 +356,13 @@ allGabcNotes = " (a) (b) (c) (d) (e) (f) (g) (h) (i) (j) (k) (l) (m)"
     \score { \relative { g'4 g( \tiny f e d) \normalsize } }
     \score { \gabc "(c4) (g) (gVFED)" \layout { \xfail } } % virga left
   }
+
+  \markup\fill-line{
+    \score { \relative { \teeny g'4( \normalsize a g) } }
+    \score { \gabc "(c4) (-ghg)" } % torculus initio debilis
+
+    "" ""
+  }
 }
 
 \bookpart {
