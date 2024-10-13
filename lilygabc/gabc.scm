@@ -17,6 +17,8 @@
   #:use-module (ice-9 regex)
   #:use-module ((lilygabc util) #:prefix util:))
 
+(define header-delimiter "\n%%\n")
+
 ;; Parses gabc string and returns its tree-like representation.
 ;; Score is a list of words.
 ;; Word is a list of syllables.
@@ -26,13 +28,12 @@
 ;;   specifying element type, subsequent items vary depending on type.
 (define (parse gabc-str)
   (let*
-      ((header-delimiter "\n%%\n")
-       (delimiter-position (string-contains gabc-str header-delimiter))
-       (headerless
+      ((delimiter-position (string-contains gabc-str header-delimiter))
+       (gabc-body
         (if delimiter-position
             (substring gabc-str (+ delimiter-position (string-length header-delimiter)))
             gabc-str))
-       (syllables (list-matches "([^\\(]*)\\(([^\\)]*)\\)" headerless))
+       (syllables (list-matches "([^\\(]*)\\(([^\\)]*)\\)" gabc-body))
        (words
         (util:split-at
          (lambda (x)
