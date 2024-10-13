@@ -1,4 +1,5 @@
 (use-modules
+ (ice-9 match)
  (ice-9 regex)
  (ice-9 textual-ports)
  (srfi srfi-26)
@@ -45,34 +46,31 @@
               (util:flatten
                (filter-map
                 (lambda (item)
-                  (case (first item)
-                    ((clef)
-                     (let ((clef-is-flat (gabc:clef-has-bflat? item)))
-                       (if (eq? last-clef-was-flat clef-is-flat)
-                           #f
-                           (begin
-                             (set! last-clef-was-flat clef-is-flat)
-                             (list (if clef-is-flat key-flat key-natural))))))
-                    ((note-with-pitch)
+                  (match item
+                    (('clef type line clef-is-flat)
+                     (if (eq? last-clef-was-flat clef-is-flat)
+                         #f
+                         (begin
+                           (set! last-clef-was-flat clef-is-flat)
+                           (list (if clef-is-flat key-flat key-natural)))))
+                    (('note-with-pitch note ('pitch octave step))
                      (set! note-i (+ 1 note-i))
-                     (let ((note (second item))
-                           (pitch-nums (list-tail (third item) 1)))
-                       (list
-                        (apply-note-features
-                         note
-                         (make-ly-note
-                          (apply ly:make-pitch pitch-nums)
-                          (if (gabc:note-has-punctum-mora? note)
-                              (ly:make-duration 2 1)
-                              (ly:make-duration 2))
-                          (if is-melisma
-                              (cond ((is-melisma-beginning note-i) -1)
-                                    ((is-melisma-end note-i) 1)
-                                    (else #f))
-                              #f))))))
-                    ((divisio)
+                     (list
+                      (apply-note-features
+                       note
+                       (make-ly-note
+                        (ly:make-pitch octave step)
+                        (if (gabc:note-has-punctum-mora? note)
+                            (ly:make-duration 2 1)
+                            (ly:make-duration 2))
+                        (if is-melisma
+                            (cond ((is-melisma-beginning note-i) -1)
+                                  ((is-melisma-end note-i) 1)
+                                  (else #f))
+                            #f)))))
+                    (('divisio type)
                      (let* ((lilybar
-                             (or (assoc-ref divisiones-mapping (second item))
+                             (or (assoc-ref divisiones-mapping type)
                                  default-bar))
                             (bartype (cdr lilybar)))
                        (filter
@@ -87,7 +85,7 @@
                          (if (eq? 'breathe (car lilybar))
                              (breathe)
                              (make-music 'BarEvent 'bar-type bartype))))))
-                    (else #f)))
+                    (any #f)))
                 syllable))))))
         (util:flatten words)))))))
 
