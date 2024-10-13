@@ -4,6 +4,7 @@
   #:export (parse
             syl-has-lyrics?
             syl-has-notes?
+            clef-has-bflat?
             note-is-punctum-inclinatum?
             note-is-diminutive?
             note-has-punctum-mora?
@@ -54,10 +55,15 @@
 (define (syl-has-notes? syllable)
   (find (lambda (x) (eq? 'note (first x))) syllable))
 
-(define (note-is-punctum-inclinatum? note)
-  (char-upper-case? (string-ref (second note) 0)))
+;; clef predicates
+
+(define (clef-has-bflat? clef)
+  (fourth clef))
 
 ;; note predicates
+
+(define (note-is-punctum-inclinatum? note)
+  (char-upper-case? (string-ref (second note) 0)))
 
 (define (note-additional note)
   (if (>= (length note) 3)
@@ -94,7 +100,7 @@
     ("y" . natural)))
 
 (define (parse-music-syllable lyrics music)
-  (let ((matches (list-matches "([cf][1-4])|([a-m][xy#])|([a-mA-M])([n-zN-Z~<>\\._']+)?|([,;:`]+)|\\|(.*$)" music)))
+  (let ((matches (list-matches "([cf][1-4]b?)|([a-m][xy#])|([a-mA-M])([n-zN-Z~<>\\._']+)?|([,;:`]+)|\\|(.*$)" music)))
     (filter
      values
      (append
@@ -114,7 +120,8 @@
             (clef
              (list 'clef
                    (substring clef 0 1)
-                   (string->number (substring clef 1 2)) #f))
+                   (string->number (substring clef 1 2))
+                   (> (string-length clef) 2)))
             (accidental
              (list 'accidental
                    (substring accidental 0 1)

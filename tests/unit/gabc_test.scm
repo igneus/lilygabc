@@ -22,8 +22,13 @@
  (test-equal '((((note "c") (note "d"))))
              (parse "(cd)"))
 
+ ;; clefs
  (test-equal '((((clef "c" 4 #f))))
              (parse "(c4)"))
+ (test-equal '((((clef "f" 3 #f))))
+             (parse "(f3)"))
+ (test-equal '((((clef "c" 4 #t))))
+             (parse "(c4b)"))
 
  (test-equal '((())) ; note: void syllable is rendered as \bar "" , allowing line-break when it's not allowed anywhere
              (parse "()"))
