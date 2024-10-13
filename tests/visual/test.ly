@@ -220,7 +220,41 @@ allGabcNotes = " (a) (b) (c) (d) (e) (f) (g) (h) (i) (j) (k) (l) (m)"
     \score { \gabc "(c4) (g#g) (g)" }
   }
 
-  % clefs with accidentals
+  \markup { clefs with b flat: }
+
+  \markup\line{
+    \score { \relative { \key f \major bes'4 } }
+    \score { \gabc "(c4b) (i)" }
+
+    \score { \relative { \key f \major b'4 } }
+    \score { \gabc "(c4b) (iyi)" }
+  }
+
+  % natural lasts until the end of the word
+  \markup\line{
+    \score { \relative { \key f \major b' b } \addlyrics { la -- la } }
+    \score { \gabc "(c4b) la(iyi)la(i)" }
+
+    \score { \relative { \key f \major b' bes } \addlyrics { la la } }
+    \score { \gabc "(c4b) la(iyi) la(i)" }
+  }
+
+  % clef changes and b flat
+  \markup\line{
+    \score { \relative { \key f \major g'4 b } }
+    \score { \gabc "(c4b) (g) (c3b) (g)" }
+
+
+    \score { \relative { \key f \major g'4 \key c \major b } }
+    \score { \gabc "(c4b) (g) (c3) (g)" }
+  }
+
+  \markup\line{
+    \score { \relative { g'4 \key f \major bes } }
+    \score { \gabc "(c4) (g) (c3b) (g)" }
+
+    "" ""
+  }
 }
 
 \bookpart {

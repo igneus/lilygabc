@@ -49,3 +49,6 @@ apply-virga =
      #note
      \stemNeutral
    #})
+
+key-flat = { \key f \major }
+key-natural = { \key c \major }
