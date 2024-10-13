@@ -31,6 +31,10 @@ bgcolor =
 % mark an example as a known failing test
 xfail = { \bgcolor "(x11-color 'Gold)" }
 
+% mark an example as a work currently in progress -
+% unlike xfails, these examples should not be committed to git
+xtodo = { \bgcolor "magenta" }
+
 \bookpart {
   \header { subtitle = "Introduction" }
 
@@ -45,12 +49,10 @@ xfail = { \bgcolor "(x11-color 'Gold)" }
   \markup\justify{
     Scores marked with a background colour
   }
-
   \score { \gabc "(c4) (a)" \layout { \xfail } }
-
   \markup\justify{
     are known failing tests,
-    showcasing features not yet supported by lilygabc or known bugs.
+    showcasing features not yet supported by lilygabc or known bugs/limitations.
   }
 }
 
