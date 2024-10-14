@@ -114,8 +114,7 @@
             (,gabc:note-virga-side . ,(cut apply-virga virga-side <>)))))
     (fold
      (lambda (x r)
-       (let ((test (car x))
-             (transformation (cdr x)))
+       (match-let (((test . transformation) x))
          (if (test gabc-note)
              (transformation r)
              r)))
