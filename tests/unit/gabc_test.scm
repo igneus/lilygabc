@@ -28,7 +28,7 @@
  (test-equal '((((clef "f" 3 #f))))
              (parse "(f3)"))
  (test-equal '((((clef "c" 4 #t))))
-             (parse "(c4b)"))
+             (parse "(cb4)"))
 
  (test-equal '((())) ; note: void syllable is rendered as \bar "" , allowing line-break when it's not allowed anywhere
              (parse "()"))

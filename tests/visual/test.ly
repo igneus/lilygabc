@@ -224,34 +224,34 @@ allGabcNotes = " (a) (b) (c) (d) (e) (f) (g) (h) (i) (j) (k) (l) (m)"
 
   \markup\line{
     \score { \relative { \key f \major bes'4 } }
-    \score { \gabc "(c4b) (i)" }
+    \score { \gabc "(cb4) (i)" }
 
     \score { \relative { \key f \major b'4 } }
-    \score { \gabc "(c4b) (iyi)" }
+    \score { \gabc "(cb4) (iyi)" }
   }
 
   % natural lasts until the end of the word
   \markup\line{
     \score { \relative { \key f \major b' b } \addlyrics { la -- la } }
-    \score { \gabc "(c4b) la(iyi)la(i)" }
+    \score { \gabc "(cb4) la(iyi)la(i)" }
 
     \score { \relative { \key f \major b' bes } \addlyrics { la la } }
-    \score { \gabc "(c4b) la(iyi) la(i)" }
+    \score { \gabc "(cb4) la(iyi) la(i)" }
   }
 
   % clef changes and b flat
   \markup\line{
-    \score { \relative { \key f \major g'4 b } }
-    \score { \gabc "(c4b) (g) (c3b) (g)" }
+    \score { \relative { \key f \major g'4 bes } }
+    \score { \gabc "(cb4) (g) (cb3) (g)" }
 
 
     \score { \relative { \key f \major g'4 \key c \major b } }
-    \score { \gabc "(c4b) (g) (c3) (g)" }
+    \score { \gabc "(cb4) (g) (c3) (g)" }
   }
 
   \markup\line{
     \score { \relative { g'4 \key f \major bes } }
-    \score { \gabc "(c4) (g) (c3b) (g)" }
+    \score { \gabc "(c4) (g) (cb3) (g)" }
 
     "" ""
   }

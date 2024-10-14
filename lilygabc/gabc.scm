@@ -105,7 +105,7 @@
     ("y" . natural)))
 
 (define (parse-music-syllable lyrics music)
-  (let ((matches (list-matches "([cf][1-4]b?)|([a-m][xy#])|(-)?([a-mA-M])([n-zN-Z~<>\\._']+)?|([,;:`]+)|([!@ ]|/{1,2})|\\|(.*$)" music)))
+  (let ((matches (list-matches "([cf]b?[1-4])|([a-m][xy#])|(-)?([a-mA-M])([n-zN-Z~<>\\._']+)?|([,;:`]+)|([!@ ]|/{1,2})|\\|(.*$)" music)))
     (filter
      values
      (append
@@ -127,7 +127,7 @@
             (clef
              (list 'clef
                    (substring clef 0 1)
-                   (string->number (substring clef 1 2))
+                   (string->number (substring (string-reverse clef) 0 1))
                    (> (string-length clef) 2)))
             (accidental
              (list 'accidental
