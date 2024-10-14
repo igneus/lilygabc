@@ -53,13 +53,13 @@
                          (begin
                            (set! last-clef-was-flat clef-is-flat)
                            (list (if clef-is-flat key-flat key-natural)))))
-                    (('note-with-pitch note ('pitch octave step))
+                    (('note-with-pitch note pitch)
                      (set! note-i (+ 1 note-i))
                      (list
                       (apply-note-features
                        note
                        (make-ly-note
-                        (ly:make-pitch octave step)
+                        (apply ly:make-pitch (list-tail pitch 1))
                         (if (gabc:note-has-punctum-mora? note)
                             (ly:make-duration 2 1)
                             (ly:make-duration 2))

@@ -456,6 +456,16 @@ allGabcNotes = " (a) (b) (c) (d) (e) (f) (g) (h) (i) (j) (k) (l) (m)"
 }
 
 \bookpart {
+  \header { subtitle = "test cases from encountered bugs" }
+
+  \score {
+    \relative { a'4( bes) g g^-_! \bar "'" g g g a g g g( f) g g4.( a) }
+    \addlyrics { O -- mni -- a in sa -- pi -- én -- ti -- a fe -- cís -- ti. }
+  }
+  \score { \gabc "(c4) O(ixhi)mni(g)a(g_') (,) in(g) sa(g)pi(g)én(h)ti(g)a(g) fe(gf)cís(g)ti.(g.h.)" }
+}
+
+\bookpart {
   \header { subtitle = "real-life score" }
 
   \markup\justify{
