@@ -14,8 +14,6 @@
 \\begin{document}
 \\maketitle")
 
-(define placeholder "<snippet>")
-
 (define item-template '("% " " ----------
 \\noindent
 \\begin{minipage}[t]{0.3\\textwidth}
