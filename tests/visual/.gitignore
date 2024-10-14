@@ -1,0 +1,5 @@
+*.aux
+*.gaux
+*.log
+tmp-ly/
+gregorio_comparison.tex
