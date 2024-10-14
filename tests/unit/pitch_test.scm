@@ -34,11 +34,11 @@
  (let ((input '((((lyrics "la"))))))
    (test-equal input (decorate-notes input)))
 
- ;; no clef, assume c4 as default
- (test-equal '((((note-with-pitch (note "j") (pitch 1 0)))))
-             (decorate-notes '((((note "j"))))))
- (test-equal '((((note-with-pitch (note "i") (pitch 0 6)))))
-             (decorate-notes '((((note "i"))))))
+ ;; no clef, assume c3 as default
+ (test-equal '((((note-with-pitch (note "h") (pitch 1 0)))))
+             (decorate-notes '((((note "h"))))))
+ (test-equal '((((note-with-pitch (note "g") (pitch 0 6)))))
+             (decorate-notes '((((note "g"))))))
 
  ;; clef specified
  (test-equal
@@ -48,40 +48,40 @@
 
  ;; accidentals:
  ;; - natural on its own has no effect
- (test-equal '((((accidental "i" natural)
-                 (note-with-pitch (note "i") (pitch 0 6)))))
-             (decorate-notes '((((accidental "i" natural)
-                                 (note "i"))))))
+ (test-equal '((((accidental "g" natural)
+                 (note-with-pitch (note "g") (pitch 0 6)))))
+             (decorate-notes '((((accidental "g" natural)
+                                 (note "g"))))))
  ;; - the same note is affected
- (test-equal '((((accidental "i" flat)
-                 (note-with-pitch (note "i") (pitch 0 6 -1/2)))))
-             (decorate-notes '((((accidental "i" flat)
-                                 (note "i"))))))
- (test-equal '((((accidental "i" sharp)
-                 (note-with-pitch (note "i") (pitch 0 6 1/2)))))
-             (decorate-notes '((((accidental "i" sharp)
-                                 (note "i"))))))
- ;; - different note is not affected
  (test-equal '((((accidental "g" flat)
-                 (note-with-pitch (note "i") (pitch 0 6)))))
+                 (note-with-pitch (note "g") (pitch 0 6 -1/2)))))
              (decorate-notes '((((accidental "g" flat)
-                                 (note "i"))))))
+                                 (note "g"))))))
+ (test-equal '((((accidental "g" sharp)
+                 (note-with-pitch (note "g") (pitch 0 6 1/2)))))
+             (decorate-notes '((((accidental "g" sharp)
+                                 (note "g"))))))
+ ;; - different note is not affected
+ (test-equal '((((accidental "e" flat)
+                 (note-with-pitch (note "g") (pitch 0 6)))))
+             (decorate-notes '((((accidental "e" flat)
+                                 (note "g"))))))
  ;; - natural cancels the accidental
- (test-equal '((((accidental "i" flat)
-                 (note-with-pitch (note "i") (pitch 0 6 -1/2))
-                 (accidental "i" natural)
-                 (note-with-pitch (note "i") (pitch 0 6)))))
-             (decorate-notes '((((accidental "i" flat)
-                                 (note "i")
-                                 (accidental "i" natural)
-                                 (note "i"))))))
+ (test-equal '((((accidental "g" flat)
+                 (note-with-pitch (note "g") (pitch 0 6 -1/2))
+                 (accidental "g" natural)
+                 (note-with-pitch (note "g") (pitch 0 6)))))
+             (decorate-notes '((((accidental "g" flat)
+                                 (note "g")
+                                 (accidental "g" natural)
+                                 (note "g"))))))
  ;; - the same note in the next word is never more affected
- (test-equal '((((accidental "i" flat)
-                 (note-with-pitch (note "i") (pitch 0 6 -1/2))))
-               (((note-with-pitch (note "i") (pitch 0 6)))))
-             (decorate-notes '((((accidental "i" flat)
-                                 (note "i")))
-                               (((note "i")))))) ; new word
+ (test-equal '((((accidental "g" flat)
+                 (note-with-pitch (note "g") (pitch 0 6 -1/2))))
+               (((note-with-pitch (note "g") (pitch 0 6)))))
+             (decorate-notes '((((accidental "g" flat)
+                                 (note "g")))
+                               (((note "g")))))) ; new word
 
  ;; clefs with accidentals:
  ;; - b is flat

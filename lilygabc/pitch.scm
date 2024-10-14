@@ -32,7 +32,7 @@
   (second (note-pitch clef accidental))) ; abuse the similarity of note and accidental data structures
 
 ;; default clef assumed when the score hasn't (yet) specified any
-(define default-clef '(clef "c" 4 #f))
+(define default-clef '(clef "c" 3 #f))
 
 ;; Decorates each note with pitch
 (define (decorate-notes score)

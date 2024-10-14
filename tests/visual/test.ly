@@ -134,7 +134,7 @@ allGabcNotes = " (a) (b) (c) (d) (e) (f) (g) (h) (i) (j) (k) (l) (m)"
   }
 
   \markup\line{
-    \score { \relative { a4 f'' } }
+    \score { \relative { c'4 a'' } }
     \score { \gabc \allGabcNotes } % clef not specified in gabc
   }
 
