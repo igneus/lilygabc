@@ -39,7 +39,6 @@
              ((eq? '() syllable) ; void syllable rendered as invisible bar
               (list (make-music 'BarEvent 'bar-type "")))
              ((and (gabc:syl-has-lyrics? syllable)
-                   (not (gabc:syl-has-notes? syllable))
                    (= 1 (length syllable))) ; the syllable has only lyrics, no renderable music elements
               (list (make-invisible-note)))
              (else
