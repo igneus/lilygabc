@@ -1,5 +1,6 @@
 #(add-to-load-path (dirname (current-filename)))
 #(load "lilygabc.scm")
+#(load "vaticana.scm")
 
 lilygabcModernGregorianLayout = \layout {
   \override Score.TimeSignature.stencil = ##f
