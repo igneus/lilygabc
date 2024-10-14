@@ -316,7 +316,8 @@ allGabcNotes = " (a) (b) (c) (d) (e) (f) (g) (h) (i) (j) (k) (l) (m)"
     \score { \relative { g'4.^-_! } }
     \score { \gabc "(c4) (g._')" } % all supported articulations at once
 
-    "" ""
+    \score { \relative { g'4( \teeny f^-_!) } }
+    \score { \gabc "(c4) (gF_')" } % articulations on a punctum inclinatum
   }
 
   \markup\fill-line{

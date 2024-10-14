@@ -21,13 +21,19 @@ make-invisible-note =
 #(define-music-function () ()
   #{ \hideNotes g'4 \unHideNotes #})
 
+%% N.B.: all functions applying features to a note
+%% must have that note as their last expression
+%% (not e.g. a state-resetting command).
+%% Otherwise a subsequent application of another function
+%% on the result of the function call
+%% results in an unattached ArticulationEvent.
 tiny-note =
 #(define-music-function (note) (ly:music?)
-  #{ \tiny #note \normalsize #})
+  #{ \once \tiny #note #})
 
 teeny-note =
 #(define-music-function (note) (ly:music?)
-  #{ \teeny #note \normalsize #})
+  #{ \once \teeny #note #})
 
 apply-ictus =
 #(define-music-function (note) (ly:music?)
@@ -41,12 +47,11 @@ apply-virga =
 #(define-music-function (side note) (boolean-or-symbol? ly:music?)
   ; TODO it would be safer to check first that Stem.length is actually overridden to 0
    #{
-     \stemDown
+     \once \stemDown
      \once \revert Stem.length
      #(if (eq? 'right side)
        #{ \once \override NoteHead.stem-attachment = #'(0.8 . 0.3) #})
      #note
-     \stemNeutral
    #})
 
 key-flat = { \key f \major }
