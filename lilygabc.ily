@@ -44,8 +44,7 @@ apply-virga =
      \stemDown
      \once \revert Stem.length
      #(if (eq? 'right side)
-       #{ \once \override NoteHead.stem-attachment = #'(0.8 . 0.3) #}
-       #{ #})
+       #{ \once \override NoteHead.stem-attachment = #'(0.8 . 0.3) #})
      #note
      \stemNeutral
    #})
