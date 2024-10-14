@@ -19,7 +19,7 @@
 (define item-template '("% " " ----------
 \\noindent
 \\begin{minipage}[t]{0.3\\textwidth}
-  \\texttt{" "}
+  \\begin{verbatim}" "\\end{verbatim}
 \\end{minipage}
 \\begin{minipage}[t]{0.3\\textwidth}
   \\gabcsnippet{" "}
