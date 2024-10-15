@@ -32,9 +32,8 @@
         (lambda (syllable)
           (let* ((notes (filter (lambda (x) (eq? 'note-with-pitch (first x))) syllable))
                  (is-melisma (< 1 (length notes)))
-                 (is-melisma-beginning (lambda (i) (= 1 i)))
-                 (is-melisma-end (lambda (i) (= (length notes) i)))
-                 (note-i 0))
+                 (first-note (and is-melisma (first notes)))
+                 (last-note (and is-melisma (last notes))))
             (cond
              ((eq? '() syllable) ; void syllable rendered as invisible bar
               (list (make-music 'BarEvent 'bar-type "")))
@@ -53,7 +52,6 @@
                            (set! last-clef-was-flat clef-is-flat)
                            (list (if clef-is-flat key-flat key-natural)))))
                     (('note-with-pitch note pitch)
-                     (set! note-i (+ 1 note-i))
                      (list
                       (apply-note-features
                        note
@@ -63,8 +61,8 @@
                             (ly:make-duration 2 1)
                             (ly:make-duration 2))
                         (if is-melisma
-                            (cond ((is-melisma-beginning note-i) -1)
-                                  ((is-melisma-end note-i) 1)
+                            (cond ((eq? item first-note) -1)
+                                  ((eq? item last-note) 1)
                                   (else #f))
                             #f)))))
                     (('divisio type)
