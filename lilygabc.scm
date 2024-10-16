@@ -36,7 +36,7 @@
                  (last-note (and is-melisma (last notes))))
             (cond
              ((eq? '() syllable) ; void syllable rendered as invisible bar
-              (list (make-music 'BarEvent 'bar-type "")))
+              (list (bar "")))
              ((and (gabc:syl-has-lyrics? syllable)
                    (= 1 (length syllable))) ; the syllable has only lyrics, no renderable music elements
               (list (make-invisible-note)))
@@ -81,7 +81,7 @@
                              #f)
                          (if (eq? 'breathe (car lilybar))
                              (breathe)
-                             (make-music 'BarEvent 'bar-type bartype))))))
+                             (bar bartype))))))
                     (any #f)))
                 syllable))))))
         (util:flatten words)))))))
