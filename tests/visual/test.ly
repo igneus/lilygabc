@@ -35,15 +35,15 @@
     % The "% test" comments mark examples to be included in /tests/lily_structures.
 
     % test
-    \score { a4 }
+    \score { { a4 } }
     \score { \gabc "(c4) (a)" }
 
     % test
-    \score { b4 }
+    \score { { b4 } }
     \score { \gabc "(c4) (b)" }
 
     % test
-    \score { c'4 }
+    \score { { c'4 } }
     \score { \gabc "(c4) (c)" }
   }
 
@@ -93,11 +93,11 @@
 
   \markup\fill-line{
     % test
-    \score { \relative { c'4 d } }
+    \score { { c'4 d' } }
     \score { \gabc "(c4) (c) (d)" }
 
     % test
-    \score { \relative { e'4 f g } }
+    \score { { e'4 f' g' } }
     \score { \gabc "(c4) (e) (f) (g)" }
   }
 }
