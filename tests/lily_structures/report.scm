@@ -73,5 +73,6 @@
             (number->string (length run-examples))
             " examples total\n"))
 
-  (when (= 0 (length failures))
+  (when (and (< 0 (length run-examples))
+             (= 0 (length failures)))
     (display "ALL TESTS GREEN\n")))
