@@ -6,3 +6,6 @@ visual_ly:
 
 visual_tex:
 	cd tests/visual && make tex
+
+gold:
+	cd tests/gold_standard && ./test.sh
