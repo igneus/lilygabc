@@ -6,24 +6,34 @@
 ;; LilyPond data structures.
 
 (use-modules
+ (ice-9 getopt-long)
  (ice-9 rdelim)
  (ice-9 regex)
  (ice-9 textual-ports))
 
+(load "options.scm")
+
 (define (transform-example str)
-  (let ((search "\\score"))
-    (string-append
-     "#(display \"% LilyPond:\")\n"
-     "\\void \\displayLilyMusic"
-     (substring str
-                (+ (string-contains str search)
-                   (string-length search)))
-     "\n"
-     "#(display \"% Scheme:\")\n"
-     "\\void \\displayMusic"
-     (substring str
-                (+ (string-contains str search)
-                   (string-length search))))))
+  (let*
+      ((search "\\score")
+       (score-content
+        (substring str
+                   (+ (string-contains str search)
+                      (string-length search))))
+       (lily-code (string-append "\\void \\displayLilyMusic" score-content))
+       (scheme-code (string-append "\\void \\displayMusic" score-content)))
+    (cond
+     ((option-ref options 'lily-only #f)
+      lily-code)
+     ((option-ref options 'scheme-only #f)
+      scheme-code)
+     (else
+      (string-append
+       "#(display \"% LilyPond:\")\n"
+       lily-code
+       "\n"
+       "#(display \"% Scheme:\")\n"
+       scheme-code)))))
 
 (let*
     ((filename "../visual/test.ly")

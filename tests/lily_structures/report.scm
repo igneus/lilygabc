@@ -31,16 +31,11 @@
   (let ((fa "tmp1.out") (fb "tmp2.out"))
     (call-with-output-file fa (cut put-string <> a))
     (call-with-output-file fb (cut put-string <> b))
-    (system* "diff" "--color" fa fb)))
+    (system* "diff" "--color" "-U3" fa fb)))
 
 
 
-;; command line options
-(define option-spec
-  ;; --example -e STR : run only examples whose names contain the specified string
-  '((example (single-char #\e) (value #t))))
-
-(define options (getopt-long (command-line) option-spec))
+(load "options.scm")
 
 (let*
     ((example-pattern (option-ref options 'example #f))
