@@ -398,7 +398,7 @@ allGabcNotes = " (a) (b) (c) (d) (e) (f) (g) (h) (i) (j) (k) (l) (m)"
   \markup\fill-line{
     % test
     \score { { g'4( a' g') f'( g') } \addlyrics { A -- men. } }
-    \score { \gabc "(c4) A(ghg)men(fg)" }
+    \score { \gabc "(c4) A(ghg)men.(fg)" }
 
     ""
   }
