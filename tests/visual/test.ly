@@ -175,61 +175,73 @@ allGabcNotes = " (a) (b) (c) (d) (e) (f) (g) (h) (i) (j) (k) (l) (m)"
   \markup { inline: }
 
   \markup\line{
-    \score { \relative { ges'4 } }
+    % test
+    \score { { ges'4 } }
     \score { \gabc "(c4) (gxg)" }
 
-    \score { \relative { ges'4( g) } }
+    % test
+    \score { { ges'4( g') } }
     \score { \gabc "(c4) (gxggyg)" }
   }
 
   \markup\line{
-    \score { \relative { gis'4 } }
+    % test
+    \score { { gis'4 } }
     \score { \gabc "(c4) (g#g)" }
 
-    \score { \relative { gis'4( g) } }
+    % test
+    \score { { gis'4( g') } }
     \score { \gabc "(c4) (g#ggyg)" }
   }
 
   % accidentals last until the end of the word
   \markup\line{
-    \score { \relative { ges'4 g } }
+    % test
+    \score { { ges'4 g' } }
     \score { \gabc "(c4) (gxg) (g)" }
 
-    \score { \relative { gis'4 g } }
+    % test
+    \score { { gis'4 g' } }
     \score { \gabc "(c4) (g#g) (g)" }
   }
 
   \markup { clefs with b flat: }
 
   \markup\line{
-    \score { \relative { \key f \major bes'4 } }
+    % test
+    \score { { { \key f \major } bes'4 } }
     \score { \gabc "(cb4) (i)" }
 
-    \score { \relative { \key f \major b'4 } }
+    % test
+    \score { { { \key f \major } b'4 } }
     \score { \gabc "(cb4) (iyi)" }
   }
 
   % natural lasts until the end of the word
   \markup\line{
-    \score { \relative { \key f \major b' b } \addlyrics { la -- la } }
+    % test
+    \score { { { \key f \major } b' b' } \addlyrics { la -- la } }
     \score { \gabc "(cb4) la(iyi)la(i)" }
 
-    \score { \relative { \key f \major b' bes } \addlyrics { la la } }
+    % test
+    \score { { { \key f \major } b' bes' } \addlyrics { la la } }
     \score { \gabc "(cb4) la(iyi) la(i)" }
   }
 
   % clef changes and b flat
   \markup\line{
-    \score { \relative { \key f \major g'4 bes } }
+    % test
+    \score { { { \key f \major } g'4 bes' } }
     \score { \gabc "(cb4) (g) (cb3) (g)" }
 
-
-    \score { \relative { \key f \major g'4 \key c \major b } }
+    % test
+    \score { { { \key f \major } g'4 { \key c \major } b' } }
     \score { \gabc "(cb4) (g) (c3) (g)" }
   }
 
   \markup\line{
-    \score { \relative { g'4 \key f \major bes } }
+    % test
+    \score { { g'4 { \key f \major } bes' } }
     \score { \gabc "(c4) (g) (cb3) (g)" }
 
     "" ""
@@ -240,22 +252,26 @@ allGabcNotes = " (a) (b) (c) (d) (e) (f) (g) (h) (i) (j) (k) (l) (m)"
   \header { subtitle = "melismata" }
 
   \markup\fill-line{
-    \score { \relative { g'4( a) } }
+    % test
+    \score { { g'4( a') } }
     \score { \gabc "(c4) (gh)" }
 
-    \score { \relative { g'4( a g) } }
+    % test
+    \score { { g'4( a' g') } }
     \score { \gabc "(c4) (ghg)" }
   }
 
   \markup\fill-line{
-    \score { \relative { g'4 g( a) g } }
+    % test
+    \score { { g'4 g'( a') g' } }
     \score { \gabc "(c4) (g) (gh) (g)" }
 
     ""
   }
 
   \markup\fill-line{
-    \score { \relative { g'4( a c a b a g) } }
+    % test
+    \score { { g'4( a' c'' a' b' a' g') } }
     \score { \gabc "(c4) (ghjhihg)" }
 
     ""
@@ -349,23 +365,28 @@ allGabcNotes = " (a) (b) (c) (d) (e) (f) (g) (h) (i) (j) (k) (l) (m)"
   \header { subtitle = "divisiones" }
 
   \markup\fill-line{
-    \score { \relative { g'4 \bar "'" g } }
+    % test
+    \score { { g'4 \bar "'" g' } }
     \score { \gabc "(c4) (g) (,) (g)" }
 
-    \score { \relative { g'4 \bar "," g } }
+    % test
+    \score { { g'4 \bar "," g' } }
     \score { \gabc "(c4) (g) (;) (g)" }
   }
 
   \markup\fill-line{
-    \score { \relative { g'4 \bar "|" g } }
+    % test
+    \score { { g'4 \bar "|" g' } }
     \score { \gabc "(c4) (g) (:) (g)" }
 
-    \score { \relative { g'4 \bar "||" g } }
+    % test
+    \score { { g'4 \bar "||" g' } }
     \score { \gabc "(c4) (g) (::) (g)" }
   }
 
   \markup\fill-line{
-    \score { \relative { g'4 \breathe g } }
+    % test
+    \score { { g'4 \breathe g' } }
     \score { \gabc "(c4) (g) (`) (g)" }
 
     "" ""
@@ -424,16 +445,19 @@ allGabcNotes = " (a) (b) (c) (d) (e) (f) (g) (h) (i) (j) (k) (l) (m)"
   \markup\fill-line{
     % lyrics under a divisio:
     % LilyPond doesn't support that -> use an invisible note as a workaround
-    \score { \relative { g'4 \hideNotes g \unHideNotes \bar "'" g } \addlyrics { La "*" la } }
+    % test
+    \score { { g'4 { \once \hideNotes g' } \bar "'" g' } \addlyrics { La "*" la } }
     \score { \gabc "(c4) La(g) *(,) la(g)" }
 
-    \score { \relative { g'4 \hideNotes g \unHideNotes \bar "|" g } \addlyrics { La T.P. la } }
+    % test
+    \score { { g'4 { \once \hideNotes g' } \bar "|" g' } \addlyrics { La T.P. la } }
     \score { \gabc "(c4) La(g) T.P.(:) la(g)" }
   }
 
   \markup\fill-line{
-    \score { \relative { g'4( a g \bar "'" g c) c } \addlyrics { La la } }
-    \score { \gabc "(c4) La(ghg,gj) la(j)" } % divisio inside a music syllable
+    % test : divisio inside a music syllable
+    \score { { g'4( a' g' \bar "'" g' c'') c'' } \addlyrics { La la } }
+    \score { \gabc "(c4) La(ghg,gj) la(j)" }
 
     ""
   }
