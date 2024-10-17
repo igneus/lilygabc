@@ -13,5 +13,4 @@ echo "Generating examples" &&
     # relative to all registered load paths.
     GUILE_LOAD_PATH=. lilypond actual.ly > actual.out &&
 
-    diff --color expected.out actual.out &&
-    echo "SUCCESS. All examples match"
+    guile report.scm

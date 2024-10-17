@@ -13,7 +13,14 @@
 (define (transform-example str)
   (let ((search "\\score"))
     (string-append
+     "#(display \"% LilyPond:\")\n"
      "\\void \\displayLilyMusic"
+     (substring str
+                (+ (string-contains str search)
+                   (string-length search)))
+     "\n"
+     "#(display \"% Scheme:\")\n"
+     "\\void \\displayMusic"
      (substring str
                 (+ (string-contains str search)
                    (string-length search))))))
@@ -35,7 +42,7 @@
     (set! line-i (+ 1 line-i))
 
     (when (string-match "^\\s*% test" line)
-      (write-both (string-append "#(display \"% test " filename ":" (number->string line-i) "\")\n"))
+      (write-both (string-append "#(display \"% test " filename ":" (number->string line-i) "\\n\")\n"))
 
       (put-string fw-expected (transform-example (read-line file)))
       (put-string fw-actual (transform-example (read-line file)))
