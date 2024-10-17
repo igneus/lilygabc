@@ -18,10 +18,6 @@
 (define (make-notes words context-id)
   (make-music
    'ContextSpeccedMusic
-   'context-id
-   context-id
-   'context-type
-   'Voice
    'element
    (make-music
     'SequentialMusic
@@ -84,20 +80,22 @@
                              (bar bartype))))))
                     (any #f)))
                 syllable))))))
-        (util:flatten words)))))))
+        (util:flatten words)))))
+   'context-type 'Voice
+   'context-id context-id))
 
 (define (make-ly-note pitch duration slur-direction)
   (apply
    make-music
    (append
     (list 'NoteEvent)
+    (list
+     'pitch pitch
+     'duration duration)
     (if slur-direction
         (list 'articulations
               (list (make-music 'SlurEvent 'span-direction slur-direction)))
-        '())
-    (list
-     'duration duration
-     'pitch pitch))))
+        '()))))
 
 ;; apply features of the gabc note
 ;; on a modern notation LilyPond note
@@ -122,56 +120,50 @@
 (define (make-lyrics words context-id)
   (make-music
    'ContextSpeccedMusic
+   'create-new #t
+   'context-type 'Lyrics
+   'property-operations '()
    'element
    (make-music
     'LyricCombineMusic
-    'associated-context-type
-    'Voice
-    'associated-context
-    context-id
     'element
     (make-music
      'SequentialMusic
      'elements
-     (util:flatten
-      (map
-       (lambda (word)
-         (let ((lyrics
-                (filter-map
-                 (lambda (syllable)
-                   (cond
-                    ((gabc:syl-has-lyrics? syllable)
-                     (first syllable))
-                    ((gabc:syl-has-notes? syllable)
-                     '(lyrics ""))
-                    (else #f)))
-                 word)))
-           (map
-            (lambda (lyr)
-              (apply
-               make-music
-               (append
-                (list
-                 'LyricEvent)
-                (if (and (> (length word) 1)
-                         (not (eq? lyr (last lyrics))))
-                    (list 'articulations
-                          (list (make-music 'HyphenEvent)))
-                    '())
-                (list
-                 'text
-                 (second lyr)
-                 'duration
-                 (ly:make-duration 2)))))
-            lyrics)))
-       words))
-     (make-music 'CompletizeExtenderEvent)))
-   'property-operations
-   '()
-   'context-type
-   'Lyrics
-   'create-new
-   #t))
+     (append
+      (util:flatten
+       (map
+        (lambda (word)
+          (let ((lyrics
+                 (filter-map
+                  (lambda (syllable)
+                    (cond
+                     ((gabc:syl-has-lyrics? syllable)
+                      (first syllable))
+                     ((gabc:syl-has-notes? syllable)
+                      '(lyrics ""))
+                     (else #f)))
+                  word)))
+            (map
+             (lambda (lyr)
+               (apply
+                make-music
+                (append
+                 (list
+                  'LyricEvent)
+                 (list
+                  'duration (ly:make-duration 2)
+                  'text (second lyr))
+                 (if (and (> (length word) 1)
+                          (not (eq? lyr (last lyrics))))
+                     (list 'articulations
+                           (list (make-music 'HyphenEvent)))
+                     '()))))
+             lyrics)))
+        words))
+      (list (make-music 'CompletizeExtenderEvent))))
+    'associated-context context-id
+    'associated-context-type 'Voice)))
 
 ; accepts string containing gabc notation,
 ; returns LilyPond music
