@@ -24,11 +24,17 @@ is useful.
 
 ## Prerequisites
 
-LilyPond.
+Only LilyPond is required for using the provided LilyPond commands.
 
 Developed with
 LilyPond 2.24 (built with Guile 2.2).
 Status on other versions is unknown.
+
+For running tests:
+
+- Guile
+- Bash
+- GNU Make (or compatible)
 
 ## Usage
 
