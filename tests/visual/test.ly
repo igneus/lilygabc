@@ -378,40 +378,44 @@ allGabcNotes = " (a) (b) (c) (d) (e) (f) (g) (h) (i) (j) (k) (l) (m)"
   \header { subtitle = "lyrics" }
 
   \markup\fill-line{
-    \score { \relative { g'4 } \addlyrics { La } }
+    % test
+    \score { { g'4 } \addlyrics { La } }
     \score { \gabc "(c4) La(g)" }
 
-    \score { \relative { g'4 g } \addlyrics { La la } }
+    % test
+    \score { { g'4 g' } \addlyrics { La la } }
     \score { \gabc "(c4) La(g) la(g)" }
   }
 
   \markup\fill-line{
-    \score { \relative { g'4 g } \addlyrics { La -- la } }
+    % test
+    \score { { g'4 g' } \addlyrics { La -- la } }
     \score { \gabc "(c4) La(g)la(g)" }
 
     ""
   }
 
   \markup\fill-line{
-    \score { \relative { g'4( a g) f( g) } \addlyrics { A -- men. } }
+    % test
+    \score { { g'4( a' g') f'( g') } \addlyrics { A -- men. } }
     \score { \gabc "(c4) A(ghg)men(fg)" }
 
     ""
   }
 
   \markup\fill-line{
-    % lyrics with no music
-    \score { \relative { g'4 \hideNotes g \unHideNotes g } \addlyrics { La "*" la } }
+    % test : lyrics with no music
+    \score { { g'4 \hideNotes g' \unHideNotes g' } \addlyrics { La "*" la } }
     \score { \gabc "(c4) La(g) *() la(g)" }
 
-    % music with no lyrics
-    \score { \relative { g'4 g g } \addlyrics { La "" la } }
+    % test : music with no lyrics
+    \score { { g'4 g' g' } \addlyrics { La "" la } }
     \score { \gabc "(c4) La(g) (g) la(g)" }
   }
 
   \markup\fill-line{
-    % void syllable
-    \score { \relative { g'4 \bar "" g } \addlyrics { La la } }
+    % test : void syllable
+    \score { { g'4 \bar "" g' } \addlyrics { La la } }
     \score { \gabc "(c4) La(g) () la(g)" }
 
     "" ""
