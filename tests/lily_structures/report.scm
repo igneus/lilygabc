@@ -27,11 +27,11 @@
          (set! result (append result (list (cons title content)))))
        result))))
 
-(define (show-diff a b)
+(define (show-diff unified a b)
   (let ((fa "tmp1.out") (fb "tmp2.out"))
     (call-with-output-file fa (cut put-string <> a))
     (call-with-output-file fb (cut put-string <> b))
-    (system* "diff" "--color" "-U3" fa fb)))
+    (system* "diff" "--color" "-U" unified fa fb)))
 
 
 
@@ -39,6 +39,7 @@
 
 (let*
     ((example-pattern (option-ref options 'example #f))
+     (diff-unified (option-ref options 'unified "3"))
      (all-examples (zip (load-examples "expected.out") (load-examples "actual.out")))
      (run-examples (if example-pattern
                        (filter (lambda (x) (string-contains (car (first x)) example-pattern)) all-examples)
@@ -55,7 +56,7 @@
                  (display (string-append "pass " expected-name "\n"))
                  (begin
                    (display (string-append "FAIL " expected-name ":\n"))
-                   (show-diff expected-text actual-text)))
+                   (show-diff diff-unified expected-text actual-text)))
              (not is-success))))
        run-examples)))
 

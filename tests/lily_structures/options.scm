@@ -11,6 +11,8 @@
     ;; --lily-only -L : only check dumped LilyPond code (by default both LilyPond and Scheme code are checked)
     (lily-only (single-char #\L) (value #f))
     ;; --scheme-only -S : only check dumped Scheme code
-    (scheme-only (single-char #\S) (value #f))))
+    (scheme-only (single-char #\S) (value #f))
+    ;; --unified -U : output NUM (default 3) lines of unified context in diff
+    (unified (single-char #\U) (value #t))))
 
 (define options (getopt-long (command-line) option-spec))
