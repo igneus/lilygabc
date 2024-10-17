@@ -9,3 +9,6 @@ visual_tex:
 
 gold:
 	cd tests/gold_standard && ./test.sh
+
+structures:
+	cd tests/lily_structures && ./test.sh
