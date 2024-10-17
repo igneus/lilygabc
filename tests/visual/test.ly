@@ -405,7 +405,7 @@ allGabcNotes = " (a) (b) (c) (d) (e) (f) (g) (h) (i) (j) (k) (l) (m)"
 
   \markup\fill-line{
     % test : lyrics with no music
-    \score { { g'4 \hideNotes g' \unHideNotes g' } \addlyrics { La "*" la } }
+    \score { { g'4 { \once \hideNotes g' } g' } \addlyrics { La "*" la } }
     \score { \gabc "(c4) La(g) *() la(g)" }
 
     % test : music with no lyrics

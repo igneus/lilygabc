@@ -20,7 +20,7 @@ lilygabcModernGregorianStemlessLayout = \layout {
 
 make-invisible-note =
 #(define-music-function () ()
-  #{ \hideNotes g'4 \unHideNotes #})
+  #{ \once \hideNotes g'4 #})
 
 %% N.B.: all functions applying features to a note
 %% must have that note as their last expression
