@@ -13,4 +13,4 @@ echo "Generating examples" &&
     # relative to all registered load paths.
     GUILE_LOAD_PATH=. lilypond actual.ly > actual.out &&
 
-    guile report.scm
+    guile report.scm "$@"

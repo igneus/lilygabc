@@ -3,6 +3,7 @@
 ;; reports results.
 
 (use-modules
+ (ice-9 getopt-long)
  (ice-9 match)
  (ice-9 rdelim)
  (ice-9 textual-ports)
@@ -32,8 +33,21 @@
     (call-with-output-file fb (cut put-string <> b))
     (system* "diff" "--color" fa fb)))
 
+
+
+;; command line options
+(define option-spec
+  ;; --example -e STR : run only examples whose names contain the specified string
+  '((example (single-char #\e) (value #t))))
+
+(define options (getopt-long (command-line) option-spec))
+
 (let*
-    ((examples (zip (load-examples "expected.out") (load-examples "actual.out")))
+    ((example-pattern (option-ref options 'example #f))
+     (all-examples (zip (load-examples "expected.out") (load-examples "actual.out")))
+     (run-examples (if example-pattern
+                       (filter (lambda (x) (string-contains (car (first x)) example-pattern)) all-examples)
+                       all-examples))
      (failures
       (filter
        (lambda (x)
@@ -48,7 +62,7 @@
                    (display (string-append "FAIL " expected-name ":\n"))
                    (show-diff expected-text actual-text)))
              (not is-success))))
-       examples)))
+       run-examples)))
 
   (unless (= 0 (length failures))
     (display "\nFailed examples:\n")
@@ -60,7 +74,7 @@
   (display (string-append
             (number->string (length failures))
             " failures, "
-            (number->string (length examples))
+            (number->string (length run-examples))
             " examples total\n"))
 
   (when (= 0 (length failures))
