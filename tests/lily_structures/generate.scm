@@ -51,7 +51,7 @@
   (do ((line (read-line file) (read-line file))) ((eof-object? line))
     (set! line-i (+ 1 line-i))
 
-    (when (string-match "^\\s*% test" line)
+    (when (string-match "^\\s*% @test" line)
       (write-both (string-append "#(display \"% test " filename ":" (number->string line-i) "\\n\")\n"))
 
       (put-string fw-expected (transform-example (read-line file)))
