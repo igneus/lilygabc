@@ -16,12 +16,6 @@
          (syllable-items (util:flatten (util:flatten words))))
       (make-music
        'ContextSpeccedMusic
-       'create-new
-       #t
-       'property-operations
-       '()
-       'context-type
-       'VaticanaVoice
        'element
        (make-music
         'SequentialMusic
@@ -30,19 +24,18 @@
          (list
           (make-music
            'ContextSpeccedMusic
-           'context-type
-           'Staff
            'element
            (make-music
             'SequentialMusic
             'elements
             (list
-             (make-music 'PropertySet 'value "clefs.vaticana.do" 'symbol 'clefGlyph)
-             (make-music 'PropertySet 'value 3 'symbol 'middleCClefPosition)
-             (make-music 'PropertySet 'value 3 'symbol 'clefPosition)
-             (make-music 'PropertySet 'value 0 'symbol 'clefTransposition)
-             (make-music 'PropertySet 'value 'default 'symbol 'clefTranspositionStyle)
-             (make-music 'ApplyContext 'procedure ly:set-middle-C!)))))
+             (make-music 'PropertySet 'symbol 'clefGlyph 'value "clefs.vaticana.do")
+             (make-music 'PropertySet 'symbol 'middleCClefPosition 'value 3)
+             (make-music 'PropertySet 'symbol 'clefPosition 'value 3)
+             (make-music 'PropertySet 'symbol 'clefTransposition 'value 0)
+             (make-music 'PropertySet 'symbol 'clefTranspositionStyle 'value 'default)
+             (make-music 'ApplyContext 'procedure ly:set-middle-C!)))
+           'context-type 'Staff))
          (filter-map
           (lambda (item)
             (match item
@@ -55,7 +48,10 @@
                   (ly:make-duration 2)
                   #f)))
               (any #f)))
-            syllable-items)))))))
+          syllable-items)))
+       'context-type 'VaticanaVoice
+       'property-operations '()
+       'create-new #t))))
 
 (define gabc-vaticana-file
   (define-scheme-function
