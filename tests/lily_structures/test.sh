@@ -2,17 +2,23 @@
 
 # See options.scm for available command line options.
 
-echo "Generating examples" &&
-    guile generate.scm "$@" &&
+set -o xtrace -o noglob
 
-    echo "Running LilyPond" &&
-    lilypond expected.ly > expected.out &&
+echo "Generating examples"
+guile generate.scm "$@"
 
-    # The GUILE_LOAD_PATH setting is not completely straightforward:
-    # the path of `(load "lilygabc.scm")` in lilygabc.ily is expanded
-    # to "../../lilygabc.scm" (taking either cwd or the main LilyPond
-    # file as a base) and that relative path is then searched
-    # relative to all registered load paths.
-    GUILE_LOAD_PATH=. lilypond actual.ly > actual.out &&
+# Run LilyPond processes in parallel, wait for all to finish
+# before reporting results.
+echo "Running LilyPond"
+lilypond expected.ly > expected.out & pid1=$!
 
+# The GUILE_LOAD_PATH setting is not completely straightforward:
+# the path of `(load "lilygabc.scm")` in lilygabc.ily is expanded
+# to "../../lilygabc.scm" (taking either cwd or the main LilyPond
+# file as a base) and that relative path is then searched
+# relative to all registered load paths.
+GUILE_LOAD_PATH=. lilypond actual.ly > actual.out & pid2=$!
+
+wait "$pid1" &&
+    wait "$pid2" &&
     guile report.scm "$@"
