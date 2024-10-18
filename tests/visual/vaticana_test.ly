@@ -92,6 +92,142 @@
 }
 
 \bookpart {
+  \header { subtitle = "clef positions" }
+
+  \markup\fill-line{
+    % @test
+    \score { \new VaticanaVoice { \clef "vaticana-do3" g } }
+    \score { \gabc-vaticana "(c4) (g)" }
+
+    % @test
+    \score { \new VaticanaVoice { \clef "vaticana-do2" b } }
+    \score { \gabc-vaticana "(c3) (g)" }
+
+    % @test
+    \score { \new VaticanaVoice { \clef "vaticana-do1" d' } }
+    \score { \gabc-vaticana "(c2) (g)" }
+
+    % TODO LilyPond doesn't provide clef exactly matching gabc (c1) -
+    % define a custom clef "vaticana-do0"
+    % (The expected result is marked with \xfail, because it doesn't
+    % showcase the expected output, but the fallback, correctly representing gabc's
+    % pitch, but not the visual specification.)
+    \score { \new VaticanaVoice { \clef "vaticana-do1" f' } \layout { \xfail } }
+    \score { \gabc-vaticana "(c1) (g)" }
+  }
+
+  \markup\fill-line{
+    % @test clef change
+    \score { \new VaticanaVoice { \clef "vaticana-do3" g \clef "vaticana-do2" b } }
+    \score { \gabc-vaticana "(c4) (g) (c3) (g)" }
+
+    "" "" "" "" "" ""
+  }
+
+  \markup\fill-line{
+    % @test
+    \score { \new VaticanaVoice { \clef "vaticana-fa2" e } }
+    \score { \gabc-vaticana "(f3) (g)" }
+
+    % @test
+    \score { \new VaticanaVoice { \clef "vaticana-fa1" g } }
+    \score { \gabc-vaticana "(f2) (g)" }
+
+    % TODO LilyPond doesn't provide clefs exactly matching gabc (f4) and (f1) -
+    % define custom
+    \score { \new VaticanaVoice { \clef "vaticana-fa2" c } \layout { \xfail } }
+    \score { \gabc-vaticana "(f4) (g)" }
+
+    \score { \new VaticanaVoice { \clef "vaticana-fa1" b } \layout { \xfail } }
+    \score { \gabc-vaticana "(f1) (g)" }
+  }
+}
+
+\bookpart {
+  \header { subtitle = "accidentals" }
+
+  \markup { inline: }
+
+  \markup\fill-line{
+    % @test
+    \score { \new VaticanaVoice { \clef "vaticana-do3" ges } }
+    \score { \gabc-vaticana "(c4) (gxg)" }
+
+    % LilyPond - at least in the default gregorian.ly settings -
+    % seems to never automatically produce natural signs.
+    % We have to request them explicitly.
+    \score { \new VaticanaVoice { \clef "vaticana-do3" ges4( g!) } }
+    \score { \gabc-vaticana "(c4) (gxggyg)" \layout { \xfail } }
+  }
+
+  \markup\fill-line{
+    % @test
+    \score { \new VaticanaVoice { \clef "vaticana-do3" gis4 } }
+    \score { \gabc-vaticana "(c4) (g#g)" }
+
+    \score { \new VaticanaVoice { \clef "vaticana-do3" gis4( g!) } }
+    \score { \gabc-vaticana "(c4) (g#ggyg)" \layout { \xfail } }
+  }
+
+  % accidentals last until the end of the word
+  \markup\fill-line{
+    % @test
+    \score { \new VaticanaVoice { \clef "vaticana-do3" ges4 g } }
+    \score { \gabc-vaticana "(c4) (gxg) (g)" }
+
+    % @test
+    \score { \new VaticanaVoice { \clef "vaticana-do3" gis4 g } }
+    \score { \gabc-vaticana "(c4) (g#g) (g)" }
+  }
+
+  \markup { clefs with b flat: }
+
+  \markup\fill-line{
+    % @test
+    \score { \new VaticanaVoice { \clef "vaticana-do3" { \key f \major } bes4 } }
+    \score { \gabc-vaticana "(cb4) (i)" }
+
+    % @test
+    \score { \new VaticanaVoice { \clef "vaticana-do3" { \key f \major } b4 } }
+    \score { \gabc-vaticana "(cb4) (iyi)" }
+  }
+
+  % natural lasts until the end of the word
+  \markup\fill-line{
+    \score { \new VaticanaVoice { \clef "vaticana-do3" \key f \major b b } \addlyrics { la -- la } }
+    \score { \gabc-vaticana "(cb4) la(iyi)la(i)" \layout { \xfail } }
+
+    \score { \new VaticanaVoice { \clef "vaticana-do3" \key f \major b bes } \addlyrics { la la } }
+    \score { \gabc-vaticana "(cb4) la(iyi) la(i)" \layout { \xfail } }
+  }
+
+  % clef changes and b flat
+  \markup\fill-line{
+    % On clef change LilyPond - at least in the default gregorian.ly settings -
+    % doesn't render the key signature, so we have to insert it "manually"
+    % in case of gabc clefs with b flat.
+    % @test
+    \score { \new VaticanaVoice { \clef "vaticana-do3" { \key f \major } g4 \clef "vaticana-do2" { \key f \major } bes } }
+    \score { \gabc-vaticana "(cb4) (g) (cb3) (g)" }
+
+
+    \score { \new VaticanaVoice {
+      \clef "vaticana-do3" \key f \major g4
+      \clef "vaticana-do2" \key c \major b
+    } }
+    \score { \gabc-vaticana "(cb4) (g) (c3) (g)" \layout { \xfail } }
+  }
+
+  \markup\fill-line{
+    % @test
+    \score { \new VaticanaVoice { \clef "vaticana-do3" g4 \clef "vaticana-do2" { \key f \major } bes } }
+    \score { \gabc-vaticana "(c4) (g) (cb3) (g)" }
+
+    "" ""
+  }
+}
+
+\bookpart {
   \header { subtitle = "real-life score" }
 
   \markup\justify{
