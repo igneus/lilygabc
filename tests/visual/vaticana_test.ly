@@ -36,6 +36,7 @@
   \header { subtitle = "single note" }
 
   \markup\fill-line{
+    % @test
     \score { \new VaticanaVoice { \clef "vaticana-do3" a, } }
     \score { \gabc-vaticana "(c4) (a)" }
 

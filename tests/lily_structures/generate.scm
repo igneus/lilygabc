@@ -35,33 +35,54 @@
        "#(display \"% Scheme:\")\n"
        scheme-code)))))
 
-(let*
-    ((example-pattern (option-ref options 'example #f))
-     (filename "../visual/test.ly")
-     (file (open-input-file filename))
-     (fw-expected (open-output-file "expected.ly"))
-     (fw-actual (open-output-file "actual.ly"))
-     (write-both (lambda (str)
-                   (put-string fw-expected str)
-                   (put-string fw-actual str)))
-     (line-i 0))
+(define (suffix-filename suffix input-path)
+  (let ((bn (basename input-path)))
+    (string-append
+     (substring bn 0 (string-contains bn ".ly"))
+     suffix
+     ".ly")))
 
-  (write-both "\\version \"2.24.0\"\n")
-  (put-string fw-actual "\\include \"../../lilygabc.ily\"\n")
+(define (generate filename setup-both setup-expected setup-actual)
+  (let*
+      ((example-pattern (option-ref options 'example #f))
+       (file (open-input-file filename))
+       (fw-expected (open-output-file (suffix-filename "_expected" filename)))
+       (fw-actual (open-output-file (suffix-filename "_actual" filename)))
+       (write-both (lambda (str)
+                     (put-string fw-expected str)
+                     (put-string fw-actual str)))
+       (line-i 0))
 
-  (do ((line (read-line file) (read-line file))) ((eof-object? line))
-    (set! line-i (+ 1 line-i))
+    (write-both "\\version \"2.24.0\"\n")
+    (write-both setup-both)
+    (put-string fw-expected setup-expected)
+    (put-string fw-actual setup-actual)
 
-    (when (string-match "^\\s*% @test" line)
-      (let ((example-name (string-append filename ":" (number->string line-i))))
-        (when (or (eq? #f example-pattern)
-                  (string-contains example-name example-pattern))
-          (write-both (string-append "#(display \"% test " example-name "\\n\")\n"))
+    (do ((line (read-line file) (read-line file))) ((eof-object? line))
+      (set! line-i (+ 1 line-i))
 
-          (put-string fw-expected (transform-example (read-line file)))
-          (put-string fw-actual (transform-example (read-line file)))
-          (write-both "\n")
+      (when (string-match "^\\s*% @test" line)
+        (let ((example-name (string-append filename ":" (number->string line-i))))
+          (when (or (eq? #f example-pattern)
+                    (string-contains example-name example-pattern))
+            (write-both (string-append "#(display \"% test " example-name "\\n\")\n"))
 
-          (set! line-i (+ 2 line-i))))))
+            (put-string fw-expected (transform-example (read-line file)))
+            (put-string fw-actual (transform-example (read-line file)))
+            (write-both "\n")
 
-  (for-each close-port (list file fw-expected fw-actual)))
+            (set! line-i (+ 2 line-i))))))
+
+    (for-each close-port (list file fw-expected fw-actual))))
+
+
+
+(generate "../visual/test.ly"
+          ""
+          ""
+          "\\include \"../../lilygabc.ily\"\n")
+
+(generate "../visual/vaticana_test.ly"
+          "\\include \"gregorian.ly\"\n"
+          ""
+          "\\include \"../../lilygabc.ily\"\n")

@@ -39,7 +39,10 @@
 
 (let*
     ((diff-unified (option-ref options 'unified "3"))
-     (examples (zip (load-examples "expected.out") (load-examples "actual.out")))
+     (examples
+      (append
+       (zip (load-examples "test_expected.out") (load-examples "test_actual.out"))
+       (zip (load-examples "vaticana_test_expected.out") (load-examples "vaticana_test_actual.out"))))
      (failures
       (filter
        (lambda (x)
