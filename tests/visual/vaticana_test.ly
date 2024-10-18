@@ -40,9 +40,11 @@
     \score { \new VaticanaVoice { \clef "vaticana-do3" a, } }
     \score { \gabc-vaticana "(c4) (a)" }
 
+    % @test
     \score { \new VaticanaVoice { \clef "vaticana-do3" b, } }
     \score { \gabc-vaticana "(c4) (b)" }
 
+    % @test
     \score { \new VaticanaVoice { \clef "vaticana-do3" c } }
     \score { \gabc-vaticana "(c4) (c)" }
   }
@@ -51,7 +53,7 @@
     \score { \new VaticanaVoice { \clef "vaticana-do3" d } }
     \score { \gabc-vaticana "(c4) (d)" }
 
-    \score { \displayMusic \new VaticanaVoice { \clef "vaticana-do3" e } }
+    \score { \new VaticanaVoice { \clef "vaticana-do3" e } }
     \score { \gabc-vaticana "(c4) (e)" }
 
     \score { \new VaticanaVoice { \clef "vaticana-do3" f } }
@@ -62,7 +64,7 @@
     \score { \new VaticanaVoice { \clef "vaticana-do3" g } }
     \score { \gabc-vaticana "(c4) (g)" }
 
-    \score { \displayMusic \new VaticanaVoice { \clef "vaticana-do3" a } }
+    \score { \new VaticanaVoice { \clef "vaticana-do3" a } }
     \score { \gabc-vaticana "(c4) (h)" }
 
     \score { \new VaticanaVoice { \clef "vaticana-do3" b } }
@@ -73,7 +75,7 @@
     \score { \new VaticanaVoice { \clef "vaticana-do3" c' } }
     \score { \gabc-vaticana "(c4) (j)" }
 
-    \score { \displayMusic \new VaticanaVoice { \clef "vaticana-do3" d' } }
+    \score { \new VaticanaVoice { \clef "vaticana-do3" d' } }
     \score { \gabc-vaticana "(c4) (k)" }
 
     \score { \new VaticanaVoice { \clef "vaticana-do3" e' } }
@@ -81,6 +83,7 @@
   }
 
   \markup\fill-line{
+    % @test
     \score { \new VaticanaVoice { \clef "vaticana-do3" f' } }
     \score { \gabc-vaticana "(c4) (m)" }
 
