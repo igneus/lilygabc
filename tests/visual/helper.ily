@@ -27,4 +27,12 @@ xfail = { \bgcolor "(x11-color 'Gold)" }
 
 % mark an example as a work currently in progress -
 % unlike xfails, these examples should not be committed to git
-xtodo = { \bgcolor "magenta" }
+xtodo = \layout {
+  \bgcolor "magenta"
+  \context {
+    \VaticanaStaff
+    % gregorian.ly's red staff lines are unreadable on magenta
+    \override StaffSymbol.color = #grey
+    \override LedgerLineSpanner.color = #grey
+  }
+}
