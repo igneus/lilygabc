@@ -2,6 +2,8 @@
 #(load "lilygabc.scm")
 #(load "vaticana.scm")
 
+\include "gregorian-shim.ily"
+
 lilygabcModernGregorianLayout = \layout {
   \override Score.TimeSignature.stencil = ##f
   \set Timing.timing = ##f

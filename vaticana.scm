@@ -33,17 +33,12 @@
           (lambda (item)
             (match item
               (('clef type line clef-is-flat)
-               (let* ((lily-clefnum (- line 1))
-                      (actual-clefnum ; LilyPond doesn't provide chant clefs for all 4 lines. Fallbacks:
-                       (cond
-                        ((eq? lily-clefnum 0) 1)
-                        ((and (string=? type "f") (eq? lily-clefnum 3)) 2)
-                        (else lily-clefnum))))
+               (let* ((lily-clefnum (- line 1)))
                  (append
                   (list (clef (string-append
                                "vaticana-"
                                (if (string=? "f" type) "fa" "do")
-                               (number->string actual-clefnum))))
+                               (number->string lily-clefnum))))
                   (if clef-is-flat (list key-flat) '()))))
               (('note-with-pitch note pitch)
                ;; shift the pitch an octave lower:

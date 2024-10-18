@@ -107,12 +107,9 @@
     \score { \new VaticanaVoice { \clef "vaticana-do1" d' } }
     \score { \gabc-vaticana "(c2) (g)" }
 
-    % TODO LilyPond doesn't provide clef exactly matching gabc (c1) -
-    % define a custom clef "vaticana-do0"
-    % (The expected result is marked with \xfail, because it doesn't
-    % showcase the expected output, but the fallback, correctly representing gabc's
-    % pitch, but not the visual specification.)
-    \score { \new VaticanaVoice { \clef "vaticana-do1" f' } \layout { \xfail } }
+    % TODO not included in the automated test suite, because \displayLilyMusic
+    % handles custom clefs strangely. Investigate what's going on.
+    \score { \new VaticanaVoice { \clef "vaticana-do0" f' } }
     \score { \gabc-vaticana "(c1) (g)" }
   }
 
@@ -125,6 +122,9 @@
   }
 
   \markup\fill-line{
+    \score { \new VaticanaVoice { \clef "vaticana-fa3" c } }
+    \score { \gabc-vaticana "(f4) (g)" }
+
     % @test
     \score { \new VaticanaVoice { \clef "vaticana-fa2" e } }
     \score { \gabc-vaticana "(f3) (g)" }
@@ -133,12 +133,7 @@
     \score { \new VaticanaVoice { \clef "vaticana-fa1" g } }
     \score { \gabc-vaticana "(f2) (g)" }
 
-    % TODO LilyPond doesn't provide clefs exactly matching gabc (f4) and (f1) -
-    % define custom
-    \score { \new VaticanaVoice { \clef "vaticana-fa2" c } \layout { \xfail } }
-    \score { \gabc-vaticana "(f4) (g)" }
-
-    \score { \new VaticanaVoice { \clef "vaticana-fa1" b } \layout { \xfail } }
+    \score { \new VaticanaVoice { \clef "vaticana-fa0" b } }
     \score { \gabc-vaticana "(f1) (g)" }
   }
 }
