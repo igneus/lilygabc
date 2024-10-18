@@ -17,4 +17,4 @@ gold:
 # Dump the visual test examples as LilyPond data structures
 # and compare them
 structures:
-	cd tests/lily_structures && ./test.sh
+	cd tests/lily_structures && ./test.sh --lily-only
