@@ -228,6 +228,40 @@
 }
 
 \bookpart {
+  \header { subtitle = "divisiones" }
+
+  \markup\fill-line{
+    % @test
+    \score { \new VaticanaVoice { \clef "vaticana-do3" g \divisioMinima g } }
+    \score { \gabc-vaticana "(c4) (g) (,) (g)" }
+
+    % @test
+    \score { \new VaticanaVoice { \clef "vaticana-do3" g \divisioMaior g } }
+    \score { \gabc-vaticana "(c4) (g) (;) (g)" }
+  }
+
+  \markup\fill-line{
+    % @test
+    \score { \new VaticanaVoice { \clef "vaticana-do3" g \divisioMaxima g } }
+    \score { \gabc-vaticana "(c4) (g) (:) (g)" }
+
+    % @test
+    \score { \new VaticanaVoice { \clef "vaticana-do3" g \finalis g } }
+    \score { \gabc-vaticana "(c4) (g) (::) (g)" }
+  }
+
+  \markup\fill-line{
+    % @test
+    \score { \new VaticanaVoice { \clef "vaticana-do3" g \virgula g } }
+    \score { \gabc-vaticana "(c4) (g) (`) (g)" }
+
+    "" ""
+  }
+
+  % all the supported exotic forms
+}
+
+\bookpart {
   \header { subtitle = "real-life score" }
 
   \markup\justify{

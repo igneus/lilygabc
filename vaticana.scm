@@ -7,6 +7,14 @@
  ((lilygabc pitch) #:prefix pitch:)
  ((lilygabc util) #:prefix util:))
 
+; mapping Gregorio divisiones -> gregorian.ly bars
+(define vaticana-divisiones-mapping
+  '(("," . divisioMinima)
+    (";" . divisioMaior)
+    ("::" . finalis)
+    ("`" . virgula)))
+(define default-vaticana-bar 'divisioMaxima) ; used for all not explicitly mapped
+
 (define gabc-vaticana
   (define-scheme-function
     (input)
@@ -46,6 +54,10 @@
                    (apply ly:make-pitch vaticana-pitch)
                    (ly:make-duration 2)
                    #f))))
+              (('divisio type)
+               (list
+                (primitive-eval (or (assoc-ref vaticana-divisiones-mapping type)
+                                    default-vaticana-bar))))
               (any #f)))
           syllable-items)))
        'context-type 'VaticanaVoice
