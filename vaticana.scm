@@ -21,7 +21,7 @@
     (string?)
     (let*
         ((words (pitch:decorate-notes (gabc:parse input)))
-         (syllable-items (util:flatten (util:flatten words))))
+         (syllables (util:flatten words)))
       (make-music
        'ContextSpeccedMusic
        'element
@@ -29,32 +29,70 @@
         'SequentialMusic
         'elements
         (util:flatten
-         (filter-map
-          (lambda (item)
-            (match item
-              (('clef type line clef-is-flat)
-               (let* ((lily-clefnum (- line 1)))
-                 (append
-                  (list (clef (string-append
-                               "vaticana-"
-                               (if (string=? "f" type) "fa" "do")
-                               (number->string lily-clefnum))))
-                  (if clef-is-flat (list key-flat) '()))))
-              (('note-with-pitch note pitch)
-               ;; shift the pitch an octave lower:
-               ;; LilyPond treats the chant c clef as denoting middle c
-               (let ((vaticana-pitch (cons (- (second pitch) 1) (list-tail pitch 2))))
-                 (list
-                  (make-ly-note
-                   (apply ly:make-pitch vaticana-pitch)
-                   (ly:make-duration 2)
-                   #f))))
-              (('divisio type)
-               (list
-                (primitive-eval (or (assoc-ref vaticana-divisiones-mapping type)
-                                    default-vaticana-bar))))
-              (any #f)))
-          syllable-items)))
+         (map
+          (lambda (syllable)
+            (let* ((notes (filter (lambda (x) (eq? 'note-with-pitch (first x))) syllable))
+                   (is-melisma (< 1 (length notes)))
+                   (first-note (and is-melisma (first notes)))
+                   (last-note (and is-melisma (last notes)))
+                   (previous-note #f))
+              (util:flatten
+               (filter-map
+                (lambda (item)
+                  (match item
+                    (('clef type line clef-is-flat)
+                     (let* ((lily-clefnum (- line 1)))
+                       (append
+                        (list (clef (string-append
+                                     "vaticana-"
+                                     (if (string=? "f" type) "fa" "do")
+                                     (number->string lily-clefnum))))
+                        (if clef-is-flat (list key-flat) '()))))
+                    (('note-with-pitch note pitch)
+                     ;; shift the pitch an octave lower:
+                     ;; LilyPond treats the chant c clef as denoting middle c
+                     (let ((vaticana-pitch (cons (- (second pitch) 1) (list-tail pitch 2))))
+                       (append
+                        (cond
+                         ((and is-melisma (eq? first-note item))
+                          (list (make-music 'LigatureEvent 'span-direction -1)))
+                         ((and is-melisma (not (pitch:pitch=? pitch (third previous-note))))
+                          (list
+                           (context-spec-music
+                            (make-music
+                             'OverrideProperty
+                             'symbol 'NoteHead
+                             'grob-property-path '(pes-or-flexa)
+                             'grob-value #t
+                             'pop-first #t
+                             'once #t)
+                            'Bottom)))
+                         (else
+                          '()))
+                        (begin
+                          (set! previous-note item)
+                          '())
+                        (list
+                         (make-ly-note
+                          (apply ly:make-pitch vaticana-pitch)
+                          (ly:make-duration 2)
+                          #f))
+                        (cond
+                         ((and is-melisma (eq? first-note item))
+                          (list (context-spec-music (make-property-set 'melismaBusy #t) 'Bottom)))
+                         ((and is-melisma (eq? last-note item))
+                          (list (context-spec-music (make-property-unset 'melismaBusy) 'Bottom)))
+                         (else '()))
+                        (if (and is-melisma (eq? last-note item))
+                            (list (make-music 'LigatureEvent 'span-direction 1))
+                            '()))))
+                    (('divisio type)
+                     (list
+                      (primitive-eval (or (assoc-ref vaticana-divisiones-mapping type)
+                                          default-vaticana-bar))))
+                    (any #f)))
+                syllable))))
+          syllables)))
        'context-type 'VaticanaVoice
        'property-operations '()
        'create-new #t))))

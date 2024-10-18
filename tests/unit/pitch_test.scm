@@ -119,4 +119,10 @@
                                (((note "i"))))))
  )
 
+(test-group
+ "pitch=?"
+ (test-equal #t (pitch=? '(pitch 1 2) '(pitch 1 2)))
+ (test-equal #f (pitch=? '(pitch 2 2) '(pitch 1 2))) ; octave differs
+ (test-equal #f (pitch=? '(pitch 1 1) '(pitch 1 2)))) ; step differs
+
 (test-end suite-name)

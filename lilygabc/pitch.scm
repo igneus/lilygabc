@@ -3,7 +3,8 @@
 (define-module (lilygabc pitch)
   #:export (note-pitch
             accidental-step
-            decorate-notes)
+            decorate-notes
+            pitch=?)
   #:use-module (srfi srfi-1)
   #:use-module (srfi srfi-26)
   #:use-module ((lilygabc gabc) #:prefix gabc:)
@@ -75,3 +76,7 @@
               (else x)))
           word)))
      score)))
+
+(define (pitch=? a b)
+  (and (= (second a) (second b))
+       (= (third a) (third b))))

@@ -223,6 +223,36 @@
 }
 
 \bookpart {
+  \header { subtitle = "melismata" }
+
+  \markup\fill-line{
+    % @test
+    \score { \new VaticanaVoice { \clef "vaticana-do3" \[ g\melisma g\melismaEnd \] } }
+    \score { \gabc-vaticana "(c4) (gg)" }
+
+    % @test
+    \score { \new VaticanaVoice { \clef "vaticana-do3" \[ g\melisma \pes a\melismaEnd \] } }
+    \score { \gabc-vaticana "(c4) (gh)" }
+
+    % @test
+    \score { \new VaticanaVoice { \clef "vaticana-do3" \[ a\melisma \flexa g\melismaEnd \] } }
+    \score { \gabc-vaticana "(c4) (hg)" }
+
+    % @test
+    \score { \new VaticanaVoice { \clef "vaticana-do3" \[ g\melisma \pes a \flexa g\melismaEnd \] } }
+    \score { \gabc-vaticana "(c4) (ghg)" }
+  }
+
+  \markup\fill-line{
+    % @test
+    \score { \new VaticanaVoice { \clef "vaticana-do3" \[ g\melisma \flexa f \pes g\melismaEnd \] } }
+    \score { \gabc-vaticana "(c4) (gfg)" }
+
+    "" "" "" "" "" ""
+  }
+}
+
+\bookpart {
   \header { subtitle = "divisiones" }
 
   \markup\fill-line{
