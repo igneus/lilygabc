@@ -16,13 +16,22 @@
 
 (define item-template '("% " " ----------
 \\noindent
-\\begin{minipage}[t]{0.3\\textwidth}
+\\begin{minipage}[t]{0.25\\textwidth}
   \\begin{verbatim}" "\\end{verbatim}
 \\end{minipage}
-\\begin{minipage}[t]{0.3\\textwidth}
+\\begin{minipage}[t]{0.25\\textwidth}
   \\gabcsnippet{" "}
 \\end{minipage}
-\\begin{minipage}[t]{0.3\\textwidth}
+\\begin{minipage}[t]{0.25\\textwidth}
+  \\begin{lilypond}
+    \\include \"gregorian.ly\"
+    \\include \"../../lilygabc.ily\"
+    \\score {
+      \\gabc-vaticana \"" "\"
+    }
+  \\end{lilypond}
+\\end{minipage}
+\\begin{minipage}[t]{0.25\\textwidth}
   \\begin{lilypond}
     \\include \"../../lilygabc.ily\"
     \\score {
