@@ -36,7 +36,8 @@
        scheme-code)))))
 
 (let*
-    ((filename "../visual/test.ly")
+    ((example-pattern (option-ref options 'example #f))
+     (filename "../visual/test.ly")
      (file (open-input-file filename))
      (fw-expected (open-output-file "expected.ly"))
      (fw-actual (open-output-file "actual.ly"))
@@ -52,12 +53,15 @@
     (set! line-i (+ 1 line-i))
 
     (when (string-match "^\\s*% @test" line)
-      (write-both (string-append "#(display \"% test " filename ":" (number->string line-i) "\\n\")\n"))
+      (let ((example-name (string-append filename ":" (number->string line-i))))
+        (when (or (eq? #f example-pattern)
+                  (string-contains example-name example-pattern))
+          (write-both (string-append "#(display \"% test " example-name "\\n\")\n"))
 
-      (put-string fw-expected (transform-example (read-line file)))
-      (put-string fw-actual (transform-example (read-line file)))
-      (write-both "\n")
+          (put-string fw-expected (transform-example (read-line file)))
+          (put-string fw-actual (transform-example (read-line file)))
+          (write-both "\n")
 
-      (set! line-i (+ 2 line-i))))
+          (set! line-i (+ 2 line-i))))))
 
   (for-each close-port (list file fw-expected fw-actual)))

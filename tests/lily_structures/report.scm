@@ -38,12 +38,8 @@
 (load "options.scm")
 
 (let*
-    ((example-pattern (option-ref options 'example #f))
-     (diff-unified (option-ref options 'unified "3"))
-     (all-examples (zip (load-examples "expected.out") (load-examples "actual.out")))
-     (run-examples (if example-pattern
-                       (filter (lambda (x) (string-contains (car (first x)) example-pattern)) all-examples)
-                       all-examples))
+    ((diff-unified (option-ref options 'unified "3"))
+     (examples (zip (load-examples "expected.out") (load-examples "actual.out")))
      (failures
       (filter
        (lambda (x)
@@ -58,7 +54,7 @@
                    (display (string-append "FAIL " expected-name ":\n"))
                    (show-diff diff-unified expected-text actual-text)))
              (not is-success))))
-       run-examples)))
+       examples)))
 
   (unless (= 0 (length failures))
     (display "\nFailed examples:\n")
@@ -70,9 +66,9 @@
   (display (string-append
             (number->string (length failures))
             " failures, "
-            (number->string (length run-examples))
+            (number->string (length examples))
             " examples total\n"))
 
-  (when (and (< 0 (length run-examples))
+  (when (and (< 0 (length examples))
              (= 0 (length failures)))
     (display "ALL TESTS GREEN\n")))
