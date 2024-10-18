@@ -16,6 +16,11 @@
     ("`" . (breathe . #f))))
 (define default-bar '(bar . "|")) ; used for all not explicitly mapped
 
+;; equivalent of gabc:syl-has-notes? operating on the results
+;; of pitch:decorate-notes
+(define (syl-has-decorated-notes? syllable)
+  (find (lambda (x) (eq? 'note-with-pitch (first x))) syllable))
+
 (define (make-notes words)
   (make-music
    'SequentialMusic
@@ -68,7 +73,7 @@
                        values
                        (list
                         (if (and (gabc:syl-has-lyrics? syllable)
-                                 (not (gabc:syl-has-notes? syllable)))
+                                 (not (syl-has-decorated-notes? syllable)))
                             ;; lyrics under a divisio are very common in gabc,
                             ;; but unsupported in LilyPond
                             (make-invisible-note)
