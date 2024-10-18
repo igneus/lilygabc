@@ -31,7 +31,10 @@
     Additionally some of the example pairs are included in a fully automated
     test suite comparing LilyPond data structures.
     (Marked in the source code of this document with a comment
-    beginning with \typewriter{@test} )
+    beginning with the \typewriter{@test} annotation.)
+    In those test examples the hand-coded expected result specifies not only
+    the expected visual outcome, but also the expected internal representation
+    of the music.
   }
 }
 
@@ -286,7 +289,7 @@ allGabcNotes = " (a) (b) (c) (d) (e) (f) (g) (h) (i) (j) (k) (l) (m)"
 \bookpart {
   \header { subtitle = "note shapes, articulations, other music elements" }
 
-  % articulations (limited support), neumatic spaces, note shapes, adiastematic neumes (ignored)
+  % articulations (limited support), note shapes, adiastematic neumes (ignored)
 
   \markup\fill-line{
     % @test
