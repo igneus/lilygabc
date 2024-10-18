@@ -284,34 +284,42 @@ allGabcNotes = " (a) (b) (c) (d) (e) (f) (g) (h) (i) (j) (k) (l) (m)"
   % articulations (limited support), neumatic spaces, note shapes, adiastematic neumes (ignored)
 
   \markup\fill-line{
-    \score { \relative { g'4 } }
+    % test
+    \score { { g'4 } }
     \score { \gabc "(c4) (g|vihg)" } % nabc
 
-    \score { \relative { g'4( \teeny f e d) \normalsize g } }
+    % test
+    \score { { g'4( { \once \tiny f' } { \once \tiny e' } { \once \tiny d') } g' } }
     \score { \gabc "(c4) (gFED) (g)" } % punctum inclinatum
   }
 
   \markup\fill-line{
-    \score { \relative { g'4( \teeny f) } }
+    % test
+    \score { { g'4( { \once \teeny f') } } }
     \score { \gabc "(c4) (gf~)" } % diminutive liquescence
 
-    \score { \relative { g'4. g4 } }
+    % test
+    \score { { g'4. g'4 } }
     \score { \gabc "(c4) (g.) (g)" } % punctum mora
   }
 
   \markup\fill-line{
-    \score { \relative { g'4_! } }
+    % test
+    \score { { g'4_! } }
     \score { \gabc "(c4) (g')" } % ictus / vertical episema
 
-    \score { \relative { g'4^- } }
+    % test
+    \score { { g'4^- } }
     \score { \gabc "(c4) (g_)" } % horizontal episema
   }
 
   \markup\fill-line{
-    \score { \relative { g'4.^-_! } }
+    % test
+    \score { { g'4._!^- } }
     \score { \gabc "(c4) (g._')" } % all supported articulations at once
 
-    \score { \relative { g'4( \teeny f^-_!) } }
+    % test
+    \score { { g'4( { \once \tiny f')_!^- } } }
     \score { \gabc "(c4) (gF_')" } % articulations on a punctum inclinatum
   }
 
@@ -466,6 +474,7 @@ allGabcNotes = " (a) (b) (c) (d) (e) (f) (g) (h) (i) (j) (k) (l) (m)"
 \bookpart {
   \header { subtitle = "test cases from encountered bugs" }
 
+  % TODO add support for multi-line examples, include this one in the automated test suite
   \score {
     \relative { a'4( bes) g g^-_! \bar "'" g g g a g g g( f) g g4.( a) }
     \addlyrics { O -- mni -- a in sa -- pi -- én -- ti -- a fe -- cís -- ti. }
