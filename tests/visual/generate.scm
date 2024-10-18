@@ -26,6 +26,7 @@
   \\begin{lilypond}
     \\include \"gregorian.ly\"
     \\include \"../../lilygabc.ily\"
+    #(set-global-staff-size 34)
     \\score {
       \\gabc-vaticana \"" "\"
     }
