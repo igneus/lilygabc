@@ -314,6 +314,44 @@
 
     "" ""
   }
+
+  \markup\fill-line{
+    % @test lyrics with no music
+    \score { << \new VaticanaVoice = "uniqueContext0" { \clef "vaticana-do3" g { \once \hideNotes g' } g } \new VaticanaLyrics \lyricsto "uniqueContext0" { La "*" la } >> }
+    \score { \gabc-vaticana "(c4) La(g) *() la(g)" }
+
+    % @test music with no lyrics
+    \score { << \new VaticanaVoice = "uniqueContext0" { \clef "vaticana-do3" g4 g g } \new VaticanaLyrics \lyricsto "uniqueContext0" { La "" la } >> }
+    \score { \gabc-vaticana "(c4) La(g) (g) la(g)" }
+  }
+
+  \markup\fill-line{
+    % @test void syllable
+    \score { << \new VaticanaVoice = "uniqueContext0" { \clef "vaticana-do3" g4 \bar "" g } \new VaticanaLyrics \lyricsto "uniqueContext0" { La la } >> }
+    \score { \gabc-vaticana "(c4) La(g) () la(g)" }
+
+    "" ""
+  }
+
+  \markup\fill-line{
+    % lyrics under a divisio:
+    % LilyPond doesn't support that -> use an invisible note as a workaround
+    % @test
+    \score { << \new VaticanaVoice = "uniqueContext0" { \clef "vaticana-do3" g4 { \once \hideNotes g' } \divisioMinima g } \new VaticanaLyrics \lyricsto "uniqueContext0" { La "*" la } >> }
+    \score { \gabc-vaticana "(c4) La(g) *(,) la(g)" }
+
+    % @test
+    \score { << \new VaticanaVoice = "uniqueContext0" { \clef "vaticana-do3" g4 { \once \hideNotes g' } \divisioMaxima g } \new VaticanaLyrics \lyricsto "uniqueContext0" { La T.P. la } >> }
+    \score { \gabc-vaticana "(c4) La(g) T.P.(:) la(g)" }
+  }
+
+  \markup\fill-line{
+    % @test divisio inside a music syllable
+    \score { << \new VaticanaVoice = "uniqueContext0" { \clef "vaticana-do3" \[ g4\melisma \pes a \flexa g \divisioMinima g \pes c'\melismaEnd \] c' } \new VaticanaLyrics \lyricsto "uniqueContext0" { La la } >> }
+    \score { \gabc-vaticana "(c4) La(ghg,gj) la(j)" }
+
+    ""
+  }
 }
 
 \bookpart {
