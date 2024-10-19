@@ -22,9 +22,7 @@
   (find (lambda (x) (eq? 'note-with-pitch (first x))) syllable))
 
 (define (make-notes words)
-  (make-music
-   'SequentialMusic
-   'elements
+  (make-sequential-music
    (util:flatten
     (let ((last-clef-was-flat #f))
       (map
@@ -128,9 +126,7 @@
    (make-music
     'LyricCombineMusic
     'element
-    (make-music
-     'SequentialMusic
-     'elements
+    (make-sequential-music
      (append
       (util:flatten
        (map
@@ -179,15 +175,9 @@
          (has-lyrics (any gabc:syl-has-lyrics? (util:flatten score)))
          (notes (make-notes score-with-pitches)))
       (if has-lyrics
-          (make-music
-           'SimultaneousMusic
-           'elements
+          (make-simultaneous-music
            (list
-            (make-music
-             'ContextSpeccedMusic
-             'element notes
-             'context-type 'Voice
-             'context-id context-id)
+            (context-spec-music notes 'Voice context-id)
             (make-lyrics score context-id)))
           notes))))
 

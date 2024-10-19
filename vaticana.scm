@@ -25,9 +25,7 @@
       (make-music
        'ContextSpeccedMusic
        'element
-       (make-music
-        'SequentialMusic
-        'elements
+       (make-sequential-music
         (util:flatten
          (map
           (lambda (syllable)
