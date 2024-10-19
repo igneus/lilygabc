@@ -287,6 +287,36 @@
 }
 
 \bookpart {
+  \header { subtitle = "lyrics" }
+
+  \markup\fill-line{
+    % @test
+    \score { << \new VaticanaVoice = "uniqueContext0" { \clef "vaticana-do3" g } \new VaticanaLyrics \lyricsto "uniqueContext0" { La } >> }
+    \score { \gabc-vaticana "(c4) La(g)" }
+
+    % @test
+    \score { << \new VaticanaVoice = "uniqueContext0" { \clef "vaticana-do3" g g } \new VaticanaLyrics \lyricsto "uniqueContext0" { La la } >> }
+    \score { \gabc-vaticana "(c4) La(g) la(g)" }
+  }
+
+  \markup\fill-line{
+    % @test
+    \score { << \new VaticanaVoice = "uniqueContext0" { \clef "vaticana-do3" g g } \new VaticanaLyrics \lyricsto "uniqueContext0" { La -- la } >> }
+    \score { \gabc-vaticana "(c4) La(g)la(g)" }
+
+    "" ""
+  }
+
+  \markup\fill-line{
+    % @test
+    \score { << \new VaticanaVoice = "uniqueContext0" { \clef "vaticana-do3" \[ g\melisma \pes a \flexa g\melismaEnd \] \[ f\melisma \pes g\melismaEnd \] } \new VaticanaLyrics \lyricsto "uniqueContext0" { A -- men. } >> }
+    \score { \gabc-vaticana "(c4) A(ghg)men.(fg)" }
+
+    "" ""
+  }
+}
+
+\bookpart {
   \header { subtitle = "real-life score" }
 
   \markup\justify{

@@ -116,11 +116,11 @@
      ly-note
      tests-and-transformations)))
 
-(define (make-lyrics words context-id)
+(define (make-lyrics words context-id lyrics-type)
   (make-music
    'ContextSpeccedMusic
    'create-new #t
-   'context-type 'Lyrics
+   'context-type lyrics-type
    'property-operations '()
    'element
    (make-music
@@ -178,7 +178,7 @@
           (make-simultaneous-music
            (list
             (context-spec-music notes 'Voice context-id)
-            (make-lyrics score context-id)))
+            (make-lyrics score context-id 'Lyrics)))
           notes))))
 
 (define gabc-file

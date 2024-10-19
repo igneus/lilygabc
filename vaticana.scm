@@ -15,14 +15,13 @@
     ("`" . virgula)))
 (define default-vaticana-bar 'divisioMaxima) ; used for all not explicitly mapped
 
-(define gabc-vaticana
-  (define-scheme-function
-    (input)
-    (string?)
-    (let*
-        ((words (pitch:decorate-notes (gabc:parse input)))
-         (syllables (util:flatten words)))
-      (make-music
+(define (make-vaticana-notes score context-id)
+  (let
+      ((syllables (util:flatten score)))
+    (apply
+     make-music
+     (append
+      (list
        'ContextSpeccedMusic
        'element
        (make-sequential-music
@@ -91,9 +90,29 @@
                     (any #f)))
                 syllable))))
           syllables)))
-       'context-type 'VaticanaVoice
+       'context-type 'VaticanaVoice)
+      (if context-id
+          (list 'context-id context-id)
+          '())
+      (list
        'property-operations '()
-       'create-new #t))))
+       'create-new #t)))))
+
+(define gabc-vaticana
+  (define-scheme-function
+    (input)
+    (string?)
+    (let*
+        ((score (gabc:parse input))
+         (score-with-pitches (pitch:decorate-notes score))
+         (context-id "uniqueContext0")
+         (has-lyrics (any gabc:syl-has-lyrics? (util:flatten score))))
+      (if has-lyrics
+          (make-simultaneous-music
+           (list
+            (make-vaticana-notes score-with-pitches context-id)
+            (make-lyrics score context-id 'VaticanaLyrics)))
+          (make-vaticana-notes score-with-pitches #f)))))
 
 (define gabc-vaticana-file
   (define-scheme-function

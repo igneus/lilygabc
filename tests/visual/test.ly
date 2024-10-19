@@ -430,7 +430,7 @@ allGabcNotes = " (a) (b) (c) (d) (e) (f) (g) (h) (i) (j) (k) (l) (m)"
     \score { { g'4 g' } \addlyrics { La -- la } }
     \score { \gabc "(c4) La(g)la(g)" }
 
-    ""
+    "" ""
   }
 
   \markup\fill-line{
