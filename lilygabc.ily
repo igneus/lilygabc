@@ -15,6 +15,15 @@ lilygabcModernGregorianStemlessLayout = \layout {
   \override Stem.length = 0
 }
 
+lilygabcVaticanaLayout = \layout {
+  % staff and lyrics font size to match the modern notation
+  % when included in the same document
+  #(layout-set-staff-size 26)
+
+  % TODO where is the default global setting which makes VaticanaLyrics so tiny?
+  \override VaticanaLyrics.LyricText.font-size = #-0.8
+}
+
 
 
 % utility music functions used by the Scheme code,

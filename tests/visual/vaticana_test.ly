@@ -354,6 +354,33 @@
   }
 }
 
+size-example-score = "(c4) A(ghg)men.(fg)"
+\bookpart {
+  \header { subtitle = "staff size" }
+
+  \markup\justify{
+    When living side by side in the same document,
+    the modern notation and square notation scores should both look good
+    in terms of default element sizes and proportions.
+  }
+
+  \markup\fill-line {
+    \score {
+      \gabc \size-example-score
+      \layout { \lilygabcModernGregorianStemlessLayout }
+    }
+    \score {
+      \gabc-vaticana \size-example-score
+
+      % TODO why does the custom layout, which doesn't touch colour settings,
+      %   cancel the default red staff colour?
+      \layout { \lilygabcVaticanaLayout }
+    }
+
+    "" ""
+  }
+}
+
 \bookpart {
   \header { subtitle = "real-life score" }
 
