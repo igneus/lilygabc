@@ -36,13 +36,22 @@ For running tests:
 - Bash
 - GNU Make (or compatible)
 
+For building the Gregorio vs. lilygabc visual test (`make visual_tex`):
+
+- LuaLaTex
+- the lyluatex package
+- Gregorio
+
 ## Usage
 
 Command `\gabc` loads music from a gabc string,
 `\gabc-file` from a file.
+
 The resulting scores are by default very bare-bones.
 Two layout variables with settings suitable for chant in modern
 notation are provided.
+It's suggested to include one of them either in the global
+`\layout{ }` block, or in the layout block of each lilygabc score.
 
 ```lilypond
 \include "lilygabc.ily"
