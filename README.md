@@ -76,7 +76,7 @@ include paths:
 
 ## Running tests
 
-**Unit tests:**
+**Automated tests:**
 
 `$ make test`
 
