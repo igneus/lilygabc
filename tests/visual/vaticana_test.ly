@@ -346,12 +346,17 @@
     \score { \gabc-vaticana "(c4) La(g) T.P.(:) la(g)" }
   }
 
+  \markup\justify{
+    Probable LilyPond bug:
+    in the source code the divisio minima is after the torculus,
+    but LilyPond renders it after the pes.
+  }
   \markup\fill-line{
     % @test divisio inside a music syllable
     \score { << \new VaticanaVoice = "uniqueContext0" { \clef "vaticana-do3" \[ g4\melisma \pes a \flexa g \divisioMinima g \pes c'\melismaEnd \] c' } \new VaticanaLyrics \lyricsto "uniqueContext0" { La la } >> }
     \score { \gabc-vaticana "(c4) La(ghg,gj) la(j)" }
 
-    ""
+    "" ""
   }
 }
 
