@@ -36,12 +36,15 @@
 %
 
 lilygabcModernGregorianLayout = \layout {
-  \override Score.TimeSignature.stencil = ##f
   \set Timing.timing = ##f
 
   \context {
     \Score
     scriptDefinitions = #lilygabc-modern-gregorian-script-alist
+  }
+  \context {
+    \Staff
+    \remove Time_signature_engraver
   }
 }
 
