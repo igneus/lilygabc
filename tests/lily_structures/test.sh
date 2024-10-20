@@ -9,7 +9,7 @@ guile generate.scm "$@"
 
 # Run LilyPond processes in parallel, wait for all to finish
 # before reporting results.
-echo "Running LilyPond"
+echo "Dumping music structures"
 lilypond test_expected.ly > test_expected.out & pid1=$!
 
 # The GUILE_LOAD_PATH setting is not completely straightforward:

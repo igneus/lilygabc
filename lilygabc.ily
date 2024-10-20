@@ -67,8 +67,8 @@ lilygabcVaticanaLayout = \layout {
 
 
 
-% utility music functions used by the Scheme code,
-% not part of the public interface
+% Utility music functions used by the Scheme code.
+% Not part of the public interface.
 
 make-invisible-note =
 #(define-music-function () ()
