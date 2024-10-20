@@ -76,12 +76,47 @@ It's suggested to include one of them either in the global
 }
 ```
 
-It's necessary to add the lilygabc root directory to LilyPond
+When engraving the document
+it's necessary to add the lilygabc root directory to LilyPond
 include paths:
 
 `$ lilypond --include=path/to/lilygabc my_document.ly`
 
-[![Example output](/doc/example.png)](/doc/example.ly)
+[![Example output: modern notation](/doc/example.png)](/doc/example.ly)
+
+In order to render gabc scores in square notation,
+use commands `\gabc-vaticana` and `\gabc-vaticana-file`.
+
+Note that in this case you have to `\include "gregorian.ly"`
+in addition to lilygabc.
+(lilygabc doesn't include `gregorian.ly` by default
+and leaves it to the user, because `gregorian.ly` changes
+global settings quite recklessly and the user should be in
+control over *if* and *when* these changes are applied.)
+
+```lilypond
+% If the \lilygabcVaticanaLayout layout variable is used,
+% it's important to include gregorian.ly *before* lilygabc
+\include "gregorian.ly"
+
+\include "lilygabc.ily"
+
+\score {
+  \gabc-vaticana
+    "(c4) Ju(e)bi(f)lá(g')te(f) De(d_f)o(f'_) (,)
+    o(f)mnis(f) ter(e_f)ra,(d) al(f)le(fg)lú(e.)ia.(e.) (::)
+    E(h) u(g) o(h) u(ih) a(gf) e.(e.) (::)"
+
+  \layout {
+    \lilygabcVaticanaLayout
+  }
+}
+```
+
+[![Example output: square notation](/doc/vaticana-example.png)](/doc/vaticana-example.ly)
+
+(The square notation support in lilygabc is still very much a work
+in progress, limits of what LilyPond can do haven't been reached yet.)
 
 ## Running tests
 
