@@ -4,9 +4,45 @@
 
 \include "gregorian-shim.ily"
 
+%
+% custom articulation marks
+%
+
+#(define lilygabc:modern-gregorian:ictus-stencil
+  (make-line-stencil 0.1 0 0 0 0.7))
+
+#(define lilygabc-modern-gregorian-script-alist
+  (map
+   (lambda (x)
+    (if (eq? 'staccatissimo (car x))
+     ;; Defining a new custom articulation would be semantically cleaner,
+     ;; but the advantage of redefining staccatissimo is that it provides
+     ;; a default look, more or less conveying the information,
+     ;; even if the custom articulation definitions are not applied.
+     `(staccatissimo
+       . ((stencil . ,lilygabc:modern-gregorian:ictus-stencil)
+          (toward-stem-shift-in-column . 0.0)
+          (padding . 0.4)
+          (avoid-slur . around)
+          (direction . ,DOWN)))
+     x))
+   default-script-alist))
+
+
+
+%
+% layout variables
+% providing decent looks for lilygabc scores
+%
+
 lilygabcModernGregorianLayout = \layout {
   \override Score.TimeSignature.stencil = ##f
   \set Timing.timing = ##f
+
+  \context {
+    \Score
+    scriptDefinitions = #lilygabc-modern-gregorian-script-alist
+  }
 }
 
 lilygabcModernGregorianStemlessLayout = \layout {
