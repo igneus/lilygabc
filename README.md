@@ -16,7 +16,7 @@ is useful.
 
 ## Project Status & Roadmap
 
-*Only rendering in modern notation supported so far, several fundamental features still missing.*
+*Early stage of development, several fundamental features still missing.*
 
 - [ ] render contents of gabc files in modern notation
 - [ ] fundamental support for the chant notation styles supported by LilyPond
