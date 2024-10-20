@@ -224,6 +224,38 @@
 }
 
 \bookpart {
+  \header { subtitle = "note shapes" }
+
+  % the note shape commands like \virga etc. don't seem to work outside of a melisma
+  \markup\fill-line{
+    % @test
+    \score { \new VaticanaVoice { \clef "vaticana-do3" \[ g\melisma \inclinatum f \inclinatum e \inclinatum d\melismaEnd \] g } }
+    \score { \gabc-vaticana "(c4) (gFED) (g)" } % punctum inclinatum
+
+    % @test
+    \score { \new VaticanaVoice { \clef "vaticana-do3" \[ g\melisma \flexa \deminutum f\melismaEnd \] } }
+    \score { \gabc-vaticana "(c4) (gf~)" } % diminutive liquescence
+  }
+
+  \markup\fill-line{
+    % @test
+    \score { \new VaticanaVoice { \clef "vaticana-do3" \[ \virga g\melisma \inclinatum f \inclinatum e \inclinatum d\melismaEnd \] g } }
+    \score { \gabc-vaticana "(c4) (gvFED) (g)" } % virga right
+
+    \score { \new VaticanaVoice { \clef "vaticana-do3" \[ \virga g\melisma \inclinatum f \inclinatum e \inclinatum d\melismaEnd \] g } \layout { \xfail } }
+    \score { \gabc-vaticana "(c4) (gVFED) (g)" \layout { \xfail } } % virga left - seems to be unsupported by gregorian.ly, but should be doable with some sort of grob transformation
+  }
+
+  \markup\fill-line{
+    % @test
+    \score { \new VaticanaVoice { \clef "vaticana-do3" \[ \deminutum g\melisma \pes a \flexa g\melismaEnd \] } }
+    \score { \gabc-vaticana "(c4) (-ghg)" } % torculus initio debilis
+
+    "" ""
+  }
+}
+
+\bookpart {
   \header { subtitle = "melismata" }
 
   \markup\fill-line{

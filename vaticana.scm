@@ -60,7 +60,10 @@
                           (cond
                            ((and is-melisma (eq? first-note item))
                             (list (make-music 'LigatureEvent 'span-direction -1)))
-                           ((and is-melisma (not (pitch:pitch=? pitch (third previous-note))))
+                           ((and is-melisma
+                                 (not (or (pitch:pitch=? pitch (third previous-note))
+                                          (gabc:note-is-punctum-inclinatum? note)
+                                          (gabc:note-virga-side note))))
                             (list
                              (context-spec-music
                               (make-music
@@ -76,11 +79,13 @@
                           (begin
                             (set! previous-note item)
                             '())
-                          (list
-                           (make-ly-note
-                            (apply ly:make-pitch vaticana-pitch)
-                            (ly:make-duration 2)
-                            #f))
+                          (apply-vaticana-note-features
+                           note
+                           (list
+                            (make-ly-note
+                             (apply ly:make-pitch vaticana-pitch)
+                             (ly:make-duration 2)
+                             #f)))
                           (cond
                            ((and is-melisma (eq? first-note item))
                             (list (context-spec-music (make-property-set 'melismaBusy #t) 'Bottom)))
@@ -112,6 +117,21 @@
       (list
        'property-operations '()
        'create-new #t)))))
+
+(define (apply-vaticana-note-features gabc-note ly-note-list)
+  (let ((tests-and-transformations
+         `((,gabc:note-is-punctum-inclinatum? . ,inclinatum)
+           (,gabc:note-is-diminutive? . ,deminutum)
+           (,gabc:note-is-debilis? . ,deminutum)
+           (,gabc:note-virga-side . ,virga))))
+    (fold
+     (lambda (x r)
+       (match-let (((test . transformation) x))
+         (if (test gabc-note)
+             (append (list transformation) r)
+             r)))
+     ly-note-list
+     tests-and-transformations)))
 
 (define gabc-vaticana
   (define-scheme-function
