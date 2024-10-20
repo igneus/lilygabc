@@ -1,8 +1,9 @@
 \version "2.24.1"
 
+\include "gregorian.ly" % it's important to include gregorian.ly BEFORE lilygabc.ily
+
 \include "../../lilygabc.ily"
 \include "helper.ily"
-\include "gregorian.ly"
 
 \header {
   title = "lilygabc visual tests - square notation"
@@ -371,9 +372,6 @@ size-example-score = "(c4) A(ghg)men.(fg)"
     }
     \score {
       \gabc-vaticana \size-example-score
-
-      % TODO why does the custom layout, which doesn't touch colour settings,
-      %   cancel the default red staff colour?
       \layout { \lilygabcVaticanaLayout }
     }
 
@@ -393,6 +391,7 @@ size-example-score = "(c4) A(ghg)men.(fg)"
       "(c4) Ju(e)bi(f)lá(g')te(f) De(d_f)o(f'_) (,)
       o(f)mnis(f) ter(e_f)ra,(d) al(f)le(fg)lú(e.)ia.(e.) (::)
       E(h) u(g) o(h) u(ih) a(gf) e.(e.) (::)"
+    \layout { \lilygabcVaticanaLayout }
     \header {
       piece = \markup\with-url "https://gregobase.selapa.net/chant.php?id=12115" {GregoBase 12115}
     }
@@ -400,6 +399,7 @@ size-example-score = "(c4) A(ghg)men.(fg)"
 
   \score {
     \gabc-vaticana-file "../examples/aquam_quam_ego.gabc"
+    \layout { \lilygabcVaticanaLayout }
     \header {
       piece = "score loaded from a file"
     }
@@ -408,6 +408,7 @@ size-example-score = "(c4) A(ghg)men.(fg)"
   \score {
     \gabc-vaticana "(c4) BE(f|pu)ne(g|vi)dí(gh|vihg)xit(f|pu) *()
     fí(g|vi)li(fe|cl)is(d|pu) tu(f|vi)is(g|vi) in(g|vi>) te.(f|pu) (::)"
+    \layout { \lilygabcVaticanaLayout }
     \header {
       piece = "score with nabc (nabc is ignored)"
     }

@@ -15,6 +15,11 @@ lilygabcModernGregorianStemlessLayout = \layout {
   \override Stem.length = 0
 }
 
+% Nota bene: if you plan to use this layout variable,
+% order in which lilygabc.ily and gregorian.ly are \included
+% has serious consequences for the contents of the variable,
+% as described in http://lilypond.org/doc/v2.24/Documentation/notation/the-layout-block
+% The strongly suggested order is to include gregorian.ly first.
 lilygabcVaticanaLayout = \layout {
   % staff and lyrics font size to match the modern notation
   % when included in the same document
