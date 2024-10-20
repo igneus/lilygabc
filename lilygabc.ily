@@ -95,9 +95,18 @@ apply-ictus =
 #(define-music-function (note) (ly:music?)
   #{ #note _! #})
 
+apply-vaticana-ictus =
+#(define-music-function (note) (ly:music?)
+  #{ #note \ictus #})
+
+% TODO probably merge with the function below
 apply-horizontal-episema =
 #(define-music-function (note) (ly:music?)
   #{ #note ^- #})
+
+apply-single-note-episema =
+#(define-music-function (note) (ly:music?)
+  #{ #note \episemInitium \episemFinis #})
 
 apply-virga =
 #(define-music-function (side note) (boolean-or-symbol? ly:music?)

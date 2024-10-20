@@ -256,6 +256,38 @@
 }
 
 \bookpart {
+  \header { subtitle = "articulations" }
+
+  \markup\fill-line{
+    % @test punctum mora
+    \score { \new VaticanaVoice { \clef "vaticana-do3" \augmentum g g } }
+    \score { \gabc-vaticana "(c4) (g.) (g)" }
+
+    "" ""
+  }
+
+  \markup\fill-line{
+    % @test ictus / vertical episema
+    \score { \new VaticanaVoice { \clef "vaticana-do3" g\ictus } }
+    \score { \gabc-vaticana "(c4) (g')" }
+
+    % @test horizontal episema
+    \score { \new VaticanaVoice { \clef "vaticana-do3" g\episemInitium\episemFinis } }
+    \score { \gabc-vaticana "(c4) (g_)" } % horizontal episema
+  }
+
+  \markup\fill-line{
+    % @test all supported articulations at once
+    \score { \new VaticanaVoice { \clef "vaticana-do3" \augmentum g\ictus \episemInitium \episemFinis } }
+    \score { \gabc-vaticana "(c4) (g._')" }
+
+    % @test articulations on a punctum inclinatum
+    \score { \new VaticanaVoice { \clef "vaticana-do3" \[ g\melisma \inclinatum f\ictus \episemInitium \episemFinis \melismaEnd \] } }
+    \score { \gabc-vaticana "(c4) (gF_')" }
+  }
+}
+
+\bookpart {
   \header { subtitle = "melismata" }
 
   \markup\fill-line{

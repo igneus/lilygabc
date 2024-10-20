@@ -79,13 +79,15 @@
                           (begin
                             (set! previous-note item)
                             '())
-                          (apply-vaticana-note-features
+                          (apply-vaticana-note-features-2
                            note
                            (list
-                            (make-ly-note
-                             (apply ly:make-pitch vaticana-pitch)
-                             (ly:make-duration 2)
-                             #f)))
+                            (apply-vaticana-note-features-1
+                             note
+                             (make-ly-note
+                              (apply ly:make-pitch vaticana-pitch)
+                              (ly:make-duration 2)
+                              #f))))
                           (cond
                            ((and is-melisma (eq? first-note item))
                             (list (context-spec-music (make-property-set 'melismaBusy #t) 'Bottom)))
@@ -118,7 +120,23 @@
        'property-operations '()
        'create-new #t)))))
 
-(define (apply-vaticana-note-features gabc-note ly-note-list)
+;; apply features that are music functions
+(define (apply-vaticana-note-features-1 gabc-note ly-note)
+  (let ((tests-and-transformations
+         `((,gabc:note-has-punctum-mora? . ,augmentum)
+           (,gabc:note-has-ictus? . ,apply-vaticana-ictus)
+           (,gabc:note-has-horizontal-episema? . ,apply-single-note-episema))))
+    (fold
+     (lambda (x r)
+       (match-let (((test . transformation) x))
+         (if (test gabc-note)
+             (transformation r)
+             r)))
+     ly-note
+     tests-and-transformations)))
+
+;; apply features that are prepended music elements
+(define (apply-vaticana-note-features-2 gabc-note ly-note-list)
   (let ((tests-and-transformations
          `((,gabc:note-is-punctum-inclinatum? . ,inclinatum)
            (,gabc:note-is-diminutive? . ,deminutum)
