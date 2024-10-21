@@ -263,6 +263,16 @@
     \score { \new VaticanaVoice { \clef "vaticana-do3" \[ \auctum \descendens g \] } }
     \score { \gabc-vaticana "(c4) (g>)" }
   }
+
+  \markup\fill-line{
+    % @test oriscus
+    \score { \new VaticanaVoice { \clef "vaticana-do3" \[ \oriscus g \] } }
+    \score { \gabc-vaticana "(c4) (go)" }
+
+    % @test quilisma
+    \score { \new VaticanaVoice { \clef "vaticana-do3" \[ \quilisma g \] } }
+    \score { \gabc-vaticana "(c4) (gw)" }
+  }
 }
 
 \bookpart {

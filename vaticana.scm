@@ -151,7 +151,9 @@
            (,gabc:note-is-ascendens? . ,ascendens)
            (,gabc:note-is-ascendens? . ,auctum)
            (,gabc:note-is-descendens? . ,descendens)
-           (,gabc:note-is-descendens? . ,auctum))))
+           (,gabc:note-is-descendens? . ,auctum)
+           (,gabc:note-is-quilisma? . ,quilisma)
+           (,gabc:note-is-oriscus? . ,oriscus))))
     (fold
      (lambda (x r)
        (match-let (((test . transformation) x))

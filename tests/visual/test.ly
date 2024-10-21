@@ -376,6 +376,17 @@ allGabcNotes = " (a) (b) (c) (d) (e) (f) (g) (h) (i) (j) (k) (l) (m)"
 
     "" ""
   }
+
+  \markup\fill-line{
+    % quilisma with a special notehead from the Vaticana set - neither beautiful, nor easily recognizable
+    \score { { g'4( \once \override NoteHead.style = #'vaticana.quilisma \once \override NoteHead.font-size = #7 a' b' ) } \layout { \wontfix } }
+    \score { \gabc "(c4) (ghwi)" }
+
+    % abusing a standard articulation sign like in the Czech LOTH hymnal
+    % @test quilisma
+    \score { { g'4( a'\prall b' ) } }
+    \score { \gabc "(c4) (ghwi)" }
+  }
 }
 
 \bookpart {

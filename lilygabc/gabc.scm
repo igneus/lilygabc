@@ -10,6 +10,8 @@
             note-is-debilis?
             note-is-ascendens?
             note-is-descendens?
+            note-is-oriscus?
+            note-is-quilisma?
             note-has-punctum-mora?
             note-has-ictus?
             note-has-horizontal-episema?
@@ -91,6 +93,12 @@
 
 (define (note-is-descendens? note)
   (note-additional-contains? #\> note))
+
+(define (note-is-oriscus? note)
+  (note-additional-contains? #\o note))
+
+(define (note-is-quilisma? note)
+  (note-additional-contains? #\w note))
 
 (define (note-has-punctum-mora? note)
   (note-additional-contains? #\. note))

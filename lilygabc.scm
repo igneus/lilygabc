@@ -107,7 +107,8 @@
             (,gabc:note-has-ictus? . ,(cut apply-articulation-down staccatissimo <>))
             ;; TODO probably drop in favor of the actual episema
             (,gabc:note-has-horizontal-episema? . ,(cut apply-articulation-up tenuto <>))
-            (,gabc:note-virga-side . ,(cut apply-virga virga-side <>)))))
+            (,gabc:note-virga-side . ,(cut apply-virga virga-side <>))
+            (,gabc:note-is-quilisma? . ,(cut apply-articulation prall <>)))))
     (fold
      (lambda (x r)
        (match-let (((test . transformation) x))

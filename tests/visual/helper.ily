@@ -36,3 +36,5 @@ xtodo = \layout {
     \override LedgerLineSpanner.color = #grey
   }
 }
+
+wontfix = { \bgcolor "(x11-color 'grey)" }
