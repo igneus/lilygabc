@@ -4,11 +4,14 @@
   tagline = #f
 }
 
+my-roman-font = "Linux Libertine O"
+
 \paper {
-  % TODO: font settings have no effect in VaticanaLyrics and I've no idea why
+  % (Global font settings have no effect in VaticanaLyrics,
+  % this is just a failed attempt and a reminder of a probable LilyPond bug.)
   #(define fonts
      (make-pango-font-tree
-      "Linux Libertine O"
+      my-roman-font
       "VL Gothic"
       "Courier"
       1))
@@ -16,6 +19,11 @@
   top-margin = 1.5\cm
   left-margin = 1\mm
   right-margin = 1\mm
+}
+
+\layout {
+  % This actually sets lyrics font for VaticanaLyrics
+  \override VaticanaLyrics.LyricText.font-name = \my-roman-font
 }
 
 \include "gregorian.ly"
