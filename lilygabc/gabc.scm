@@ -12,6 +12,7 @@
             note-has-ictus?
             note-has-horizontal-episema?
             note-virga-side
+            note-has-special-note-head?
             map-syl-elements)
   #:use-module (srfi srfi-1) ; required to use the correct version of `iota`
   #:use-module (srfi srfi-26)
@@ -65,7 +66,9 @@
 ;; note predicates
 
 (define (note-is-punctum-inclinatum? note)
-  (char-upper-case? (string-ref (second note) 0)))
+  (char-upper-case? (string-ref (note-name note) 0)))
+
+(define note-name second)
 
 (define (note-additional note)
   (if (>= (length note) 3)
@@ -93,6 +96,11 @@
      ((string-index a #\V) 'left)
      ((string-index a #\v) 'right)
      (else #f))))
+
+;; any note head other than a simple punctum
+(define (note-has-special-note-head? note)
+  (or (char-upper-case? (string-ref (note-name note) 0))
+      (string-match "[-~<>=ovVwWs]" (note-additional note))))
 
 ;; operations on the score data structure
 

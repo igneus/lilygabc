@@ -32,6 +32,10 @@
                    (is-melisma (< 1 (length notes)))
                    (first-note (and is-melisma (first notes)))
                    (last-note (and is-melisma (last notes)))
+                   (is-single-note-special-head
+                    (and (not is-melisma)
+                         (< 0 (length notes))
+                         (gabc:note-has-special-note-head? (second (first notes)))))
                    (previous-note #f))
               (cond
                ((eq? '() syllable) ; void syllable rendered as invisible bar
@@ -58,7 +62,8 @@
                        (let ((vaticana-pitch (cons (- (second pitch) 1) (list-tail pitch 2))))
                          (append
                           (cond
-                           ((and is-melisma (eq? first-note item))
+                           ((or (and is-melisma (eq? first-note item))
+                                is-single-note-special-head)
                             (list (make-music 'LigatureEvent 'span-direction -1)))
                            ((and is-melisma
                                  (not (or (pitch:pitch=? pitch (third previous-note))
@@ -94,7 +99,8 @@
                            ((and is-melisma (eq? last-note item))
                             (list (context-spec-music (make-property-unset 'melismaBusy) 'Bottom)))
                            (else '()))
-                          (if (and is-melisma (eq? last-note item))
+                          (if (or (and is-melisma (eq? last-note item))
+                                  is-single-note-special-head)
                               (list (make-music 'LigatureEvent 'span-direction 1))
                               '()))))
                       (('divisio type)
