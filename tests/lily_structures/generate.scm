@@ -61,17 +61,23 @@
     (do ((line (read-line file) (read-line file))) ((eof-object? line))
       (set! line-i (+ 1 line-i))
 
-      (when (string-match "^\\s*% @test" line)
-        (let ((example-name (string-append filename ":" (number->string line-i))))
-          (when (or (eq? #f example-pattern)
-                    (string-contains example-name example-pattern))
-            (write-both (string-append "#(display \"% test " example-name "\\n\")\n"))
+      (let ((match (string-match "^\\s*% @test(.*?)$" line)))
+        (when match
+          (let* ((label (string-trim-both (match:substring match 1)))
+                 (example-name (string-append
+                                (if (< 0 (string-length label))
+                                    (string-append label " ")
+                                    "")
+                                filename ":" (number->string line-i))))
+            (when (or (eq? #f example-pattern)
+                      (string-contains example-name example-pattern))
+              (write-both (string-append "#(display \"% test " example-name "\\n\")\n"))
 
-            (put-string fw-expected (transform-example (read-line file)))
-            (put-string fw-actual (transform-example (read-line file)))
-            (write-both "\n")
+              (put-string fw-expected (transform-example (read-line file)))
+              (put-string fw-actual (transform-example (read-line file)))
+              (write-both "\n")
 
-            (set! line-i (+ 2 line-i))))))
+              (set! line-i (+ 2 line-i)))))))
 
     (for-each close-port (list file fw-expected fw-actual))))
 
