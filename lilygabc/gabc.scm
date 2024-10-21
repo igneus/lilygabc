@@ -8,6 +8,8 @@
             note-is-punctum-inclinatum?
             note-is-diminutive?
             note-is-debilis?
+            note-is-ascendens?
+            note-is-descendens?
             note-has-punctum-mora?
             note-has-ictus?
             note-has-horizontal-episema?
@@ -80,6 +82,12 @@
 
 (define (note-is-debilis? note)
   (string-suffix? "-" (note-additional note)))
+
+(define (note-is-ascendens? note)
+  (string-index (note-additional note) #\<))
+
+(define (note-is-descendens? note)
+  (string-index (note-additional note) #\>))
 
 (define (note-has-punctum-mora? note)
   (string-index (note-additional note) #\.))

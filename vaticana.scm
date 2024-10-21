@@ -147,7 +147,11 @@
          `((,gabc:note-is-punctum-inclinatum? . ,inclinatum)
            (,gabc:note-is-diminutive? . ,deminutum)
            (,gabc:note-is-debilis? . ,deminutum)
-           (,gabc:note-virga-side . ,virga))))
+           (,gabc:note-virga-side . ,virga)
+           (,gabc:note-is-ascendens? . ,ascendens)
+           (,gabc:note-is-ascendens? . ,auctum)
+           (,gabc:note-is-descendens? . ,descendens)
+           (,gabc:note-is-descendens? . ,auctum))))
     (fold
      (lambda (x r)
        (match-let (((test . transformation) x))

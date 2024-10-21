@@ -253,6 +253,16 @@
 
     "" ""
   }
+
+  \markup\fill-line{
+    % @test punctum ascendens
+    \score { \new VaticanaVoice { \clef "vaticana-do3" \[ \auctum \ascendens g \] } }
+    \score { \gabc-vaticana "(c4) (g<)" }
+
+    % @test punctum descendens
+    \score { \new VaticanaVoice { \clef "vaticana-do3" \[ \auctum \descendens g \] } }
+    \score { \gabc-vaticana "(c4) (g>)" }
+  }
 }
 
 \bookpart {
