@@ -228,28 +228,28 @@
 
   % the note shape commands like \virga etc. don't seem to work outside of a melisma
   \markup\fill-line{
-    % @test
+    % @test punctum inclinatum
     \score { \new VaticanaVoice { \clef "vaticana-do3" \[ g\melisma \inclinatum f \inclinatum e \inclinatum d\melismaEnd \] g } }
-    \score { \gabc-vaticana "(c4) (gFED) (g)" } % punctum inclinatum
+    \score { \gabc-vaticana "(c4) (gFED) (g)" }
 
-    % @test
+    % @test diminutive liquescence
     \score { \new VaticanaVoice { \clef "vaticana-do3" \[ g\melisma \flexa \deminutum f\melismaEnd \] } }
-    \score { \gabc-vaticana "(c4) (gf~)" } % diminutive liquescence
+    \score { \gabc-vaticana "(c4) (gf~)" }
   }
 
   \markup\fill-line{
-    % @test
+    % @test virga right
     \score { \new VaticanaVoice { \clef "vaticana-do3" \[ \virga g\melisma \inclinatum f \inclinatum e \inclinatum d\melismaEnd \] g } }
-    \score { \gabc-vaticana "(c4) (gvFED) (g)" } % virga right
+    \score { \gabc-vaticana "(c4) (gvFED) (g)" }
 
     \score { \new VaticanaVoice { \clef "vaticana-do3" \[ \virga g\melisma \inclinatum f \inclinatum e \inclinatum d\melismaEnd \] g } \layout { \xfail } }
     \score { \gabc-vaticana "(c4) (gVFED) (g)" \layout { \xfail } } % virga left - seems to be unsupported by gregorian.ly, but should be doable with some sort of grob transformation
   }
 
   \markup\fill-line{
-    % @test
+    % @test torculus initio debilis
     \score { \new VaticanaVoice { \clef "vaticana-do3" \[ \deminutum g\melisma \pes a \flexa g\melismaEnd \] } }
-    \score { \gabc-vaticana "(c4) (-ghg)" } % torculus initio debilis
+    \score { \gabc-vaticana "(c4) (-ghg)" }
 
     "" ""
   }

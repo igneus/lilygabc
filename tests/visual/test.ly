@@ -292,43 +292,43 @@ allGabcNotes = " (a) (b) (c) (d) (e) (f) (g) (h) (i) (j) (k) (l) (m)"
   % articulations (limited support), note shapes, adiastematic neumes (ignored)
 
   \markup\fill-line{
-    % @test
+    % @test nabc
     \score { { g'4 } }
-    \score { \gabc "(c4) (g|vihg)" } % nabc
+    \score { \gabc "(c4) (g|vihg)" }
 
-    % @test
+    % @test punctum inclinatum
     \score { { g'4( { \once \tiny f' } { \once \tiny e' } { \once \tiny d') } g' } }
-    \score { \gabc "(c4) (gFED) (g)" } % punctum inclinatum
+    \score { \gabc "(c4) (gFED) (g)" }
   }
 
   \markup\fill-line{
-    % @test
+    % @test diminutive liquescence
     \score { { g'4( { \once \teeny f') } } }
-    \score { \gabc "(c4) (gf~)" } % diminutive liquescence
+    \score { \gabc "(c4) (gf~)" }
 
-    % @test
+    % @test punctum mora
     \score { { g'4. g'4 } }
-    \score { \gabc "(c4) (g.) (g)" } % punctum mora
+    \score { \gabc "(c4) (g.) (g)" }
   }
 
   \markup\fill-line{
-    % @test
+    % @test ictus / vertical episema
     \score { { g'4_! } }
-    \score { \gabc "(c4) (g')" } % ictus / vertical episema
+    \score { \gabc "(c4) (g')" }
 
-    % @test
+    % @test horizontal episema
     \score { { g'4^- } }
-    \score { \gabc "(c4) (g_)" } % horizontal episema
+    \score { \gabc "(c4) (g_)" }
   }
 
   \markup\fill-line{
-    % @test
+    % @test all supported articulations at once
     \score { { g'4._!^- } }
-    \score { \gabc "(c4) (g._')" } % all supported articulations at once
+    \score { \gabc "(c4) (g._')" }
 
-    % @test
+    % @test articulations on a punctum inclinatum
     \score { { g'4( { \once \tiny f')_!^- } } }
-    \score { \gabc "(c4) (gF_')" } % articulations on a punctum inclinatum
+    \score { \gabc "(c4) (gF_')" }
   }
 
   \markup\fill-line{
@@ -370,9 +370,9 @@ allGabcNotes = " (a) (b) (c) (d) (e) (f) (g) (h) (i) (j) (k) (l) (m)"
   }
 
   \markup\fill-line{
-    % @test
+    % @test torculus initio debilis
     \score { { { \once \teeny g'4( } a' g') } }
-    \score { \gabc "(c4) (-ghg)" } % torculus initio debilis
+    \score { \gabc "(c4) (-ghg)" }
 
     "" ""
   }
