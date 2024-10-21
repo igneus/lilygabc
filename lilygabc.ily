@@ -91,18 +91,17 @@ teeny-note =
 #(define-music-function (note) (ly:music?)
   #{ \once \teeny #note #})
 
-apply-ictus =
-#(define-music-function (note) (ly:music?)
-  #{ #note _! #})
+apply-articulation =
+#(define-music-function (articulation note) (ly:music? ly:music?)
+  #{ #note #articulation #})
 
-apply-vaticana-ictus =
-#(define-music-function (note) (ly:music?)
-  #{ #note \ictus #})
+apply-articulation-down =
+#(define-music-function (articulation note) (ly:music? ly:music?)
+  #{ #note _#articulation #})
 
-% TODO probably merge with the function below
-apply-horizontal-episema =
-#(define-music-function (note) (ly:music?)
-  #{ #note ^- #})
+apply-articulation-up =
+#(define-music-function (articulation note) (ly:music? ly:music?)
+  #{ #note ^#articulation #})
 
 apply-single-note-episema =
 #(define-music-function (note) (ly:music?)

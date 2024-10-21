@@ -104,8 +104,9 @@
           `((,gabc:note-is-punctum-inclinatum? . ,tiny-note)
             (,gabc:note-is-diminutive? . ,teeny-note)
             (,gabc:note-is-debilis? . ,teeny-note)
-            (,gabc:note-has-ictus? . ,apply-ictus)
-            (,gabc:note-has-horizontal-episema? . ,apply-horizontal-episema)
+            (,gabc:note-has-ictus? . ,(cut apply-articulation-down staccatissimo <>))
+            ;; TODO probably drop in favor of the actual episema
+            (,gabc:note-has-horizontal-episema? . ,(cut apply-articulation-up tenuto <>))
             (,gabc:note-virga-side . ,(cut apply-virga virga-side <>)))))
     (fold
      (lambda (x r)
