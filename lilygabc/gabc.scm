@@ -77,6 +77,9 @@
       (third note)
       ""))
 
+(define (note-additional-contains? char note)
+  (string-index (note-additional note) char))
+
 (define (note-is-diminutive? note)
   (string-prefix? "~" (note-additional note)))
 
@@ -84,19 +87,19 @@
   (string-suffix? "-" (note-additional note)))
 
 (define (note-is-ascendens? note)
-  (string-index (note-additional note) #\<))
+  (note-additional-contains? #\< note))
 
 (define (note-is-descendens? note)
-  (string-index (note-additional note) #\>))
+  (note-additional-contains? #\> note))
 
 (define (note-has-punctum-mora? note)
-  (string-index (note-additional note) #\.))
+  (note-additional-contains? #\. note))
 
 (define (note-has-ictus? note)
-  (string-index (note-additional note) #\'))
+  (note-additional-contains? #\' note))
 
 (define (note-has-horizontal-episema? note)
-  (string-index (note-additional note) #\_))
+  (note-additional-contains? #\_ note))
 
 (define (note-virga-side note)
   (let ((a (note-additional note)))
