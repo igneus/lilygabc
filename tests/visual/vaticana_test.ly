@@ -300,6 +300,10 @@
 \bookpart {
   \header { subtitle = "melismata" }
 
+  \markup{
+    two notes
+  }
+
   \markup\fill-line{
     % @test
     \score { \new VaticanaVoice { \clef "vaticana-do3" \[ g\melisma g\melismaEnd \] } }
@@ -312,18 +316,24 @@
     % @test
     \score { \new VaticanaVoice { \clef "vaticana-do3" \[ a\melisma \flexa g\melismaEnd \] } }
     \score { \gabc-vaticana "(c4) (hg)" }
+  }
 
-    % @test
-    \score { \new VaticanaVoice { \clef "vaticana-do3" \[ g\melisma \pes a \flexa g\melismaEnd \] } }
-    \score { \gabc-vaticana "(c4) (ghg)" }
+  \markup{
+    three notes
   }
 
   \markup\fill-line{
     % @test
+    \score { \new VaticanaVoice { \clef "vaticana-do3" \[ g\melisma g g\melismaEnd \] } }
+    \score { \gabc-vaticana "(c4) (ggg)" }
+
+    % @test
+    \score { \new VaticanaVoice { \clef "vaticana-do3" \[ g\melisma \pes a \flexa g\melismaEnd \] } }
+    \score { \gabc-vaticana "(c4) (ghg)" }
+
+    % @test
     \score { \new VaticanaVoice { \clef "vaticana-do3" \[ g\melisma \flexa f \pes g\melismaEnd \] } }
     \score { \gabc-vaticana "(c4) (gfg)" }
-
-    "" "" "" "" "" ""
   }
 }
 
