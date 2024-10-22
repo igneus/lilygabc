@@ -144,8 +144,8 @@
 ;; apply features that are prepended music elements
 (define (apply-vaticana-note-features-2 gabc-note ly-note-list)
   (let ((tests-and-transformations
-         `((,gabc:note-is-punctum-inclinatum? . ,inclinatum)
-           (,gabc:note-is-diminutive? . ,deminutum)
+         `((,gabc:note-is-diminutive? . ,deminutum)
+           (,gabc:note-is-punctum-inclinatum? . ,inclinatum)
            (,gabc:note-is-debilis? . ,deminutum)
            (,gabc:note-virga-side . ,virga)
            (,gabc:note-is-ascendens? . ,ascendens)

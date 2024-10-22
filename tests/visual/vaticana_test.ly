@@ -238,6 +238,15 @@
   }
 
   \markup\fill-line{
+    % @test
+    \score { \new VaticanaVoice { \clef "vaticana-do3" \[ \inclinatum \deminutum g \] } }
+    \score { \gabc-vaticana "(c4) (G~)" }
+
+    \score { \new VaticanaVoice { \clef "vaticana-do3" \[ \inclinatum \auctum g \] } }
+    \score { \gabc-vaticana "(c4) (G>)" }
+  }
+
+  \markup\fill-line{
     % @test virga right
     \score { \new VaticanaVoice { \clef "vaticana-do3" \[ \virga g \] } }
     \score { \gabc-vaticana "(c4) (gv)" }
