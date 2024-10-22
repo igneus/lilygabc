@@ -10,9 +10,9 @@ visual_ly:
 visual_tex:
 	cd tests/visual && make tex
 
-# Run "gold standard" tests
-test-gold:
-	cd tests/gold_standard && ./test.sh
+# Run regression tests
+test-regression:
+	cd tests/regression && ./test.sh
 
 # Dump the visual test examples as LilyPond data structures
 # and compare them
@@ -20,4 +20,4 @@ test-structures:
 	cd tests/lily_structures && ./test.sh --lily-only
 
 # All automated tests
-test: test-unit test-structures test-gold
+test: test-unit test-structures test-regression
