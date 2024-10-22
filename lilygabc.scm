@@ -130,36 +130,35 @@
     'element
     (make-sequential-music
      (append
-      (util:flatten
-       (map
-        (lambda (word)
-          (let ((lyrics
-                 (filter-map
-                  (lambda (syllable)
-                    (cond
-                     ((gabc:syl-has-lyrics? syllable)
-                      (first syllable))
-                     ((gabc:syl-has-notes? syllable)
-                      '(lyrics ""))
-                     (else #f)))
-                  word)))
-            (map
-             (lambda (lyr)
-               (apply
-                make-music
-                (append
-                 (list
-                  'LyricEvent)
-                 (list
-                  'duration (ly:make-duration 2)
-                  'text (second lyr))
-                 (if (and (> (length word) 1)
-                          (not (eq? lyr (last lyrics))))
-                     (list 'articulations
-                           (list (make-music 'HyphenEvent)))
-                     '()))))
-             lyrics)))
-        words))
+      (append-map
+       (lambda (word)
+         (let ((lyrics
+                (filter-map
+                 (lambda (syllable)
+                   (cond
+                    ((gabc:syl-has-lyrics? syllable)
+                     (first syllable))
+                    ((gabc:syl-has-notes? syllable)
+                     '(lyrics ""))
+                    (else #f)))
+                 word)))
+           (map
+            (lambda (lyr)
+              (apply
+               make-music
+               (append
+                (list
+                 'LyricEvent)
+                (list
+                 'duration (ly:make-duration 2)
+                 'text (second lyr))
+                (if (and (> (length word) 1)
+                         (not (eq? lyr (last lyrics))))
+                    (list 'articulations
+                          (list (make-music 'HyphenEvent)))
+                    '()))))
+            lyrics)))
+       words)
       (list (make-music 'CompletizeExtenderEvent))))
     'associated-context context-id
     'associated-context-type 'Voice)))
