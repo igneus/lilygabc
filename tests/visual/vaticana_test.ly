@@ -320,6 +320,26 @@
     \score { \new VaticanaVoice { \clef "vaticana-do3" \[ \stropha \auctum g \] } }
     \score { \gabc-vaticana "(c4) (gs<)" }
   }
+
+  \markup\fill-line{
+    % @test bivirga
+    \score { \new VaticanaVoice { \clef "vaticana-do3" \[ \virga g \virga g \] } }
+    \score { \gabc-vaticana "(c4) (gvv)" }
+
+    % @test trivirga
+    \score { \new VaticanaVoice { \clef "vaticana-do3" \[ \virga g \virga g \virga g \] } }
+    \score { \gabc-vaticana "(c4) (gvvv)" }
+  }
+
+  \markup\fill-line{
+    % @test bistropha
+    \score { \new VaticanaVoice { \clef "vaticana-do3" \[ \stropha g \stropha g \] } }
+    \score { \gabc-vaticana "(c4) (gss)" }
+
+    % @test tristropha
+    \score { \new VaticanaVoice { \clef "vaticana-do3" \[ \stropha g \stropha g \stropha g \] } }
+    \score { \gabc-vaticana "(c4) (gsss)" }
+  }
 }
 
 \bookpart {

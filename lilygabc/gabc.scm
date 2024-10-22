@@ -19,6 +19,7 @@
             note-has-horizontal-episema?
             note-has-linea?
             note-virga-side
+            note-repetitions
             note-has-special-note-head?
             map-syl-elements)
   #:use-module (srfi srfi-1) ; required to use the correct version of `iota`
@@ -129,6 +130,10 @@
      ((string-index a #\V) 'left)
      ((string-index a #\v) 'right)
      (else #f))))
+
+(define (note-repetitions note)
+  (let ((m (string-match "[vs]{2,3}" (note-additional note))))
+    (and m (string-length (match:substring m 0)))))
 
 ;; any note head other than a simple punctum
 (define (note-has-special-note-head? note)

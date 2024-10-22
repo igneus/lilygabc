@@ -130,4 +130,13 @@
  (test-equal '((((space " "))))
              (parse "( )")))
 
+(test-group
+ "note-repetitions"
+
+ (test-equal #f (note-repetitions '(note "g")))
+ (test-equal #f (note-repetitions '(note "g" "v")))
+ (test-equal 2  (note-repetitions '(note "g" "vv")))
+ (test-equal 3  (note-repetitions '(note "g" "vvv")))
+ (test-equal 3  (note-repetitions '(note "g" "sss"))))
+
 (test-end suite-name)

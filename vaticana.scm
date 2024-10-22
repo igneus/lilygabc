@@ -2,6 +2,7 @@
  (ice-9 match)
  (ice-9 regex)
  (ice-9 textual-ports)
+ (srfi srfi-1)
  (srfi srfi-26)
  ((lilygabc gabc) #:prefix gabc:)
  ((lilygabc pitch) #:prefix pitch:)
@@ -84,15 +85,17 @@
                           (begin
                             (set! previous-note item)
                             '())
-                          (apply-vaticana-note-features-2
+                          (apply-note-repetitions
                            note
-                           (list
-                            (apply-vaticana-note-features-1
-                             note
-                             (make-ly-note
-                              (apply ly:make-pitch vaticana-pitch)
-                              (ly:make-duration 2)
-                              #f))))
+                           (apply-vaticana-note-features-2
+                            note
+                            (list
+                             (apply-vaticana-note-features-1
+                              note
+                              (make-ly-note
+                               (apply ly:make-pitch vaticana-pitch)
+                               (ly:make-duration 2)
+                               #f)))))
                           (cond
                            ((and is-melisma (eq? first-note item))
                             (list (context-spec-music (make-property-set 'melismaBusy #t) 'Bottom)))
@@ -168,6 +171,11 @@
              r)))
      ly-note-list
      tests-and-transformations)))
+
+(define (apply-note-repetitions gabc-note music)
+  (let ((num (or (gabc:note-repetitions gabc-note) 1)))
+    (util:flatten
+     (map (lambda (i) music) (iota num)))))
 
 (define gabc-vaticana
   (define-scheme-function
