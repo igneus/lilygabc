@@ -9,6 +9,16 @@
 \\usepackage{lyluatex}
 \\usepackage{gregoriotex}
 
+% This is a rather humbling workaround:
+% the modern notation examples produce crazy vertical margins when set
+% directly in a minipage, but are well-behaved in a framed/shaded
+% environment. So we set them in a shaded environment with white
+% (i.e. invisible) shade.
+% TODO find a cleaner solution
+\\usepackage{framed}
+\\usepackage[usenames]{xcolor}
+\\colorlet{shadecolor}{white}
+
 \\title{lilygabc visual tests: comparison with gregorio}
 
 \\begin{document}
@@ -17,29 +27,33 @@
 (define item-template '("% " " ----------
 \\noindent
 \\begin{minipage}[t]{0.25\\textwidth}
-  \\begin{verbatim}" "\\end{verbatim}
+  % gabc as text
+  \\mbox{}\\vspace*{3.5mm}\\begin{verbatim}" "\\end{verbatim}
 \\end{minipage}
 \\begin{minipage}[t]{0.25\\textwidth}
-  \\gabcsnippet{" "}
+  % Gregorio
+  \\mbox{}\\vspace*{2.2mm}\\gabcsnippet{" "}
 \\end{minipage}
 \\begin{minipage}[t]{0.25\\textwidth}
-  \\begin{lilypond}
+  % lilygabc square notation
+  \\mbox{}\\vspace*{6.45mm}\\begin{lilypond}
     \\include \"gregorian.ly\"
     \\include \"../../lilygabc.ily\"
-    #(set-global-staff-size 34)
+    #(set-global-staff-size 33)
     \\score {
       \\gabc-vaticana \"" "\"
     }
   \\end{lilypond}
 \\end{minipage}
 \\begin{minipage}[t]{0.25\\textwidth}
-  \\begin{lilypond}
+  % lilygabc modern notation
+  \\begin{shaded*}\\begin{lilypond}
     \\include \"../../lilygabc.ily\"
     \\score {
       \\gabc \"" "\"
       \\layout { \\lilygabcModernGregorianStemlessLayout }
     }
-  \\end{lilypond}
+  \\end{lilypond}\\end{shaded*}
 \\end{minipage}"))
 
 (define footer "\\end{document}")
