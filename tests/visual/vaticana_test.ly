@@ -302,8 +302,8 @@
     \score { \gabc-vaticana "(c4) (g._')" }
 
     % @test articulations on a punctum inclinatum
-    \score { \new VaticanaVoice { \clef "vaticana-do3" \[ g\melisma \inclinatum f\ictus \episemInitium \episemFinis \melismaEnd \] } }
-    \score { \gabc-vaticana "(c4) (gF_')" }
+    \score { \new VaticanaVoice { \clef "vaticana-do3" \[ \inclinatum g\ictus \episemInitium \episemFinis \] } }
+    \score { \gabc-vaticana "(c4) (G_')" }
   }
 }
 
