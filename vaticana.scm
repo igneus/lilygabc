@@ -172,11 +172,6 @@
      ly-note-list
      tests-and-transformations)))
 
-(define (apply-note-repetitions gabc-note music)
-  (let ((num (or (gabc:note-repetitions gabc-note) 1)))
-    (util:flatten
-     (map (lambda (i) music) (iota num)))))
-
 (define gabc-vaticana
   (define-scheme-function
     (input)

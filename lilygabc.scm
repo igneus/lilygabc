@@ -49,19 +49,21 @@
                           (set! last-clef-was-flat clef-is-flat)
                           (list (if clef-is-flat key-flat key-natural)))))
                    (('note-with-pitch note pitch)
-                    (list
-                     (apply-note-features
-                      note
-                      (make-ly-note
-                       (apply ly:make-pitch (list-tail pitch 1))
-                       (if (gabc:note-has-punctum-mora? note)
-                           (ly:make-duration 2 1)
-                           (ly:make-duration 2))
-                       (if is-melisma
-                           (cond ((eq? item first-note) -1)
-                                 ((eq? item last-note) 1)
-                                 (else #f))
-                           #f)))))
+                    (apply-note-repetitions
+                     note
+                     (list
+                      (apply-note-features
+                       note
+                       (make-ly-note
+                        (apply ly:make-pitch (list-tail pitch 1))
+                        (if (gabc:note-has-punctum-mora? note)
+                            (ly:make-duration 2 1)
+                            (ly:make-duration 2))
+                        (if is-melisma
+                            (cond ((eq? item first-note) -1)
+                                  ((eq? item last-note) 1)
+                                  (else #f))
+                            #f))))))
                    (('divisio type)
                     (let* ((lilybar
                             (or (assoc-ref divisiones-mapping type)
@@ -117,6 +119,10 @@
              r)))
      ly-note
      tests-and-transformations)))
+
+(define (apply-note-repetitions gabc-note music)
+  (let ((num (or (gabc:note-repetitions gabc-note) 1)))
+    (append-map (lambda (i) music) (iota num))))
 
 (define (make-lyrics words context-id lyrics-type)
   (make-music
