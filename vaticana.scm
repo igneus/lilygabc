@@ -69,6 +69,7 @@
                            ((and is-melisma
                                  (not (or (pitch:pitch=? pitch (third previous-note))
                                           (gabc:note-is-punctum-inclinatum? note)
+                                          (gabc:note-is-punctum-inclinatum? (second previous-note))
                                           (gabc:note-virga-side note))))
                             (list
                              (context-spec-music

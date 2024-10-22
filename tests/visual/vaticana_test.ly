@@ -395,6 +395,18 @@
     \score { \gabc-vaticana "(c4) (hg)" }
   }
 
+  \markup\fill-line{
+    % @test no pes from a punctum inclinatum
+    \score { \new VaticanaVoice { \clef "vaticana-do3" \[ \inclinatum g\melisma a\melismaEnd \] } }
+    \score { \gabc-vaticana "(c4) (Gh)" }
+
+    % @test no flexa to a punctum inclinatum
+    \score { \new VaticanaVoice { \clef "vaticana-do3" \[ g\melisma \inclinatum f\melismaEnd \] } }
+    \score { \gabc-vaticana "(c4) (gF)" }
+
+    "" ""
+  }
+
   \markup{
     three notes
   }
