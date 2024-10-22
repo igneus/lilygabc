@@ -64,7 +64,7 @@ lilygabcVaticanaLayout = \layout {
   % when included in the same document
   #(layout-set-staff-size 26)
 
-  % TODO where is the default global setting which makes VaticanaLyrics so tiny?
+  % default value of -4 is set in engraver-init.ly
   \override VaticanaLyrics.LyricText.font-size = #-0.8
 }
 
