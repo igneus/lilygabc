@@ -282,6 +282,44 @@
     \score { \new VaticanaVoice { \clef "vaticana-do3" \[ \quilisma g \] } }
     \score { \gabc-vaticana "(c4) (gw)" }
   }
+
+  \markup\fill-line{
+    % @test punctum cavum
+    \score { \new VaticanaVoice { \clef "vaticana-do3" \[ \cavum g \] } }
+    \score { \gabc-vaticana "(c4) (gr)" }
+
+    % LilyPond doesn't support punctum inclinatum cavum
+    \score { \new VaticanaVoice { \clef "vaticana-do3" \[ \inclinatum g \] } \layout { \xfail } }
+    \score { \gabc-vaticana "(c4) (Gr)" }
+  }
+
+  \markup\fill-line{
+    % @test linea
+    \score { \new VaticanaVoice { \clef "vaticana-do3" \[ \linea g \] } }
+    \score { \gabc-vaticana "(c4) (gR)" }
+
+    % @test cavum + linea
+    \score { \new VaticanaVoice { \clef "vaticana-do3" \[ \linea \cavum g \] } }
+    \score { \gabc-vaticana "(c4) (gr0)" }
+  }
+
+  \markup\fill-line{
+    % TODO custom glyph probably required
+    \score { \new VaticanaVoice { \clef "vaticana-do3" \[ g \] } \layout { \xfail } }
+    \score { \gabc-vaticana "(c4) (g=)" }
+
+    "" ""
+  }
+
+  \markup\fill-line{
+    % @test stropha
+    \score { \new VaticanaVoice { \clef "vaticana-do3" \[ \stropha g \] } }
+    \score { \gabc-vaticana "(c4) (gs)" }
+
+    % @test stropha aucta
+    \score { \new VaticanaVoice { \clef "vaticana-do3" \[ \stropha \auctum g \] } }
+    \score { \gabc-vaticana "(c4) (gs<)" }
+  }
 }
 
 \bookpart {

@@ -97,6 +97,8 @@
              (parse "(gv)"))
  (test-equal '((((note "g" "V"))))
              (parse "(gV)"))
+ (test-equal '((((note "g" "r0"))))
+             (parse "(gr0)"))
 
  ;; articulations
  (test-equal '((((note "g" "."))))

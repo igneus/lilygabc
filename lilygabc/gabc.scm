@@ -12,9 +12,12 @@
             note-is-descendens?
             note-is-oriscus?
             note-is-quilisma?
+            note-is-cavum?
+            note-is-stropha?
             note-has-punctum-mora?
             note-has-ictus?
             note-has-horizontal-episema?
+            note-has-linea?
             note-virga-side
             note-has-special-note-head?
             map-syl-elements)
@@ -100,6 +103,12 @@
 (define (note-is-quilisma? note)
   (note-additional-contains? #\w note))
 
+(define (note-is-cavum? note)
+  (note-additional-contains? #\r note))
+
+(define (note-is-stropha? note)
+  (note-additional-contains? #\s note))
+
 (define (note-has-punctum-mora? note)
   (note-additional-contains? #\. note))
 
@@ -108,6 +117,11 @@
 
 (define (note-has-horizontal-episema? note)
   (note-additional-contains? #\_ note))
+
+(define (note-has-linea? note)
+  (let ((a (note-additional note)))
+    (or (string-index a #\R)
+        (string-contains a "r0"))))
 
 (define (note-virga-side note)
   (let ((a (note-additional note)))
@@ -119,7 +133,7 @@
 ;; any note head other than a simple punctum
 (define (note-has-special-note-head? note)
   (or (char-upper-case? (string-ref (note-name note) 0))
-      (string-match "[-~<>=ovVwWs]" (note-additional note))))
+      (string-match "[-~<>=orRsvVwW]" (note-additional note))))
 
 ;; operations on the score data structure
 
@@ -132,7 +146,7 @@
     ("y" . natural)))
 
 (define (parse-music-syllable lyrics music)
-  (let ((matches (list-matches "([cf]b?[1-4])|([a-m][xy#])|(-)?([a-mA-M])([n-zN-Z~<>\\._']+)?|([,;:`]+)|([!@ ]|/{1,2})|\\|(.*$)" music)))
+  (let ((matches (list-matches "([cf]b?[1-4])|([a-m][xy#])|(-)?([a-mA-M])([n-zN-Z~<>\\._'0]+)?|([,;:`]+)|([!@ ]|/{1,2})|\\|(.*$)" music)))
     (filter
      values
      (append
