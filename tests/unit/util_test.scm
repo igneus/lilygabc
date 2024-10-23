@@ -38,4 +38,15 @@
  (test-equal '((2 4) (6 8))
              (map2 (lambda (x) (* 2 x)) '((1 2) (3 4)))))
 
+(test-group
+ "map-with-previous"
+ (test-equal '()
+             (map-with-previous list '()))
+ (test-equal '((#nil 1))
+             (map-with-previous list '(1)))
+ (test-equal '((#nil 1) (1 2))
+             (map-with-previous list '(1 2)))
+ (test-equal '((#nil 1) (1 2) (2 3))
+             (map-with-previous list '(1 2 3))))
+
 (test-end suite-name)

@@ -5,6 +5,7 @@
             split-at
             map2
             map3
+            map-with-previous
             irange
             char-range)
   #:use-module (srfi srfi-1)
@@ -34,6 +35,18 @@
 
 (define (map3 fn lst)
   (map (cut map2 fn <>) lst))
+
+;; Map variant passing to the function two arguments.
+;; The second argument is "current", the first "previous".
+;; For the first list item "previous" is #nil.
+(define (map-with-previous fn lst)
+  (pair-fold
+   (lambda (sublist r)
+     (if (> 2 (length sublist))
+         r
+         (append r (list (fn (first sublist) (second sublist))))))
+   '()
+   (cons #nil lst)))
 
 ;; Generating lists of value ranges
 
