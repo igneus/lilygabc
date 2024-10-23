@@ -66,15 +66,10 @@
                                        (gabc:note-is-punctum-inclinatum? (second previous-note))
                                        (gabc:note-virga-side note))))
                          (list
-                          (context-spec-music
-                           (make-music
-                            'OverrideProperty
-                            'symbol 'NoteHead
-                            'grob-property-path '(pes-or-flexa)
-                            'grob-value #t
-                            'pop-first #t
-                            'once #t)
-                           'Bottom)))
+                          (once
+                           (context-spec-music
+                            (make-grob-property-override 'NoteHead 'pes-or-flexa #t)
+                            'Bottom))))
                         (else
                          '()))
                        (begin
