@@ -5,6 +5,7 @@
  (ice-9 textual-ports))
 
 (define header "\\documentclass[a4paper, 12pt]{article}
+\\usepackage[left=1.5cm, right=1.5cm, top=3cm, bottom=3cm]{geometry}
 
 \\usepackage{lyluatex}
 \\usepackage{gregoriotex}
