@@ -3,6 +3,15 @@
 LilyPond library which reads chant scores encoded in the
 [gabc][gabc] format and translates them to LilyPond data structures,
 allowing easy inclusion of gabc scores in LilyPond documents.
+This kind of easy:
+
+```lilypond
+\include "lilygabc.ily"
+
+\score {
+  \gabc-file "path/to/score.gabc"
+}
+```
 
 Originally inspired by [this forum post](https://forum.musicasacra.com/forum/discussion/comment/256478#Comment_256478).
 Given the vast amount of chant transcriptions available
@@ -21,6 +30,9 @@ is useful.
 - [ ] render contents of gabc files in modern notation
 - [ ] fundamental support for the chant notation styles supported by LilyPond
 - [ ] neume detection/interpretation mimicking Gregorio (for all basic neumes and at least the most common composed ones)
+- [ ] (yet another) conversion script converting gabc to clean LilyPond
+  code - because easy inclusion of gabc scores in LilyPond documents
+  is nice, but sometimes manual tweaking is necessary
 
 ## Prerequisites
 
@@ -35,6 +47,7 @@ For running tests:
 - Guile
 - Bash
 - GNU Make (or compatible)
+- diff (from GNU diffutils or compatible)
 
 For building the Gregorio vs. lilygabc visual test (`make visual_tex`):
 
@@ -124,10 +137,18 @@ in progress, limits of what LilyPond can do haven't been reached yet.)
 
 `$ make test`
 
+This command executes several layers of tests:
+
+- unit tests of the core Scheme modules
+- integration tests checking music structures produced by lilygabc
+  against expected results coded manually in LilyPond
+- regression tests checking music structures of real-life scores
+  against structures previously saved
+
 **Visual tests:**
 
 engrave the documents in `tests/visual/`,
-check results according to the instructions in the resulting documents.
+check results according to instructions in the resulting documents.
 
 ## License
 
