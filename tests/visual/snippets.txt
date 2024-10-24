@@ -61,6 +61,13 @@
 (gr0)
 (Gr)
 
+= Articulations
+
+(g.)
+(g..)
+(g_)
+(g')
+
 = Divisiones
 
 (g) (,) (g)

@@ -350,7 +350,9 @@
     \score { \new VaticanaVoice { \clef "vaticana-do3" \augmentum g g } }
     \score { \gabc-vaticana "(c4) (g.) (g)" }
 
-    "" ""
+    % @test double punctum mora
+    \score { \new VaticanaVoice { \clef "vaticana-do3" \augmentum \augmentum g g } }
+    \score { \gabc-vaticana "(c4) (g..) (g)" }
   }
 
   \markup\fill-line{

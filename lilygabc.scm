@@ -57,7 +57,7 @@
                        (make-ly-note
                         (apply ly:make-pitch (list-tail pitch 1))
                         (if (gabc:note-has-punctum-mora? note)
-                            (ly:make-duration 2 1)
+                            (ly:make-duration 2 (gabc:note-punctum-mora-count note))
                             (ly:make-duration 2))
                         (if is-melisma
                             (cond ((eq? item first-note) -1)

@@ -20,6 +20,7 @@
             note-has-linea?
             note-virga-side
             note-repetitions
+            note-punctum-mora-count
             note-has-special-note-head?
             map-syl-elements)
   #:use-module (srfi srfi-1) ; required to use the correct version of `iota`
@@ -134,6 +135,11 @@
 (define (note-repetitions note)
   (let ((m (string-match "[vs]{2,3}" (note-additional note))))
     (and m (string-length (match:substring m 0)))))
+
+(define (note-punctum-mora-count note)
+  (let ((m (string-match "\\.{1,2}" (note-additional note))))
+    (or (and m (string-length (match:substring m 0)))
+        0)))
 
 ;; any note head other than a simple punctum
 (define (note-has-special-note-head? note)

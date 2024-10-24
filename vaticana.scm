@@ -122,6 +122,7 @@
 (define (apply-vaticana-note-features-1 gabc-note ly-note)
   (let ((tests-and-transformations
          `((,gabc:note-has-punctum-mora? . ,augmentum)
+           (,(lambda (x) (< 1 (gabc:note-punctum-mora-count x))) . ,augmentum)
            (,gabc:note-has-ictus? . ,(cut apply-articulation ictus <>))
            (,gabc:note-has-horizontal-episema? . ,apply-single-note-episema))))
     (fold

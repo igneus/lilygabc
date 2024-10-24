@@ -306,9 +306,17 @@ allGabcNotes = " (a) (b) (c) (d) (e) (f) (g) (h) (i) (j) (k) (l) (m)"
     \score { { g'4( { \once \teeny f') } } }
     \score { \gabc "(c4) (gf~)" }
 
+    "" ""
+  }
+
+  \markup\fill-line{
     % @test punctum mora
     \score { { g'4. g'4 } }
     \score { \gabc "(c4) (g.) (g)" }
+
+    % @test double punctum mora
+    \score { { g'4.. g'4 } }
+    \score { \gabc "(c4) (g..) (g)" }
   }
 
   \markup\fill-line{
