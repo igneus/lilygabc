@@ -537,6 +537,14 @@ allGabcNotes = " (a) (b) (c) (d) (e) (f) (g) (h) (i) (j) (k) (l) (m)"
 
     ""
   }
+
+  \markup\fill-line{
+    % @test formatting tags (for the time being ignored)
+    \score { { g'4 } \addlyrics { La } }
+    \score { \gabc "(c4) <b>La</b>(g)" }
+
+    "" ""
+  }
 }
 
 \bookpart {

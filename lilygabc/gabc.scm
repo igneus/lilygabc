@@ -61,7 +61,7 @@
     (util:map2
      (lambda (x)
        (parse-music-syllable
-        (string-trim-both (match:substring x 1))
+        (string-trim-both (remove-tags (match:substring x 1)))
         (match:substring x 2)))
      words)))
 
@@ -231,3 +231,6 @@
                   (list (string-join (filter values (list note-shape note-debilis)) ""))
                   '()))))))
        matches)))))
+
+(define (remove-tags lyric-syllable)
+  (regexp-substitute/global #f "<[^>]*>" lyric-syllable 'pre "" 'post))

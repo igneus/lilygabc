@@ -56,6 +56,8 @@
              (parse "la(g)\nla(g)"))
  (test-equal '((((lyrics "la"))))
              (parse "la()"))
+ (test-equal '((((lyrics "la"))))
+             (parse "<b>la</b>()"))
 
  ;; score header
  (test-equal '((((clef "c" 4 #f)))) ; header is ignored
