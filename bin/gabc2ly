@@ -3,6 +3,42 @@
 # Takes path of a gabc file, prints it to the stdout
 # converted to LilyPond.
 
-BIN_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
+POSITIONAL_ARGS=()
 
-GABC2LY_INPUT_FILE=$1 lilypond $BIN_DIR/gabc2ly.ly
+while [[ $# -gt 0 ]]; do
+    case $1 in
+        -s|--scheme)
+            export GABC2LY_SCHEME=1
+            shift
+            ;;
+        -V|--vaticana)
+            export GABC2LY_VATICANA=1
+            shift
+            ;;
+        -h|--help)
+            echo "gabc2ly [options] <input_file.gabc>"
+            echo
+            echo "Translates a gabc file to LilyPond (or Scheme), prints the code"
+            echo
+            echo "-s --scheme   Produce Scheme code instead of LilyPond"
+            echo "-V --vaticana Produce square notation"
+            echo "-h --help     Print this help"
+            exit
+            ;;
+        -*|--*)
+            echo "Unknown option $1"
+            exit 1
+            ;;
+        *)
+            POSITIONAL_ARGS+=("$1")
+            shift
+            ;;
+    esac
+done
+
+set -- "${POSITIONAL_ARGS[@]}" # restore positional parameters
+
+export GABC2LY_INPUT_FILE=$1
+
+BIN_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
+lilypond $BIN_DIR/gabc2ly.ly

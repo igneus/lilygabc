@@ -57,6 +57,11 @@ For building the Gregorio vs. lilygabc visual test (`make visual_tex`):
 
 ## Usage
 
+lilygabc supports rendering gabc scores both in modern notation
+and in square notation.
+
+### Modern notation
+
 Command `\gabc` loads music from a gabc string,
 `\gabc-file` from a file.
 
@@ -97,10 +102,12 @@ include paths:
 
 [![Example output: modern notation](/doc/example.png)](/doc/example.ly)
 
+### Square notation
+
 In order to render gabc scores in square notation,
 use commands `\gabc-vaticana` and `\gabc-vaticana-file`.
 
-Note that in this case you have to `\include "gregorian.ly"`
+Note that in this case it's necessary to `\include "gregorian.ly"`
 in addition to lilygabc.
 (lilygabc doesn't include `gregorian.ly` by default
 and leaves it to the user, because `gregorian.ly` changes
@@ -130,6 +137,18 @@ control over *if* and *when* these changes are applied.)
 
 (The square notation support in lilygabc is still very much a work
 in progress, limits of what LilyPond can do haven't been reached yet.)
+
+### Conversion script
+
+A script is provided, which simply dumps the music structures
+built by lilygabc as either LilyPond or Scheme code.
+Be warned that the code thus produced is rather ugly.
+
+```sh
+$ ./bin/gabc2ly gabc_file.gabc
+$ ./bin/gabc2ly --scheme gabc_file.gabc
+$ ./bin/gabc2ly --vaticana gabc_file.gabc
+```
 
 ## Running tests
 
