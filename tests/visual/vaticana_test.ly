@@ -404,7 +404,9 @@
     \score { \new VaticanaVoice { \clef "vaticana-do3" \[ g\melisma \inclinatum f\melismaEnd \] } }
     \score { \gabc-vaticana "(c4) (gF)" }
 
-    "" ""
+    % @test no pes after a virga
+    \score { \new VaticanaVoice { \clef "vaticana-do3" \[ \virga f\melisma g\melismaEnd \] } }
+    \score { \gabc-vaticana "(c4) (fvg)" }
   }
 
   \markup{
