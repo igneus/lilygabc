@@ -14,6 +14,7 @@
             note-is-quilisma?
             note-is-cavum?
             note-is-stropha?
+            note-is-virga?
             note-has-punctum-mora?
             note-has-ictus?
             note-has-horizontal-episema?
@@ -110,6 +111,9 @@
 
 (define (note-is-stropha? note)
   (note-additional-contains? #\s note))
+
+(define (note-is-virga? note)
+  (not (eq? #f (note-virga-side note))))
 
 (define (note-has-punctum-mora? note)
   (note-additional-contains? #\. note))

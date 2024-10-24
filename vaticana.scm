@@ -65,9 +65,9 @@
                          ((and is-melisma
                                (not (or (pitch:pitch=? pitch (third previous-note))
                                         (gabc:note-is-punctum-inclinatum? note)
-                                        (gabc:note-virga-side note)
+                                        (gabc:note-is-virga? note)
                                         (gabc:note-is-punctum-inclinatum? (second previous-note))
-                                        (gabc:note-virga-side (second previous-note))
+                                        (gabc:note-is-virga? (second previous-note))
                                         (and previous-item (eq? 'space (first previous-item))))))
                           (list
                            (once
@@ -140,7 +140,7 @@
          `((,gabc:note-is-diminutive? . ,deminutum)
            (,gabc:note-is-punctum-inclinatum? . ,inclinatum)
            (,gabc:note-is-debilis? . ,deminutum)
-           (,gabc:note-virga-side . ,virga)
+           (,gabc:note-is-virga? . ,virga)
            (,(lambda (x)
                (and (gabc:note-is-ascendens? x)
                     (not (gabc:note-is-stropha? x))))
