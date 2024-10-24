@@ -362,7 +362,7 @@
 
     % @test horizontal episema
     \score { \new VaticanaVoice { \clef "vaticana-do3" g\episemInitium\episemFinis } }
-    \score { \gabc-vaticana "(c4) (g_)" } % horizontal episema
+    \score { \gabc-vaticana "(c4) (g_)" }
   }
 
   \markup\fill-line{
