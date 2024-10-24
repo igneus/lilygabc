@@ -18,7 +18,8 @@
      ;; Defining a new custom articulation would be semantically cleaner,
      ;; but the advantage of redefining staccatissimo is that it provides
      ;; a default look, more or less conveying the information,
-     ;; even if the custom articulation definitions are not applied.
+     ;; even if only bare default LilyPond settings are used
+     ;; and the custom articulation definitions are not applied.
      `(staccatissimo
        . ((stencil . ,lilygabc:modern-gregorian:ictus-stencil)
           (toward-stem-shift-in-column . 0.0)
