@@ -19,6 +19,9 @@
             note-has-ictus?
             note-has-horizontal-episema?
             note-has-linea?
+            note-has-accentus?
+            note-has-circulus?
+            note-has-semicirculus?
             note-virga-side
             note-repetitions
             note-punctum-mora-count
@@ -88,6 +91,9 @@
 (define (note-additional-contains? char note)
   (string-index (note-additional note) char))
 
+(define (note-additional-matches? regexp note)
+  (not (eq? #f (string-match regexp (note-additional note)))))
+
 (define (note-is-diminutive? note)
   (string-prefix? "~" (note-additional note)))
 
@@ -107,7 +113,7 @@
   (note-additional-contains? #\w note))
 
 (define (note-is-cavum? note)
-  (note-additional-contains? #\r note))
+  (note-additional-matches? "r($|[^1-9])" note))
 
 (define (note-is-stropha? note)
   (note-additional-contains? #\s note))
@@ -125,9 +131,16 @@
   (note-additional-contains? #\_ note))
 
 (define (note-has-linea? note)
-  (let ((a (note-additional note)))
-    (or (string-index a #\R)
-        (string-contains a "r0"))))
+  (note-additional-matches? "R|r0" note))
+
+(define (note-has-accentus? note)
+  (note-additional-matches? "r[12]" note))
+
+(define (note-has-circulus? note)
+  (string-contains (note-additional note) "r3"))
+
+(define (note-has-semicirculus? note)
+  (note-additional-matches? "r[45]" note))
 
 (define (note-virga-side note)
   (let ((a (note-additional note)))
@@ -148,7 +161,7 @@
 ;; any note head other than a simple punctum
 (define (note-has-special-note-head? note)
   (or (char-upper-case? (string-ref (note-name note) 0))
-      (string-match "[-~<>=orRsvVwW]" (note-additional note))))
+      (string-match "[-~<>=osvVwWR]|r($|[^1-9])" (note-additional note))))
 
 ;; operations on the score data structure
 
@@ -161,7 +174,7 @@
     ("y" . natural)))
 
 (define (parse-music-syllable lyrics music)
-  (let ((matches (list-matches "([cf]b?[1-4])|([a-m][xy#])|(-)?([a-mA-M])([n-zN-Z~<>\\._'0]+)?|([,;:`]+)|([!@ ]|/{1,2})|\\|(.*$)" music)))
+  (let ((matches (list-matches "([cf]b?[1-4])|([a-m][xy#])|(-)?([a-mA-M])([n-zN-Z~<>\\._'0-9]+)?|([,;:`]+)|([!@ ]|/{1,2})|\\|(.*$)" music)))
     (filter
      values
      (append

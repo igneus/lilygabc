@@ -124,6 +124,9 @@
          `((,gabc:note-has-punctum-mora? . ,augmentum)
            (,(lambda (x) (< 1 (gabc:note-punctum-mora-count x))) . ,augmentum)
            (,gabc:note-has-ictus? . ,(cut apply-articulation ictus <>))
+           (,gabc:note-has-accentus? . ,(cut apply-articulation accentus <>))
+           (,gabc:note-has-circulus? . ,(cut apply-articulation circulus <>))
+           (,gabc:note-has-semicirculus? . ,(cut apply-articulation semicirculus <>))
            (,gabc:note-has-horizontal-episema? . ,apply-single-note-episema))))
     (fold
      (lambda (x r)

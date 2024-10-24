@@ -139,4 +139,11 @@
  (test-equal 3  (note-repetitions '(note "g" "vvv")))
  (test-equal 3  (note-repetitions '(note "g" "sss"))))
 
+(test-group
+ "note-is-cavum?"
+ (test-equal #f (note-is-cavum? '(note "g")))
+ (test-equal #t (note-is-cavum? '(note "g" "r")))
+ (test-equal #t (note-is-cavum? '(note "g" "r_")))
+ (test-equal #f (note-is-cavum? '(note "g" "r1"))))
+
 (test-end suite-name)

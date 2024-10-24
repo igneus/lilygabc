@@ -374,6 +374,34 @@
     \score { \new VaticanaVoice { \clef "vaticana-do3" \[ \inclinatum g\ictus \episemInitium \episemFinis \] } }
     \score { \gabc-vaticana "(c4) (G_')" }
   }
+
+  \markup\fill-line{
+    % @test accent
+    \score { \new VaticanaVoice { \clef "vaticana-do3" g\accentus } }
+    \score { \gabc-vaticana "(c4) (gr1)" }
+
+    % accent grave
+    \score { \new VaticanaVoice { \clef "vaticana-do3" g\accentus } \layout { \xfail } }
+    \score { \gabc-vaticana "(c4) (gr2)" }
+  }
+
+  \markup\fill-line{
+    % @test circle
+    \score { \new VaticanaVoice { \clef "vaticana-do3" g\circulus } }
+    \score { \gabc-vaticana "(c4) (gr3)" }
+
+    % @test lower semicircle
+    \score { \new VaticanaVoice { \clef "vaticana-do3" g\semicirculus } }
+    \score { \gabc-vaticana "(c4) (gr4)" }
+  }
+
+  \markup\fill-line{
+    % accent upper semicircle
+    \score { \new VaticanaVoice { \clef "vaticana-do3" g\semicirculus } \layout { \xfail } }
+    \score { \gabc-vaticana "(c4) (gr5)" }
+
+    "" ""
+  }
 }
 
 \bookpart {
