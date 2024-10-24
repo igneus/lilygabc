@@ -221,6 +221,26 @@
 
     "" ""
   }
+
+  \markup{musica ficta:}
+
+  \markup\fill-line{
+    % @test musica ficta flat
+    \score { \new VaticanaVoice { \clef "vaticana-do2" { \once \set suggestAccidentals = ##t bes4 } } }
+    \score { \gabc-vaticana "(c3) (gr6)" }
+
+    % @test musica ficta natural
+    \score { \new VaticanaVoice { \clef "vaticana-do2" { \key f \major } { \once \set suggestAccidentals = ##t b4 } } }
+    \score { \gabc-vaticana "(cb3) (gr7)" }
+  }
+
+  \markup\fill-line{
+    % @test musica ficta sharp
+    \score { \new VaticanaVoice { \clef "vaticana-do3" { \once \set suggestAccidentals = ##t gis4 } } }
+    \score { \gabc-vaticana "(c4) (gr8)" }
+
+    "" ""
+  }
 }
 
 \bookpart {
@@ -399,26 +419,6 @@
     % accent upper semicircle
     \score { \new VaticanaVoice { \clef "vaticana-do3" g\semicirculus } \layout { \xfail } }
     \score { \gabc-vaticana "(c4) (gr5)" }
-
-    "" ""
-  }
-
-  \markup{musica ficta:}
-
-  \markup\fill-line{
-    % @test musica ficta flat
-    \score { \new VaticanaVoice { \clef "vaticana-do2" { \once \set suggestAccidentals = ##t bes4 } } }
-    \score { \gabc-vaticana "(c3) (gr6)" }
-
-    % @test musica ficta natural
-    \score { \new VaticanaVoice { \clef "vaticana-do2" { \key f \major } { \once \set suggestAccidentals = ##t b4 } } }
-    \score { \gabc-vaticana "(cb3) (gr7)" }
-  }
-
-  \markup\fill-line{
-    % @test musica ficta sharp
-    \score { \new VaticanaVoice { \clef "vaticana-do3" { \once \set suggestAccidentals = ##t gis4 } } }
-    \score { \gabc-vaticana "(c4) (gr8)" }
 
     "" ""
   }
