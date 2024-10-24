@@ -523,6 +523,53 @@ allGabcNotes = " (a) (b) (c) (d) (e) (f) (g) (h) (i) (j) (k) (l) (m)"
 }
 
 \bookpart {
+  \header {
+    subtitle = "remixing gabc-sourced music"
+    subsubtitle = "integrating in and interacting with other LilyPond constructs"
+  }
+
+  \score {
+    \transpose d fis {
+      \key c \major
+      \gabc "(c4) A(ghg)men.(fg) (::)"
+    }
+    \layout { \lilygabcModernGregorianLayout }
+    \header {
+      piece = "transposition"
+    }
+  }
+
+  \score {
+    <<
+      \new Voice = "v" { \gabc "(c4) (ghg) (fg) (::)" }
+      \new Lyrics \lyricsto "v" { A -- men. }
+      \new Lyrics \lyricsto "v" { La -- la. }
+    >>
+    \layout { \lilygabcModernGregorianLayout }
+    \header {
+      piece = "gabc music + LilyPond lyrics"
+    }
+  }
+
+  \score {
+    {
+      \relative c'' { c4 c c c c c c c c }
+
+      \gabc "(c4) A(ij)men.(j) (;)"
+
+      \gabc "(c4) Al(j)le(k)lu(ji)ia.(i) (::)"
+    }
+    \addlyrics { et in sae -- cu -- la sae -- cu -- lo -- rum. }
+    \layout { \lilygabcModernGregorianLayout }
+    \header {
+      piece = "multiple gabc pieces in a single LilyPond score"
+    }
+  }
+
+  % TODO: parallel music
+}
+
+\bookpart {
   \header { subtitle = "real-life score" }
 
   \markup\justify{

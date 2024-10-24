@@ -432,13 +432,17 @@
   \header { subtitle = "neumatic divisions / spaces" }
 
   \markup\fill-line{
-    % @test
+    % @test zero width whitespace
     \score { \new VaticanaVoice { \clef "vaticana-do3" \[ g\melisma a\melismaEnd \] } }
     \score { \gabc-vaticana "(c4) (g!h)" }
 
+    % @test neume fusion (no way to do that here, we treat it as a simple zero width whitespace)
+    \score { \new VaticanaVoice { \clef "vaticana-do3" \[ g\melisma a\melismaEnd \] } }
+    \score { \gabc-vaticana "(c4) (g@h)" }
+
     % @test
     \score { \new VaticanaVoice { \clef "vaticana-do2" \[ c'\melisma \flexa b c' \pes d' \flexa c'\melismaEnd \] } }
-    \score { \gabc-vaticana "(c3) (hg/hih)" }
+    \score { \gabc-vaticana "(c3) (hg!hih)" }
 
     "" ""
   }
