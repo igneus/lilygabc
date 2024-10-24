@@ -127,7 +127,8 @@
            (,gabc:note-has-accentus? . ,(cut apply-articulation accentus <>))
            (,gabc:note-has-circulus? . ,(cut apply-articulation circulus <>))
            (,gabc:note-has-semicirculus? . ,(cut apply-articulation semicirculus <>))
-           (,gabc:note-has-horizontal-episema? . ,apply-single-note-episema))))
+           (,gabc:note-has-horizontal-episema? . ,apply-single-note-episema)
+           (,gabc:note-has-musica-ficta? . ,apply-musica-ficta))))
     (fold
      (lambda (x r)
        (match-let (((test . transformation) x))

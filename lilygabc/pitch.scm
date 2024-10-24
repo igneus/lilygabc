@@ -25,8 +25,15 @@
        (note-index (list-index (cut string=? (string-downcase (second note)) <>) note-names))
        (note-num (+ 5 note-index clef-shift))
        (step (modulo note-num 7))
-       (octave (- (truncate-quotient note-num 7) 1)))
-    (list octave step)))
+       (octave (- (truncate-quotient note-num 7) 1))
+       (accidental
+        (if (and (eq? 'note (first note))
+                 (gabc:note-has-musica-ficta? note))
+            (gabc:note-ficta-value note)
+            0)))
+    (if (= 0 accidental)
+        (list octave step)
+        (list octave step accidental))))
 
 ;; Octave step to which an accidental is related, as an integer
 (define (accidental-step clef accidental)
@@ -62,9 +69,12 @@
                    (append
                     '(pitch)
                     pitch
-                    (if accidental
-                        (list (if (eq? 'sharp accidental) 1/2 -1/2))
-                        '()))))))
+                    (cond
+                     ((gabc:note-has-musica-ficta? x)
+                      '()) ; accidental already populated by 'note-pitch'
+                     (accidental
+                      (list (if (eq? 'sharp accidental) 1/2 -1/2)))
+                     (else '())))))))
               ((accidental)
                (let ((step (accidental-step clef x))
                      (accidental-type (third x)))

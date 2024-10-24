@@ -110,7 +110,8 @@
             ;; TODO probably drop in favor of the actual episema
             (,gabc:note-has-horizontal-episema? . ,(cut apply-articulation-up tenuto <>))
             (,gabc:note-is-virga? . ,(cut apply-virga virga-side <>))
-            (,gabc:note-is-quilisma? . ,(cut apply-articulation prall <>)))))
+            (,gabc:note-is-quilisma? . ,(cut apply-articulation prall <>))
+            (,gabc:note-has-musica-ficta? . ,apply-musica-ficta))))
     (fold
      (lambda (x r)
        (match-let (((test . transformation) x))

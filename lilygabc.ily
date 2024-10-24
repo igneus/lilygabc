@@ -119,5 +119,9 @@ apply-virga =
      #note
    #})
 
+apply-musica-ficta =
+#(define-music-function (note) (ly:music?)
+  #{ \once \set suggestAccidentals = ##t #note #})
+
 key-flat = { \key f \major }
 key-natural = { \key c \major }

@@ -22,9 +22,11 @@
             note-has-accentus?
             note-has-circulus?
             note-has-semicirculus?
+            note-has-musica-ficta?
             note-virga-side
             note-repetitions
             note-punctum-mora-count
+            note-ficta-value
             note-has-special-note-head?
             map-syl-elements)
   #:use-module (srfi srfi-1) ; required to use the correct version of `iota`
@@ -142,6 +144,9 @@
 (define (note-has-semicirculus? note)
   (note-additional-matches? "r[45]" note))
 
+(define (note-has-musica-ficta? note)
+  (note-additional-matches? "r[6-8]" note))
+
 (define (note-virga-side note)
   (let ((a (note-additional note)))
     (cond
@@ -157,6 +162,11 @@
   (let ((m (string-match "\\.{1,2}" (note-additional note))))
     (or (and m (string-length (match:substring m 0)))
         0)))
+
+(define (note-ficta-value note)
+  (let* ((m (string-match "r([6-8])" (note-additional note)))
+         (num (and m (string->number (match:substring m 1)))))
+    (/ (- num 7) 2))) ; LOL
 
 ;; any note head other than a simple punctum
 (define (note-has-special-note-head? note)

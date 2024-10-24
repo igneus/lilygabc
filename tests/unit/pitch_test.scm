@@ -6,7 +6,8 @@
 (test-begin suite-name)
 
 (let
-    ((c4-clef '(clef "c" 4 #f))
+    ((c4-clef  '(clef "c" 4 #f))
+     (cb4-clef '(clef "c" 4 #t))
      (c1-clef '(clef "c" 1 #f)))
   (test-group
    "note-pitch"
@@ -20,7 +21,15 @@
                (note-pitch c4-clef '(note "m")))
 
    (test-equal '(1 0)
-               (note-pitch c1-clef '(note "d"))))
+               (note-pitch c1-clef '(note "d")))
+
+   ;; musica ficta
+   (test-equal '(0 6 -1/2)
+               (note-pitch c4-clef '(note "i" "r6")))
+   (test-equal '(0 6)
+               (note-pitch cb4-clef '(note "i" "r7")))
+   (test-equal '(0 4 1/2)
+               (note-pitch c4-clef '(note "g" "r8"))))
 
   (test-group
    "accidental-step"
@@ -117,6 +126,14 @@
              (decorate-notes '((((clef "c" 4 #t)
                                  (clef "c" 4 #f)))
                                (((note "i"))))))
+ ;; - musica ficta natural cancels the clef accidental,
+ ;;   but only for the single note
+ (test-equal '((((clef "c" 4 #t)
+                 (note-with-pitch (note "i" "r7") (pitch 0 6))
+                 (note-with-pitch (note "i") (pitch 0 6 -1/2)))))
+             (decorate-notes '((((clef "c" 4 #t)
+                                 (note "i" "r7")
+                                 (note "i"))))))
  )
 
 (test-group

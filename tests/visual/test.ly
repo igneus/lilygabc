@@ -254,6 +254,26 @@ allGabcNotes = " (a) (b) (c) (d) (e) (f) (g) (h) (i) (j) (k) (l) (m)"
 
     "" ""
   }
+
+  \markup{musica ficta:}
+
+  \markup\line{
+    % @test musica ficta flat
+    \score { { { \once \set suggestAccidentals = ##t bes'4 } } }
+    \score { \gabc "(c3) (gr6)" }
+
+    % @test musica ficta natural
+    \score { { { \key f \major } { \once \set suggestAccidentals = ##t b'4 } } }
+    \score { \gabc "(cb3) (gr7)" }
+  }
+
+  \markup\line{
+    % @test musica ficta sharp
+    \score { { { \once \set suggestAccidentals = ##t gis'4 } } }
+    \score { \gabc "(c4) (gr8)" }
+
+    "" ""
+  }
 }
 
 \bookpart {

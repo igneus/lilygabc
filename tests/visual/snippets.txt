@@ -25,6 +25,10 @@
 
 (gxg g#g gyg)
 
+= Musica ficta
+
+(gr6) (gr7) (gr8)
+
 = Note range
 
 (a) (b) (c) (d) (e)
