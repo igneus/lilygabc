@@ -387,11 +387,11 @@
 
   \markup\fill-line{
     % @test all supported articulations at once
-    \score { \new VaticanaVoice { \clef "vaticana-do3" \augmentum g\ictus \episemInitium \episemFinis } }
+    \score { \new VaticanaVoice { \clef "vaticana-do3" \augmentum g\episemInitium \episemFinis \ictus } }
     \score { \gabc-vaticana "(c4) (g._')" }
 
     % @test articulations on a punctum inclinatum
-    \score { \new VaticanaVoice { \clef "vaticana-do3" \[ \inclinatum g\ictus \episemInitium \episemFinis \] } }
+    \score { \new VaticanaVoice { \clef "vaticana-do3" \[ \inclinatum g\episemInitium \episemFinis \ictus \] } }
     \score { \gabc-vaticana "(c4) (G_')" }
   }
 
@@ -421,6 +421,16 @@
     % @test accent upper semicircle
     \score { \new VaticanaVoice { \clef "vaticana-do3" g\lilygabcSemicircleUpper } }
     \score { \gabc-vaticana "(c4) (gr5)" }
+  }
+
+  \markup\fill-line{
+    % @test two-note horizontal episema
+    \score { \new VaticanaVoice { \clef "vaticana-do3" \[ g\episemInitium\melisma \flexa f\episemFinis\melismaEnd \] } }
+    \score { \gabc-vaticana "(c4) (g_f_)" }
+
+    % @test three-note horizontal episema
+    \score { \new VaticanaVoice { \clef "vaticana-do3" \[ g\episemInitium\melisma \pes a \flexa g\episemFinis\melismaEnd \] } }
+    \score { \gabc-vaticana "(c4) (g_h_g_)" }
   }
 }
 

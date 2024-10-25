@@ -4,6 +4,7 @@
  (ice-9 textual-ports)
  (srfi srfi-1)
  (srfi srfi-26)
+ ((lilygabc episema) #:prefix episema:)
  ((lilygabc gabc) #:prefix gabc:)
  ((lilygabc pitch) #:prefix pitch:)
  ((lilygabc util) #:prefix util:))
@@ -31,7 +32,13 @@
                  (and (not is-melisma)
                       (< 0 (length notes))
                       (gabc:note-has-special-note-head? (second (first notes)))))
-                (previous-note #f))
+                (previous-note #f)
+                (items-with-episema-events
+                 (zip syllable
+                      (episema:episema-events
+                       (lambda (i) (and (eq? 'note-with-pitch (first i))
+                                        (gabc:note-has-horizontal-episema? (second i))))
+                       syllable))))
            (cond
             ((eq? '() syllable) ; void syllable rendered as invisible bar
              (list (bar "")))
@@ -43,96 +50,112 @@
               (filter
                values
                (util:map-with-previous
-                (lambda (previous-item item)
-                  (match item
-                    (('clef type line clef-is-flat)
-                     (let* ((lily-clefnum (- line 1)))
-                       (append
-                        (list (clef (string-append
-                                     "vaticana-"
-                                     (if (string=? "f" type) "fa" "do")
-                                     (number->string lily-clefnum))))
-                        (if clef-is-flat (list key-flat) '()))))
-                    (('note-with-pitch note pitch)
-                     ;; shift the pitch an octave lower:
-                     ;; LilyPond treats the chant c clef as denoting middle c
-                     (let ((vaticana-pitch (cons (- (second pitch) 1) (list-tail pitch 2))))
-                       (append
-                        (cond
-                         ((or (and is-melisma (eq? first-note item))
-                              is-single-note-special-head)
-                          (list (make-music 'LigatureEvent 'span-direction -1)))
-                         ((and is-melisma
-                               (not (or (pitch:pitch=? pitch (third previous-note))
-                                        (gabc:note-is-punctum-inclinatum? note)
-                                        (gabc:note-is-virga? note)
-                                        (gabc:note-is-punctum-inclinatum? (second previous-note))
-                                        (gabc:note-is-virga? (second previous-note))
-                                        (and previous-item (eq? 'space (first previous-item))))))
-                          (list
-                           (once
-                            (context-spec-music
-                             (make-grob-property-override 'NoteHead 'pes-or-flexa #t)
-                             'Bottom))))
-                         (else
-                          '()))
-                        (begin
-                          (set! previous-note item)
-                          '())
-                        (apply-note-repetitions
-                         note
-                         (apply-vaticana-note-features-2
-                          note
-                          (list
-                           (apply-vaticana-note-features-1
-                            note
-                            (make-ly-note
-                             (apply ly:make-pitch vaticana-pitch)
-                             (ly:make-duration 2)
-                             #f)))))
-                        (cond
-                         ((and is-melisma (eq? first-note item))
-                          (list (context-spec-music (make-property-set 'melismaBusy #t) 'Bottom)))
-                         ((and is-melisma (eq? last-note item))
-                          (list (context-spec-music (make-property-unset 'melismaBusy) 'Bottom)))
-                         (else '()))
-                        (if (or (and is-melisma (eq? last-note item))
+                (lambda (previous current)
+                  (let ((previous-item (and previous (first previous)))
+                        (item (first current))
+                        (episema-events (second current)))
+                    (match item
+                      (('clef type line clef-is-flat)
+                       (let* ((lily-clefnum (- line 1)))
+                         (append
+                          (list (clef (string-append
+                                       "vaticana-"
+                                       (if (string=? "f" type) "fa" "do")
+                                       (number->string lily-clefnum))))
+                          (if clef-is-flat (list key-flat) '()))))
+                      (('note-with-pitch note pitch)
+                       ;; shift the pitch an octave lower:
+                       ;; LilyPond treats the chant c clef as denoting middle c
+                       (let ((vaticana-pitch (cons (- (second pitch) 1) (list-tail pitch 2))))
+                         (append
+                          (cond
+                           ((or (and is-melisma (eq? first-note item))
                                 is-single-note-special-head)
-                            (list (make-music 'LigatureEvent 'span-direction 1))
-                            '()))))
-                    (('divisio type)
-                     (filter
-                      values
-                      (list
-                       (if (and (gabc:syl-has-lyrics? syllable)
-                                (not (syl-has-decorated-notes? syllable)))
-                           ;; lyrics under a divisio are very common in gabc,
-                           ;; but unsupported in LilyPond
-                           (make-invisible-note)
-                           #f)
-                       (primitive-eval (or (assoc-ref vaticana-divisiones-mapping type)
-                                           default-vaticana-bar)))))
-                    (('space type)
-                     (let*
-                         ((pitch-nums (third previous-note))
-                          ;; TODO extract the modern vs. square notation octave arithmetic
-                          (previous-pitch (apply ly:make-pitch (cons (- (second pitch-nums) 1) (list-tail pitch-nums 2))))
-                          (one-step-below (ly:pitch-transpose previous-pitch (ly:make-pitch -1 5 1/2)))) ; 1 diatonic step under the last note
-                       (cond
-                        ((string=? " " type)
-                         (invisible-note-on-pitch previous-pitch))
-                        ((string=? "//" type)
-                         (invisible-note-on-pitch one-step-below))
-                        ((string=? "/" type)
-                         (list
-                          (once hideNotes) (once teeny)
-                          (make-ly-note one-step-below (ly:make-duration 2) #f)))
-                        (else '()))))
-                    (any #f)))
-                syllable)))))))
+                            (list (make-music 'LigatureEvent 'span-direction -1)))
+                           ((and is-melisma
+                                 (not (or (pitch:pitch=? pitch (third previous-note))
+                                          (gabc:note-is-punctum-inclinatum? note)
+                                          (gabc:note-is-virga? note)
+                                          (gabc:note-is-punctum-inclinatum? (second previous-note))
+                                          (gabc:note-is-virga? (second previous-note))
+                                          (and previous-item (eq? 'space (first previous-item))))))
+                            (list
+                             (once
+                              (context-spec-music
+                               (make-grob-property-override 'NoteHead 'pes-or-flexa #t)
+                               'Bottom))))
+                           (else
+                            '()))
+                          (begin
+                            (set! previous-note item)
+                            '())
+                          (apply-note-repetitions
+                           note
+                           (apply-vaticana-note-features-2
+                            note
+                            (list
+                             (apply-vaticana-note-features-1
+                              note
+                              (apply-episema-events
+                               episema-events
+                               (make-ly-note
+                                (apply ly:make-pitch vaticana-pitch)
+                                (ly:make-duration 2)
+                                #f))))))
+                          (cond
+                           ((and is-melisma (eq? first-note item))
+                            (list (context-spec-music (make-property-set 'melismaBusy #t) 'Bottom)))
+                           ((and is-melisma (eq? last-note item))
+                            (list (context-spec-music (make-property-unset 'melismaBusy) 'Bottom)))
+                           (else '()))
+                          (if (or (and is-melisma (eq? last-note item))
+                                  is-single-note-special-head)
+                              (list (make-music 'LigatureEvent 'span-direction 1))
+                              '()))))
+                      (('divisio type)
+                       (filter
+                        values
+                        (list
+                         (if (and (gabc:syl-has-lyrics? syllable)
+                                  (not (syl-has-decorated-notes? syllable)))
+                             ;; lyrics under a divisio are very common in gabc,
+                             ;; but unsupported in LilyPond
+                             (make-invisible-note)
+                             #f)
+                         (primitive-eval (or (assoc-ref vaticana-divisiones-mapping type)
+                                             default-vaticana-bar)))))
+                      (('space type)
+                       (let*
+                           ((pitch-nums (third previous-note))
+                            ;; TODO extract the modern vs. square notation octave arithmetic
+                            (previous-pitch (apply ly:make-pitch (cons (- (second pitch-nums) 1) (list-tail pitch-nums 2))))
+                            (one-step-below (ly:pitch-transpose previous-pitch (ly:make-pitch -1 5 1/2)))) ; 1 diatonic step under the last note
+                         (cond
+                          ((string=? " " type)
+                           (invisible-note-on-pitch previous-pitch))
+                          ((string=? "//" type)
+                           (invisible-note-on-pitch one-step-below))
+                          ((string=? "/" type)
+                           (list
+                            (once hideNotes) (once teeny)
+                            (make-ly-note one-step-below (ly:make-duration 2) #f)))
+                          (else '()))))
+                      (any #f))))
+                items-with-episema-events)))))))
        syllables))
      'VaticanaVoice
      context-id)))
+
+(define (apply-episema-events events ly-note)
+  (cond
+   ((= 0 (length events))
+    ly-note)
+   ((< 1 (length events))
+    (apply-single-note-episema ly-note))
+   ((eq? 'open (car events))
+    (open-episema ly-note))
+   (else
+    (close-episema ly-note))))
 
 ;; apply features that are music functions
 (define (apply-vaticana-note-features-1 gabc-note ly-note)
@@ -145,7 +168,6 @@
            (,gabc:note-has-circulus? . ,(cut apply-articulation circulus <>))
            (,gabc:note-has-semicirculus? . ,(cut apply-articulation semicirculus <>))
            (,gabc:note-has-semicirculus-upper? . ,(cut apply-articulation lilygabcSemicircleUpper <>))
-           (,gabc:note-has-horizontal-episema? . ,apply-single-note-episema)
            (,gabc:note-has-musica-ficta? . ,apply-musica-ficta))))
     (fold
      (lambda (x r)

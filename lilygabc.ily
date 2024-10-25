@@ -100,6 +100,14 @@ apply-single-note-episema =
 #(define-music-function (note) (ly:music?)
   #{ #note \episemInitium \episemFinis #})
 
+open-episema =
+#(define-music-function (note) (ly:music?)
+  #{ #note \episemInitium #})
+
+close-episema =
+#(define-music-function (note) (ly:music?)
+  #{ #note \episemFinis #})
+
 apply-virga =
 #(define-music-function (side note) (boolean-or-symbol? ly:music?)
   ; TODO it would be safer to check first that Stem.length is actually overridden to 0
