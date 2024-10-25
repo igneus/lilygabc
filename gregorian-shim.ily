@@ -1,6 +1,11 @@
 %% Features missing from LilyPond's standard "gregorian.ly"
 %% required for rendering of some gabc scores
 
+#(add-to-load-path (dirname (current-filename)))
+
+#(use-modules
+  ((lilygabc util) #:select (alist-merge)))
+
 %% Clefs: gabc supports both c and f clef on any staff line
 #(add-new-clef "vaticana-do0" "clefs.vaticana.do" -3 0 0)
 #(add-new-clef "vaticana-fa0" "clefs.vaticana.fa" -3 0 4)
@@ -17,23 +22,13 @@
   (append
    default-script-alist
    `((lilygabcSemicircleUpper
-      . ((script-stencil . (feta . ("usemicirculus" . "usemicirculus")))
-         (side-relative-direction . ,DOWN)
-         (quantize-position . #t)
-         (avoid-slur . ignore)
-         (padding . 0.20)
-         (script-priority . -100)
-         (direction . ,UP)))
+      . ,(alist-merge
+          (assoc-ref default-script-alist 'semicirculus)
+          '((script-stencil . (feta . ("usemicirculus" . "usemicirculus"))))))
      (lilygabcAccentGrave
-      ;; TODO: don't copy-paste the whole semicircle definition, reference it and just replace stencil
-      . ((stencil . ,lilygabc-accent-grave-stencil)
-        ;;(script-stencil . (feta . ("daccentus" . "daccentus")))
-         (side-relative-direction . ,DOWN)
-         (avoid-slur . ignore)
-         (padding . 0.20)
-         (quantize-position . #t)
-         (script-priority . -100)
-         (direction . ,UP))))))
+      . ,(append
+          `((stencil . ,lilygabc-accent-grave-stencil))
+          (alist-delete 'script-stencil (assoc-ref default-script-alist 'accentus)))))))
 
 \layout {
   \context {

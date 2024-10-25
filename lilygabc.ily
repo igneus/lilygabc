@@ -12,22 +12,14 @@
   (make-line-stencil 0.1 0 0 0 0.7))
 
 #(define lilygabc-modern-gregorian-script-alist
-  (map
-   (lambda (x)
-    (if (eq? 'staccatissimo (car x))
-     ;; Defining a new custom articulation would be semantically cleaner,
-     ;; but the advantage of redefining staccatissimo is that it provides
-     ;; a default look, more or less conveying the information,
-     ;; even if only bare default LilyPond settings are used
-     ;; and the custom articulation definitions are not applied.
-     `(staccatissimo
-       . ((stencil . ,lilygabc:modern-gregorian:ictus-stencil)
-          (toward-stem-shift-in-column . 0.0)
-          (padding . 0.4)
-          (avoid-slur . around)
-          (direction . ,DOWN)))
-     x))
-   default-script-alist))
+  (util:alist-merge
+   default-script-alist
+   `((staccatissimo
+      . ((stencil . ,lilygabc:modern-gregorian:ictus-stencil)
+         (toward-stem-shift-in-column . 0.0)
+         (padding . 0.4)
+         (avoid-slur . around)
+         (direction . ,DOWN))))))
 
 
 

@@ -7,7 +7,8 @@
             map3
             map-with-previous
             irange
-            char-range)
+            char-range
+            alist-merge)
   #:use-module (srfi srfi-1)
   #:use-module (srfi srfi-26))
 
@@ -56,3 +57,15 @@
 (define (char-range x y)
   (map (lambda (x) (string (integer->char x)))
        (apply irange (map char->integer (list x y)))))
+
+;; Association lists
+
+;; Note: this only replaces entries known to 'a' with matching entries
+;; from 'b', entries unknown to 'a' are not added.
+;; i.e. semantics don't match Ruby's Hash#merge.
+(define (alist-merge a b)
+  (map
+   (lambda (apair)
+     (or (assoc (car apair) b)
+         apair))
+   a))
