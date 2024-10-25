@@ -20,8 +20,10 @@
             note-has-horizontal-episema?
             note-has-linea?
             note-has-accentus?
+            note-has-accent-grave?
             note-has-circulus?
             note-has-semicirculus?
+            note-has-semicirculus-upper?
             note-has-musica-ficta?
             note-virga-side
             note-repetitions
@@ -90,8 +92,10 @@
       (third note)
       ""))
 
-(define (note-additional-contains? char note)
-  (string-index (note-additional note) char))
+(define (note-additional-contains? what note)
+  (if (string? what)
+      (string-contains (note-additional note) what)
+      (string-index (note-additional note) what)))
 
 (define (note-additional-matches? regexp note)
   (not (eq? #f (string-match regexp (note-additional note)))))
@@ -136,13 +140,21 @@
   (note-additional-matches? "R|r0" note))
 
 (define (note-has-accentus? note)
-  (note-additional-matches? "r[12]" note))
+  (note-additional-contains? "r1" note))
+
+;; TODO is there a standard Latin name?
+(define (note-has-accent-grave? note)
+  (note-additional-contains? "r2" note))
 
 (define (note-has-circulus? note)
-  (string-contains (note-additional note) "r3"))
+  (note-additional-contains? "r3" note))
 
 (define (note-has-semicirculus? note)
-  (note-additional-matches? "r[45]" note))
+  (note-additional-contains? "r4" note))
+
+;; TODO is there a standard Latin name?
+(define (note-has-semicirculus-upper? note)
+  (note-additional-contains? "r5" note))
 
 (define (note-has-musica-ficta? note)
   (note-additional-matches? "r[6-8]" note))

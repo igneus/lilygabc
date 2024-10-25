@@ -400,8 +400,8 @@
     \score { \new VaticanaVoice { \clef "vaticana-do3" g\accentus } }
     \score { \gabc-vaticana "(c4) (gr1)" }
 
-    % accent grave
-    \score { \new VaticanaVoice { \clef "vaticana-do3" g\accentus } \layout { \xfail } }
+    % @test accent grave
+    \score { \new VaticanaVoice { \clef "vaticana-do3" g\lilygabcAccentGrave } }
     \score { \gabc-vaticana "(c4) (gr2)" }
   }
 
@@ -410,17 +410,17 @@
     \score { \new VaticanaVoice { \clef "vaticana-do3" g\circulus } }
     \score { \gabc-vaticana "(c4) (gr3)" }
 
-    % @test lower semicircle
-    \score { \new VaticanaVoice { \clef "vaticana-do3" g\semicirculus } }
-    \score { \gabc-vaticana "(c4) (gr4)" }
+    "" ""
   }
 
   \markup\fill-line{
-    % accent upper semicircle
-    \score { \new VaticanaVoice { \clef "vaticana-do3" g\semicirculus } \layout { \xfail } }
-    \score { \gabc-vaticana "(c4) (gr5)" }
+    % @test lower semicircle
+    \score { \new VaticanaVoice { \clef "vaticana-do3" g\semicirculus } }
+    \score { \gabc-vaticana "(c4) (gr4)" }
 
-    "" ""
+    % @test accent upper semicircle
+    \score { \new VaticanaVoice { \clef "vaticana-do3" g\lilygabcSemicircleUpper } }
+    \score { \gabc-vaticana "(c4) (gr5)" }
   }
 }
 

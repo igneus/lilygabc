@@ -89,6 +89,8 @@
           "\\include \"../../lilygabc.ily\"\n")
 
 (generate "../visual/vaticana_test.ly"
-          "\\include \"gregorian.ly\"\n"
+          (string-append
+           "\\include \"gregorian.ly\"\n"
+           "\\include \"../../gregorian-shim.ily\"\n")
           ""
           "\\include \"../../lilygabc.ily\"\n")
