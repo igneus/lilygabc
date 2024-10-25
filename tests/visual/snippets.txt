@@ -84,3 +84,9 @@
 (g) (:) (g)
 (g) (::) (g)
 (g) (`) (g)
+
+= Neumatic spaces
+
+(g/h)
+(g//h)
+(g h)

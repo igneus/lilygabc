@@ -493,8 +493,25 @@
     % @test
     \score { \new VaticanaVoice { \clef "vaticana-do2" \[ c'\melisma \flexa b c' \pes d' \flexa c'\melismaEnd \] } }
     \score { \gabc-vaticana "(c3) (hg!hih)" }
+  }
 
-    "" ""
+  \markup\justify{
+    Neumatic space within a melisma is implemented as an invisible note.
+    Width of the space is governed by size of the invisible note
+    and its position relative to its neighbours.
+  }
+  \markup\fill-line{
+    % @test small separation between neumes
+    \score { \new VaticanaVoice { \clef "vaticana-do3" \[ g\melisma \once \hideNotes \once \teeny eis a\melismaEnd \] } }
+    \score { \gabc-vaticana "(c4) (g/h)" }
+
+    % @test medium separation between neumes
+    \score { \new VaticanaVoice { \clef "vaticana-do3" \[ g\melisma \once \hideNotes eis a\melismaEnd \] } }
+    \score { \gabc-vaticana "(c4) (g//h)" }
+
+    % @test large separation between neumes
+    \score { \new VaticanaVoice { \clef "vaticana-do3" \[ g\melisma \once \hideNotes g a\melismaEnd \] } }
+    \score { \gabc-vaticana "(c4) (g h)" }
   }
 }
 

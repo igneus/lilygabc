@@ -112,6 +112,22 @@
                            #f)
                        (primitive-eval (or (assoc-ref vaticana-divisiones-mapping type)
                                            default-vaticana-bar)))))
+                    (('space type)
+                     (let*
+                         ((pitch-nums (third previous-note))
+                          ;; TODO extract the modern vs. square notation octave arithmetic
+                          (previous-pitch (apply ly:make-pitch (cons (- (second pitch-nums) 1) (list-tail pitch-nums 2))))
+                          (one-step-below (ly:pitch-transpose previous-pitch (ly:make-pitch -1 5 1/2)))) ; 1 diatonic step under the last note
+                       (cond
+                        ((string=? " " type)
+                         (invisible-note-on-pitch previous-pitch))
+                        ((string=? "//" type)
+                         (invisible-note-on-pitch one-step-below))
+                        ((string=? "/" type)
+                         (list
+                          (once hideNotes) (once teeny)
+                          (make-ly-note one-step-below (ly:make-duration 2) #f)))
+                        (else '()))))
                     (any #f)))
                 syllable)))))))
        syllables))
@@ -167,6 +183,11 @@
              r)))
      ly-note-list
      tests-and-transformations)))
+
+(define (invisible-note-on-pitch pitch)
+  (list
+   (once hideNotes)
+   (make-ly-note pitch (ly:make-duration 2) #f)))
 
 (define gabc-vaticana
   (define-scheme-function
