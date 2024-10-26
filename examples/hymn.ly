@@ -61,12 +61,12 @@
 
 \score {
   <<
-    % music from https://gregobase.selapa.net/chant.php?id=8653
+    % music based on https://gregobase.selapa.net/chant.php?id=12999
     \gabc-vaticana
-      "(c4)Ve(f)xíl(gh)la(ixi) Re(hvGF')gis(g) pró(ghg)de(f)unt:(ed..) (;)
-      Ful(g)get(g') Cru(h)cis(fd) my(f)sté(ef)ri(dc)um,(cd..) (:)
-      Quo(d) car(d')ne(f) car(dc)nis(f) Cón(gh)di(g)tor(gf..) (;)
-      Su(f)spén(ixg!hwiHG')sus(h) est(fd) pa(f)tí(ef)bu(dc)lo.(cd..) (::)"
+      "(c4) Ve(f)xil(gh)la(ixi) Re(hvGF')gis(g) pró(ghg)de(f)unt:(e.d.) (;)
+      Ful(g)get(g') Cru(h)cis(fd) my(f)sté(ef)ri(d)um,(c.d.) (:)
+      Qua(d) vi(d')ta(f) mor(dc)tem(f) pér(fgh)tu(g)lit,(g.f.)
+      (;)Et(f) mor(ixfh!ivHG')te(h) vi(fd)tam(f) pró(ef)tu(d)lit.(c.d.) (::)"
     \new VaticanaLyrics \lyricsto "uniqueContext0" { % TODO voice ID relies on lilygabc internals
       \set stanza = "2."
       Quæ, vul -- ne -- rá -- ta lán -- ce -- æ
