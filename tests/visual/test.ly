@@ -472,6 +472,14 @@ allGabcNotes = " (a) (b) (c) (d) (e) (f) (g) (h) (i) (j) (k) (l) (m)"
 }
 
 \bookpart {
+  \header { subtitle = "line breaks" }
+
+  % @test line break
+  \score { { g'4 \break g' } }
+  \score { \gabc "(c4) (g) (z) (g)" }
+}
+
+\bookpart {
   \header { subtitle = "lyrics" }
 
   \markup\fill-line{

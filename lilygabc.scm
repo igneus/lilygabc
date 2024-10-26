@@ -81,6 +81,8 @@
                         (if (eq? 'breathe (car lilybar))
                             (breathe)
                             (bar bartype))))))
+                   (('line-break type)
+                    (list break))
                    (any #f)))
                syllable))))))
        (util:flatten words))))))

@@ -130,7 +130,17 @@
  (test-equal '((((space "//"))))
              (parse "(//)"))
  (test-equal '((((space " "))))
-             (parse "( )")))
+             (parse "( )"))
+
+ ;; line breaks
+ (test-equal '((((line-break "z"))))
+             (parse "(z)"))
+ (test-equal '((((line-break "Z"))))
+             (parse "(Z)"))
+ (test-equal '((((line-break "z+"))))
+             (parse "(z+)"))
+ (test-equal '((((line-break "z-"))))
+             (parse "(z-)")))
 
 (test-group
  "note-repetitions"

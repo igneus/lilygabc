@@ -196,7 +196,7 @@
     ("y" . natural)))
 
 (define (parse-music-syllable lyrics music)
-  (let ((matches (list-matches "([cf]b?[1-4])|([a-m][xy#])|(-)?([a-mA-M])([n-zN-Z~<>\\._'0-9]+)?|([,;:`]+)|([!@ ]|/{1,2})|\\|(.*$)" music)))
+  (let ((matches (list-matches "([cf]b?[1-4])|([a-m][xy#])|(-)?([a-mA-M])([n-yN-Y~<>\\._'0-9]+)?|([,;:`]+)|([!@ ]|/{1,2})|([zZ][+-]?)|\\|(.*$)" music)))
     (filter
      values
      (append
@@ -213,7 +213,8 @@
                (note-shape (match:substring m 5))
                (divisio (match:substring m 6))
                (space (match:substring m 7))
-               (nabc (match:substring m 8)))
+               (line-break (match:substring m 8))
+               (nabc (match:substring m 9)))
            (cond
             (clef
              (list 'clef
@@ -228,6 +229,8 @@
              (list 'divisio divisio))
             (space
              (list 'space space))
+            (line-break
+             (list 'line-break line-break))
             (nabc
              (list 'nabc nabc))
             (else

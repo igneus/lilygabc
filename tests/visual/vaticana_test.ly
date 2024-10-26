@@ -560,6 +560,14 @@
 }
 
 \bookpart {
+  \header { subtitle = "line breaks" }
+
+  % @test line break
+  \score { \new VaticanaVoice { \clef "vaticana-do3" g \break g } }
+  \score { \gabc-vaticana "(c4) (g) (z) (g)" }
+}
+
+\bookpart {
   \header { subtitle = "lyrics" }
 
   \markup\fill-line{

@@ -140,6 +140,8 @@
                             (once hideNotes) (once teeny)
                             (make-ly-note one-step-below (ly:make-duration 2) #f)))
                           (else '()))))
+                      (('line-break type)
+                       (list break))
                       (any #f))))
                 items-with-episema-events)))))))
        syllables))
