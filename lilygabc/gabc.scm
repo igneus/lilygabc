@@ -47,11 +47,7 @@
 ;;   specifying element type, subsequent items vary depending on type.
 (define (parse gabc-str)
   (let*
-      ((delimiter-position (string-contains gabc-str header-delimiter))
-       (gabc-body
-        (if delimiter-position
-            (substring gabc-str (+ delimiter-position (string-length header-delimiter)))
-            gabc-str))
+      ((gabc-body (without-comments (body gabc-str)))
        (syllables (list-matches "([^\\(]*)\\(([^\\)]*)\\)" gabc-body))
        (words
         (util:split-at
@@ -66,6 +62,15 @@
         (string-trim-both (remove-tags (match:substring x 1)))
         (match:substring x 2)))
      words)))
+
+(define (body gabc-str)
+  (let ((delimiter-position (string-contains gabc-str header-delimiter)))
+    (if delimiter-position
+        (substring gabc-str (+ delimiter-position (string-length header-delimiter)))
+        gabc-str)))
+
+(define (without-comments gabc-str)
+  (regexp-substitute/global #f (make-regexp "%[^$]*" regexp/newline) gabc-str 'pre "" 'post))
 
 ;; syllable predicates
 

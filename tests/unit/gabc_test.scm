@@ -63,6 +63,12 @@
  (test-equal '((((clef "c" 4 #f)))) ; header is ignored
              (parse "book: No Book;\n%%\n(c4)"))
 
+ ;; comments
+ (test-equal '((((note "g"))))
+             (parse "(g) % (g) "))
+ (test-equal '((((note "g"))) (((note "h"))))
+             (parse "(g) % (g) \n (h) % (h)"))
+
  ;; nabc - adiastematic neumes
  (test-equal '((((lyrics "la") (note "g") (nabc "pu"))))
              (parse "la(g|pu)"))
