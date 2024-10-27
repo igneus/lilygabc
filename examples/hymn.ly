@@ -13,7 +13,7 @@
   \override VaticanaStaff.StaffSymbol.color = "black"
 
   \override VaticanaLyrics.LyricText.font-size = #-2
-  \override VaticanaLyrics.StanzaNumber.font-size = #-1
+  \override VaticanaLyrics.StanzaNumber.font-size = #-2
 }
 
 \paper {
@@ -39,6 +39,7 @@
       Im(h)mó(h')tus(h) in(h) te(g) pér(h')ma(h)nens,(h.) (;)
       Lu(h)cis(h') di(h)úr(g)næ(f) tém(g')po(f)ra(e'_) (,)
       Suc(f)cés(g')si(g)bus(g) de(f)tér(h')mi(g)nans.(g.) (::)"
+
     \new VaticanaLyrics \lyricsto "uniqueContext0" { % TODO voice ID relies on lilygabc internals
       \set stanza = "2."
       Lar -- gí -- re lu -- men vé -- spe -- re,
@@ -65,8 +66,9 @@
     \gabc-vaticana
       "(c4) Ve(f)xil(gh)la(ixi) Re(hvGF')gis(g) pró(ghg)de(f)unt:(e.d.) (;)
       Ful(g)get(g') Cru(h)cis(fd) my(f)sté(ef)ri(d)um,(c.d.) (:)
-      Qua(d) vi(d')ta(f) mor(dc)tem(f) pér(fgh)tu(g)lit,(g.f.)
-      (;)Et(f) mor(ixfh!ivHG')te(h) vi(fd)tam(f) pró(ef)tu(d)lit.(c.d.) (::)"
+      Qua(d) vi(d')ta(f) mor(dc)tem(f) pér(fgh)tu(g)lit,(g.f.) (;)
+      Et(f) mor(ixfh!ivHG')te(h) vi(fd)tam(f) pró(ef)tu(d)lit.(c.d.) (::)"
+
     \new VaticanaLyrics \lyricsto "uniqueContext0" { % TODO voice ID relies on lilygabc internals
       \set stanza = "2."
       Quæ, vul -- ne -- rá -- ta lán -- ce -- æ
