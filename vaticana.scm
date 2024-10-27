@@ -126,9 +126,12 @@
                                              default-vaticana-bar)))))
                       (('space type)
                        (let*
-                           ((pitch-nums (third previous-note))
-                            ;; TODO extract the modern vs. square notation octave arithmetic
-                            (previous-pitch (apply ly:make-pitch (cons (- (second pitch-nums) 1) (list-tail pitch-nums 2))))
+                           ((previous-pitch
+                             (if previous-note
+                                 (let ((pitch-nums (third previous-note)))
+                                   ;; TODO extract the modern vs. square notation octave arithmetic
+                                   (apply ly:make-pitch (cons (- (second pitch-nums) 1) (list-tail pitch-nums 2))))
+                                 (ly:make-pitch -1 4)))
                             (one-step-below (ly:pitch-transpose previous-pitch (ly:make-pitch -1 5 1/2)))) ; 1 diatonic step under the last note
                          (cond
                           ((string=? " " type)

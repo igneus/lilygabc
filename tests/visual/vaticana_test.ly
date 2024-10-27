@@ -523,6 +523,19 @@
     \score { \new VaticanaVoice { \clef "vaticana-do3" \[ g\melisma \once \hideNotes g a\melismaEnd \] } }
     \score { \gabc-vaticana "(c4) (g h)" }
   }
+
+  % edge cases
+  \markup\fill-line{
+    % @test space not preceded by a note
+    \score { \new VaticanaVoice { \clef "vaticana-do3" \once \hideNotes g g } }
+    \score { \gabc-vaticana "(c4) ( g)" }
+
+    % @test syllable consisting of a space alone
+    \score { \new VaticanaVoice { \clef "vaticana-do3" \once \hideNotes g } }
+    \score { \gabc-vaticana "(c4) ( )" }
+
+    "" ""
+  }
 }
 
 \bookpart {
@@ -556,7 +569,7 @@
     "" ""
   }
 
-  % all the supported exotic forms
+  % all the exotic forms supported by gabc
 }
 
 \bookpart {
