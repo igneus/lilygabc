@@ -569,7 +569,7 @@ allGabcNotes = " (a) (b) (c) (d) (e) (f) (g) (h) (i) (j) (k) (l) (m)"
 \bookpart {
   \header {
     subtitle = "remixing gabc-sourced music"
-    subsubtitle = "integrating in and interacting with other LilyPond constructs"
+    subsubtitle = "integrating in - and interacting with - other LilyPond constructs"
   }
 
   \score {
