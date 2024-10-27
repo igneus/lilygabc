@@ -36,11 +36,13 @@ is useful.
 
 ## Prerequisites
 
-Only LilyPond is required for using the provided LilyPond commands.
+*Only LilyPond is required* for using the provided LilyPond commands.
 
 Developed with
 LilyPond 2.24 (built with Guile 2.2).
 Status on other versions is unknown.
+
+---
 
 For running tests:
 
@@ -62,9 +64,6 @@ and in square notation.
 
 ### Modern notation
 
-Command `\gabc` loads music from a gabc string,
-`\gabc-file` from a file.
-
 The resulting scores are by default very bare-bones.
 Two layout variables with settings suitable for chant in modern
 notation are provided.
@@ -75,17 +74,20 @@ It's suggested to include one of them either in the global
 \include "lilygabc.ily"
 
 \score {
+  % gabc music from an inline string
   \gabc
     "(c4) Ju(e)bi(f)lá(g')te(f) De(d_f)o(f'_) (,)
     o(f)mnis(f) ter(e_f)ra,(d) al(f)le(fg)lú(e.)ia.(e.) (::)
     E(h) u(g) o(h) u(ih) a(gf) e.(e.) (::)"
 
   \layout {
+    % use a provided layout variable for reasonable default settings
     \lilygabcModernGregorianLayout
   }
 }
 
 \score {
+  % load a gabc file
   \gabc-file "path/to/score.gabc"
 
   \layout {
@@ -104,8 +106,9 @@ include paths:
 
 ### Square notation
 
-In order to render gabc scores in square notation,
-use commands `\gabc-vaticana` and `\gabc-vaticana-file`.
+Analogically to commands `\gabc` and `\gabc-file`
+there are commands `\gabc-vaticana` and `\gabc-vaticana-file`
+generating square notation.
 
 Note that in this case it's necessary to `\include "gregorian.ly"`
 in addition to lilygabc.
