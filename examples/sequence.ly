@@ -28,8 +28,10 @@
 \score {
   <<
     % based on https://gregobase.selapa.net/chant.php?id=7360
+    %
     % odd verses are in the gabc notation, even ones in the lyrics below
-    \gabc-vaticana "(c4) Ve(c)ni(d) San(e)cte(f) Spí(ed)ri(c)tus,(d.) (;)
+    \gabc-vaticana #'((voice-id . "v"))
+      "(c4) Ve(c)ni(d) San(e)cte(f) Spí(ed)ri(c)tus,(d.) (;)
       Et(f) e(g)mít(h)te(ixi) caé(hvGF')li(g)tus(h.) (;)
       Lu(c)cis(d) tu(f)ae(g) rá(fvED')di(c)um.(d.) (::)
 
@@ -49,7 +51,7 @@
       In(h) te(ixi) con(hg)fi(h)dén(f)ti(g)bus,(f.) (;)
       Sac(e)rum(g) sep(h)te(d)ná(f)ri(e)um.(d.) (::)"
 
-    \new VaticanaLyrics \lyricsto "uniqueContext0" {  % TODO voice ID relies on lilygabc internals
+    \new VaticanaLyrics \lyricsto "v" {
       Ve -- ni pa -- ter páu -- pe -- rum,
       Ve -- ni da -- tor mú -- ne -- rum,
       Ve -- ni lu -- men cór -- di -- um.

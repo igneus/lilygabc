@@ -216,14 +216,15 @@
 
 (define gabc-vaticana
   (define-scheme-function
-    (input)
-    (string?)
+    (options input)
+    ((symbol-key-alist? '()) string?)
     (let*
         ((score (gabc:parse input))
          (score-with-pitches (pitch:decorate-notes score))
-         (context-id "uniqueContext0")
+         (set-id (assq-ref options 'voice-id))
+         (context-id (or set-id "uniqueContext0"))
          (has-lyrics (any gabc:syl-has-lyrics? (util:flatten score)))
-         (notes (make-vaticana-notes score-with-pitches (if has-lyrics context-id #f))))
+         (notes (make-vaticana-notes score-with-pitches (if (or has-lyrics set-id) context-id #f))))
       (set! (ly:music-property notes 'create-new) #t)
       (if has-lyrics
           (make-simultaneous-music
@@ -234,7 +235,8 @@
 
 (define gabc-vaticana-file
   (define-scheme-function
-    (path)
-    (string?)
+    (options path)
+    ((symbol-key-alist? '()) string?)
     (gabc-vaticana
+     options
      (call-with-input-file path get-string-all)))) ; TODO: resolve path relative to the current lilypond file, not to cwd

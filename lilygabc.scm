@@ -176,12 +176,12 @@
 ; returns LilyPond music
 (define gabc
   (define-scheme-function
-    (input)
-    (string?)
+    (options input)
+    ((symbol-key-alist? '()) string?)
     (let*
         ((score (gabc:parse input))
          (score-with-pitches (pitch:decorate-notes score))
-         (context-id "uniqueContext0")
+         (context-id (or (assq-ref options 'voice-id) "uniqueContext0"))
          (has-lyrics (any gabc:syl-has-lyrics? (util:flatten score)))
          (notes (make-notes score-with-pitches)))
       (if has-lyrics
@@ -193,7 +193,8 @@
 
 (define gabc-file
   (define-scheme-function
-    (path)
-    (string?)
+    (options path)
+    ((symbol-key-alist? '()) string?)
     (gabc
+     options
      (call-with-input-file path get-string-all)))) ; TODO: resolve path relative to the current lilypond file, not to cwd

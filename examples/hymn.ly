@@ -34,20 +34,25 @@
 \score {
   <<
     % music from https://gregobase.selapa.net/chant.php?id=8653
-    \gabc-vaticana
+    %
+    % All \gabc-* commands accept an optional first argument, which
+    % is an association list of options.
+    % We use it to pass an ID for the VaticanaVoice produced by lilygabc,
+    % so we can attach additional lines of lyrics to that voice.
+    \gabc-vaticana #'((voice-id . "v1"))
       "(c4)Re(h)rum(h') De(h)us(h) te(h)nax(h') vi(g)gor,(g'_) (,)
       Im(h)mó(h')tus(h) in(h) te(g) pér(h')ma(h)nens,(h.) (;)
       Lu(h)cis(h') di(h)úr(g)næ(f) tém(g')po(f)ra(e'_) (,)
       Suc(f)cés(g')si(g)bus(g) de(f)tér(h')mi(g)nans.(g.) (::)"
 
-    \new VaticanaLyrics \lyricsto "uniqueContext0" { % TODO voice ID relies on lilygabc internals
+    \new VaticanaLyrics \lyricsto "v1" {
       \set stanza = "2."
       Lar -- gí -- re lu -- men vé -- spe -- re,
       Quo vi -- ta nu -- squam dé -- ci -- dat,
       Sed prǽ -- mi -- um mor -- tis sa -- cræ
       Pe -- rén -- nis in -- stet gló -- ri -- a.
     }
-    \new VaticanaLyrics \lyricsto "uniqueContext0" {
+    \new VaticanaLyrics \lyricsto "v1" {
       \set stanza = "3."
       Præ -- sta, Pa -- ter pi -- ís -- si -- me,
       Pa -- trí -- que com -- par Ú -- ni -- ce,
@@ -63,48 +68,48 @@
 \score {
   <<
     % music based on https://gregobase.selapa.net/chant.php?id=12999
-    \gabc-vaticana
+    \gabc-vaticana #'((voice-id . "v2"))
       "(c4) Ve(f)xil(gh)la(ixi) Re(hvGF')gis(g) pró(ghg)de(f)unt:(e.d.) (;)
       Ful(g)get(g') Cru(h)cis(fd) my(f)sté(ef)ri(d)um,(c.d.) (:)
       Qua(d) vi(d')ta(f) mor(dc)tem(f) pér(fgh)tu(g)lit,(g.f.) (;)
       Et(f) mor(ixfh!ivHG')te(h) vi(fd)tam(f) pró(ef)tu(d)lit.(c.d.) (::)"
 
-    \new VaticanaLyrics \lyricsto "uniqueContext0" { % TODO voice ID relies on lilygabc internals
+    \new VaticanaLyrics \lyricsto "v2" {
       \set stanza = "2."
       Quæ, vul -- ne -- rá -- ta lán -- ce -- æ
       Mu -- cró -- ne di -- ro, crí -- mi -- num
       Ut nos la -- vá -- ret sór -- di -- bus,
       Ma -- ná -- vit \markup\concat{und \italic{a}} et sán -- gui -- ne.
     }
-    \new VaticanaLyrics \lyricsto "uniqueContext0" {
+    \new VaticanaLyrics \lyricsto "v2" {
       \set stanza = "3."
       Im -- plé -- ta sunt quæ cón -- ci -- nit
       Da -- vid fi -- dé -- li cár -- mi -- ne,
       Di -- cén -- do na -- ti -- ó -- ni -- bus:
       Re -- gná -- vit a li -- gno De -- us.
     }
-    \new VaticanaLyrics \lyricsto "uniqueContext0" {
+    \new VaticanaLyrics \lyricsto "v2" {
       \set stanza = "4."
       Ar -- bor de -- \markup\concat{cór \italic{a}} et fúl -- gi -- da,
       Or -- ná -- ta Ré -- gis púr -- pu -- ra,
       E -- léc -- ta di -- gno stí -- pi -- te
       Tam sanc -- ta mem -- bra tán -- ge -- re.
     }
-    \new VaticanaLyrics \lyricsto "uniqueContext0" {
+    \new VaticanaLyrics \lyricsto "v2" {
       \set stanza = "5."
       Be -- á -- ta, cu -- ius brác -- chi -- is
       Pré -- tium pe -- pén -- dit sǽ -- cu -- li,
       Sta -- té -- ra fac -- ta cór -- po -- ris,
       Tu -- lít -- que præ -- dam tár -- ta -- ri.
     }
-    \new VaticanaLyrics \lyricsto "uniqueContext0" {
+    \new VaticanaLyrics \lyricsto "v2" {
       \set stanza = "6."
       O Crux, a -- ve, spes ú -- ni -- ca,
       In hac tri -- úm -- phi gló -- ri -- a
       Pi -- is ad -- áu -- ge grá -- ti -- am,
       Re -- ís -- que de -- le crí -- mi -- na.
     }
-    \new VaticanaLyrics \lyricsto "uniqueContext0" {
+    \new VaticanaLyrics \lyricsto "v2" {
       \set stanza = "7."
       Te, fons sa -- lú -- tis, Trí -- ni -- tas,
       Col -- láu -- det om -- nis spí -- ri -- tus:
