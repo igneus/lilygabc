@@ -62,54 +62,51 @@
                                       (number->string lily-clefnum))))
                          (if clef-is-flat (list key-flat) '()))))
                      (('note-with-pitch note pitch)
-                      ;; shift the pitch an octave lower:
-                      ;; LilyPond treats the chant c clef as denoting middle c
-                      (let ((vaticana-pitch (cons (- (second pitch) 1) (list-tail pitch 2))))
-                        (append
-                         (cond
-                          ((or (and is-melisma (eq? first-note item))
-                               is-single-note-special-head)
-                           (list (make-music 'LigatureEvent 'span-direction -1)))
-                          ((and is-melisma
-                                (not (or (pitch:pitch=? pitch (third previous-note))
-                                         (gabc:note-is-punctum-inclinatum? note)
-                                         (gabc:note-is-virga? note)
-                                         (gabc:note-is-punctum-inclinatum? (second previous-note))
-                                         (gabc:note-is-virga? (second previous-note))
-                                         (and previous-item (eq? 'space (first previous-item))))))
-                           (list
-                            (once
-                             (context-spec-music
-                              (make-grob-property-override 'NoteHead 'pes-or-flexa #t)
-                              'Bottom))))
-                          (else
-                           '()))
-                         (begin
-                           (set! previous-note item)
-                           '())
-                         (apply-note-repetitions
-                          note
-                          (apply-vaticana-note-features-2
+                      (append
+                       (cond
+                        ((or (and is-melisma (eq? first-note item))
+                             is-single-note-special-head)
+                         (list (make-music 'LigatureEvent 'span-direction -1)))
+                        ((and is-melisma
+                              (not (or (pitch:pitch=? pitch (third previous-note))
+                                       (gabc:note-is-punctum-inclinatum? note)
+                                       (gabc:note-is-virga? note)
+                                       (gabc:note-is-punctum-inclinatum? (second previous-note))
+                                       (gabc:note-is-virga? (second previous-note))
+                                       (and previous-item (eq? 'space (first previous-item))))))
+                         (list
+                          (once
+                           (context-spec-music
+                            (make-grob-property-override 'NoteHead 'pes-or-flexa #t)
+                            'Bottom))))
+                        (else
+                         '()))
+                       (begin
+                         (set! previous-note item)
+                         '())
+                       (apply-note-repetitions
+                        note
+                        (apply-vaticana-note-features-2
+                         note
+                         (list
+                          (apply-vaticana-note-features-1
                            note
-                           (list
-                            (apply-vaticana-note-features-1
-                             note
-                             (apply-episema-events
-                              episema-events
-                              (make-ly-note
-                               (apply ly:make-pitch vaticana-pitch)
-                               (ly:make-duration 2)
-                               #f))))))
-                         (cond
-                          ((and is-melisma (eq? first-note item))
-                           (list (context-spec-music (make-property-set 'melismaBusy #t) 'Bottom)))
-                          ((and is-melisma (eq? last-note item))
-                           (list (context-spec-music (make-property-unset 'melismaBusy) 'Bottom)))
-                          (else '()))
-                         (if (or (and is-melisma (eq? last-note item))
-                                 is-single-note-special-head)
-                             (list (make-music 'LigatureEvent 'span-direction 1))
-                             '()))))
+                           (apply-episema-events
+                            episema-events
+                            (make-ly-note
+                             (apply ly:make-pitch (list-tail pitch 1))
+                             (ly:make-duration 2)
+                             #f))))))
+                       (cond
+                        ((and is-melisma (eq? first-note item))
+                         (list (context-spec-music (make-property-set 'melismaBusy #t) 'Bottom)))
+                        ((and is-melisma (eq? last-note item))
+                         (list (context-spec-music (make-property-unset 'melismaBusy) 'Bottom)))
+                        (else '()))
+                       (if (or (and is-melisma (eq? last-note item))
+                               is-single-note-special-head)
+                           (list (make-music 'LigatureEvent 'span-direction 1))
+                           '())))
                      (('divisio type)
                       (filter
                        values
@@ -126,9 +123,7 @@
                       (let*
                           ((previous-pitch
                             (if previous-note
-                                (let ((pitch-nums (third previous-note)))
-                                  ;; TODO extract the modern vs. square notation octave arithmetic
-                                  (apply ly:make-pitch (cons (- (second pitch-nums) 1) (list-tail pitch-nums 2))))
+                                (apply ly:make-pitch (list-tail (third previous-note) 1))
                                 (ly:make-pitch -1 4)))
                            (one-step-below (ly:pitch-transpose previous-pitch (ly:make-pitch -1 5 1/2)))) ; 1 diatonic step under the last note
                         (cond
@@ -220,7 +215,7 @@
     ((symbol-key-alist? '()) string?)
     (let*
         ((score (gabc:parse input))
-         (score-with-pitches (pitch:decorate-notes score))
+         (score-with-pitches (pitch:decorate-notes score #:base-octave -1)) ;; LilyPond treats the chant c clef as middle c
          (set-id (assq-ref options 'voice-id))
          (context-id (or set-id "uniqueContext0"))
          (has-lyrics (any gabc:syl-has-lyrics? (util:flatten score)))

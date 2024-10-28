@@ -23,6 +23,12 @@
    (test-equal '(1 0)
                (note-pitch c1-clef '(note "d")))
 
+   ;; base-octave
+   (test-equal '(-1 0)
+               (note-pitch c4-clef '(note "c") #:base-octave -1))
+   (test-equal '(0 0)
+               (note-pitch c4-clef '(note "j") #:base-octave -1))
+
    ;; musica ficta
    (test-equal '(0 6 -1/2)
                (note-pitch c4-clef '(note "i" "r6")))

@@ -16,7 +16,7 @@
 ;; Translates a gabc note
 ;; to a pitch specified by two integers specifying octave and step
 ;; (the system is the same as LilyPond uses).
-(define (note-pitch clef note)
+(define* (note-pitch clef note #:key (base-octave 0))
   (let*
       ((clef-type (second clef))
        (clef-line (third clef))
@@ -25,7 +25,7 @@
        (note-index (list-index (cut string=? (string-downcase (second note)) <>) note-names))
        (note-num (+ 5 note-index clef-shift))
        (step (modulo note-num 7))
-       (octave (- (truncate-quotient note-num 7) 1))
+       (octave (+ (- (truncate-quotient note-num 7) 1) base-octave))
        (accidental
         (if (and (eq? 'note (first note))
                  (gabc:note-has-musica-ficta? note))
@@ -43,7 +43,7 @@
 (define default-clef '(clef "c" 3 #f))
 
 ;; Decorates each note with pitch
-(define (decorate-notes score)
+(define* (decorate-notes score #:key (base-octave 0))
   (let ((clef default-clef))
     (map
      (lambda (word)
@@ -59,7 +59,7 @@
                        (assoc-set! active-accidentals 6 'flat)))
                x)
               ((note)
-               (let* ((pitch (note-pitch clef x))
+               (let* ((pitch (note-pitch clef x #:base-octave base-octave))
                       (pitch-step (second pitch))
                       (accidental (assoc-ref active-accidentals pitch-step)))
                  (append
