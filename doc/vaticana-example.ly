@@ -39,6 +39,6 @@ my-roman-font = "Linux Libertine O"
     \lilygabcVaticanaLayout
   }
   \header {
-    piece = "Ant. VIII G"
+    piece = "Ant. IV E"
   }
 }
