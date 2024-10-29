@@ -2,6 +2,7 @@
 
 (define-module (lilygabc gabc)
   #:export (parse
+            parse-gly
             syl-has-lyrics?
             syl-has-notes?
             clef-has-bflat?
@@ -62,6 +63,25 @@
         (string-trim-both (remove-tags (match:substring x 1)))
         (match:substring x 2)))
      words)))
+
+;; gly is a language reimagining the structure of gabc
+;; (more at https://github.com/igneus/gly ).
+;; This function doesn't parse the input as a complete
+;; gly score or document, but as lines of gly music
+;; (~ gabc with no lyrics and optional parentheses).
+;; Typical use case is entering music as gly
+;; and lyrics using LilyPond native syntax.
+(define (parse-gly gly-str)
+  (let
+      ((syllables (list-matches "([^[:space:]\\(]+)|\\(([^\\)]+)\\)" gly-str)))
+    (map
+     (lambda (x)
+       (list
+        (parse-music-syllable
+         ""
+         (or (match:substring x 1)
+             (match:substring x 2)))))
+     syllables)))
 
 (define (body gabc-str)
   (let ((delimiter-position (string-contains gabc-str header-delimiter)))

@@ -149,6 +149,14 @@
              (parse "(z-)")))
 
 (test-group
+ "parse-gly"
+
+ (test-equal '((((clef "c" 4 #f)))
+               (((note "g")))
+               (((note "h") (space " ") (note "i"))))
+             (parse-gly "c4 g (h i)")))
+
+(test-group
  "note-repetitions"
 
  (test-equal #f (note-repetitions '(note "g")))

@@ -179,7 +179,8 @@
     (options input)
     ((symbol-key-alist? '()) string?)
     (let*
-        ((score (gabc:parse input))
+        ((parse-fn (if (eq? 'gly (assq-ref options 'parse-as)) gabc:parse-gly gabc:parse))
+         (score (parse-fn input))
          (score-with-pitches (pitch:decorate-notes score))
          (context-id (or (assq-ref options 'voice-id) "uniqueContext0"))
          (has-lyrics (any gabc:syl-has-lyrics? (util:flatten score)))

@@ -214,7 +214,8 @@
     (options input)
     ((symbol-key-alist? '()) string?)
     (let*
-        ((score (gabc:parse input))
+        ((parse-fn (if (eq? 'gly (assq-ref options 'parse-as)) gabc:parse-gly gabc:parse))
+         (score (parse-fn input))
          (score-with-pitches (pitch:decorate-notes score #:base-octave -1)) ;; LilyPond treats the chant c clef as middle c
          (set-id (assq-ref options 'voice-id))
          (context-id (or set-id "uniqueContext0"))
