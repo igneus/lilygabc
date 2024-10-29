@@ -42,14 +42,11 @@ halveNotesInLigatures =
       (lambda (m)
         (case (ly:music-property m 'name)
           ((LigatureEvent)
-           (begin
-            (set! in-ligature (= -1 (ly:music-property m 'span-direction)))
-            m))
+           (set! in-ligature (= -1 (ly:music-property m 'span-direction))))
           ((NoteEvent)
-           (if in-ligature
-               (ly:music-compress m 1/2)
-               m))
-          (else m)))
+           (when in-ligature
+             (ly:music-compress m 1/2))))
+        m)
       music)))
 
 \markup\tiny\fill-line{
