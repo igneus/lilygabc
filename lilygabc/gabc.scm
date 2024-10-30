@@ -86,7 +86,7 @@
 (define (body gabc-str)
   (let ((delimiter-position (string-contains gabc-str header-delimiter)))
     (if delimiter-position
-        (substring gabc-str (+ delimiter-position (string-length header-delimiter)))
+        (body (substring gabc-str (+ delimiter-position (string-length header-delimiter))))
         gabc-str)))
 
 (define (without-comments gabc-str)

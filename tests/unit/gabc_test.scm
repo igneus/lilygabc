@@ -62,6 +62,11 @@
  ;; score header
  (test-equal '((((clef "c" 4 #f)))) ; header is ignored
              (parse "book: No Book;\n%%\n(c4)"))
+ ;; multiple headers: official Gregorio documentation doesn't specify
+ ;; this behaviour, but the actual implementation allows multiple header
+ ;; sections and GregoBase produces a lot of such gabc files
+ (test-equal '((((clef "c" 4 #f)))) ; both headers ignored
+             (parse "book: No Book;\n%%\nauthor: No Author;\n%%\n(c4)"))
 
  ;; comments
  (test-equal '((((note "g"))))
