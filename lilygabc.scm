@@ -186,7 +186,7 @@
     (let*
         ((parse-fn (if (eq? 'gly (assq-ref options 'parse-as)) lilygabc-parse-gly lilygabc-parse-gabc))
          (score (parse-fn input)))
-      (lilygabc-music-modern options score))))
+      (lilygabc-modern-music options score))))
 
 (define gabc-file
   (define-scheme-function
@@ -203,7 +203,7 @@
     (let*
         ((parse-fn (if (eq? 'gly (assq-ref options 'parse-as)) lilygabc-parse-gly lilygabc-parse-gabc))
          (score (parse-fn input)))
-      (lilygabc-music-vaticana options score))))
+      (lilygabc-vaticana-music options score))))
 
 (define gabc-vaticana-file
   (define-scheme-function
@@ -235,7 +235,7 @@
 
 ;; parsed gabc -> complete music (voice + lyrics)
 
-(define lilygabc-music-modern
+(define lilygabc-modern-music
   (define-scheme-function
     (options score)
     ((symbol-key-alist? '()) list?)
@@ -245,11 +245,11 @@
       (if has-lyrics
           (make-simultaneous-music
            (list
-            (lilygabc-voice-modern context-id score)
-            (lilygabc-lyrics-modern context-id score)))
-          (lilygabc-notes-modern score)))))
+            (lilygabc-modern-voice context-id score)
+            (lilygabc-modern-lyrics context-id score)))
+          (lilygabc-modern-notes score)))))
 
-(define lilygabc-music-vaticana
+(define lilygabc-vaticana-music
   (define-scheme-function
     (options score)
     ((symbol-key-alist? '()) list?)
@@ -260,28 +260,28 @@
       (if has-lyrics
           (make-simultaneous-music
            (list
-            (lilygabc-voice-vaticana context-id score)
-            (lilygabc-lyrics-vaticana context-id score)))
-          (lilygabc-voice-vaticana (if (or has-lyrics set-id) context-id #f) score)))))
+            (lilygabc-vaticana-voice context-id score)
+            (lilygabc-vaticana-lyrics context-id score)))
+          (lilygabc-vaticana-voice (if (or has-lyrics set-id) context-id #f) score)))))
 
 ;; parsed gabc -> voice
 
-(define lilygabc-voice-modern
+(define lilygabc-modern-voice
   (define-scheme-function
     (context-id score)
     (string? list?)
     (context-spec-music
-     (lilygabc-notes-modern score)
+     (lilygabc-modern-notes score)
      'Voice
      context-id)))
 
-(define lilygabc-voice-vaticana
+(define lilygabc-vaticana-voice
   (define-scheme-function
     (context-id score)
     (util:string-or-false? list?)
     (let ((voice
            (context-spec-music
-            (lilygabc-notes-vaticana score)
+            (lilygabc-vaticana-notes score)
             'VaticanaVoice
             context-id)))
       (set! (ly:music-property voice 'create-new) #t)
@@ -289,13 +289,13 @@
 
 ;; parsed gabc -> lyrics
 
-(define lilygabc-lyrics-modern
+(define lilygabc-modern-lyrics
   (define-scheme-function
     (context-id score)
     (string? list?)
     (make-lyrics score context-id 'Lyrics)))
 
-(define lilygabc-lyrics-vaticana
+(define lilygabc-vaticana-lyrics
   (define-scheme-function
     (context-id score)
     (string? list?)
@@ -303,13 +303,13 @@
 
 ;; parsed gabc -> bare notes (not wrapped in a voice)
 
-(define lilygabc-notes-modern
+(define lilygabc-modern-notes
   (define-scheme-function
     (score)
     (list?)
     (make-notes (pitch:decorate-notes score))))
 
-(define lilygabc-notes-vaticana
+(define lilygabc-vaticana-notes
   (define-scheme-function
     (score)
     (list?)
