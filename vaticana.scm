@@ -17,132 +17,129 @@
     ("`" . virgula)))
 (define default-vaticana-bar 'divisioMaxima) ; used for all not explicitly mapped
 
-(define (make-vaticana-notes score context-id)
+(define (make-vaticana-notes score)
   (let
       ((syllables (util:flatten score)))
-    (context-spec-music
-     (make-sequential-music
-      (append-map
-       (lambda (syllable)
-         (let* ((notes (filter (lambda (x) (eq? 'note-with-pitch (first x))) syllable))
-                (is-melisma (< 1 (length notes)))
-                (first-note (and is-melisma (first notes)))
-                (last-note (and is-melisma (last notes)))
-                (is-single-note-special-head
-                 (and (not is-melisma)
-                      (< 0 (length notes))
-                      (gabc:note-has-special-note-head? (second (first notes)))))
-                (previous-note #f)
-                (items-with-episema-events
-                 (zip syllable
-                      (episema:episema-events
-                       (lambda (i) (and (eq? 'note-with-pitch (first i))
-                                        (gabc:note-has-horizontal-episema? (second i))))
-                       syllable))))
-           (cond
-            ((eq? '() syllable) ; void syllable rendered as invisible bar
-             (list (bar "")))
-            ((and (gabc:syl-has-lyrics? syllable)
-                  (= 1 (length syllable))) ; the syllable has only lyrics, no renderable music elements
-             (list (make-invisible-note)))
-            (else
-             (util:flatten
-              (util:map-with-previous
-               (lambda (previous current)
-                 (let ((previous-item (and previous (first previous)))
-                       (item (first current))
-                       (episema-events (second current)))
-                   (match item
-                     (('clef type line clef-is-flat)
-                      (let* ((lily-clefnum (- line 1)))
-                        (append
-                         (list (clef (string-append
-                                      "vaticana-"
-                                      (if (string=? "f" type) "fa" "do")
-                                      (number->string lily-clefnum))))
-                         (if clef-is-flat (list key-flat) '()))))
-                     (('note-with-pitch note pitch)
-                      (append
-                       (cond
-                        ((or (and is-melisma (eq? first-note item))
-                             is-single-note-special-head)
-                         (list (make-music 'LigatureEvent 'span-direction -1)))
-                        ((and is-melisma
-                              (not (or (pitch:pitch=? pitch (third previous-note))
-                                       (gabc:note-is-punctum-inclinatum? note)
-                                       (gabc:note-is-virga? note)
-                                       (gabc:note-is-punctum-inclinatum? (second previous-note))
-                                       (gabc:note-is-virga? (second previous-note))
-                                       (and previous-item (eq? 'space (first previous-item))))))
-                         (list
-                          (once
-                           (context-spec-music
-                            (make-grob-property-override 'NoteHead 'pes-or-flexa #t)
-                            'Bottom))))
-                        (else
-                         '()))
-                       (begin
-                         (set! previous-note item)
-                         '())
-                       (apply-note-repetitions
+    (make-sequential-music
+     (append-map
+      (lambda (syllable)
+        (let* ((notes (filter (lambda (x) (eq? 'note-with-pitch (first x))) syllable))
+               (is-melisma (< 1 (length notes)))
+               (first-note (and is-melisma (first notes)))
+               (last-note (and is-melisma (last notes)))
+               (is-single-note-special-head
+                (and (not is-melisma)
+                     (< 0 (length notes))
+                     (gabc:note-has-special-note-head? (second (first notes)))))
+               (previous-note #f)
+               (items-with-episema-events
+                (zip syllable
+                     (episema:episema-events
+                      (lambda (i) (and (eq? 'note-with-pitch (first i))
+                                       (gabc:note-has-horizontal-episema? (second i))))
+                      syllable))))
+          (cond
+           ((eq? '() syllable) ; void syllable rendered as invisible bar
+            (list (bar "")))
+           ((and (gabc:syl-has-lyrics? syllable)
+                 (= 1 (length syllable))) ; the syllable has only lyrics, no renderable music elements
+            (list (make-invisible-note)))
+           (else
+            (util:flatten
+             (util:map-with-previous
+              (lambda (previous current)
+                (let ((previous-item (and previous (first previous)))
+                      (item (first current))
+                      (episema-events (second current)))
+                  (match item
+                    (('clef type line clef-is-flat)
+                     (let* ((lily-clefnum (- line 1)))
+                       (append
+                        (list (clef (string-append
+                                     "vaticana-"
+                                     (if (string=? "f" type) "fa" "do")
+                                     (number->string lily-clefnum))))
+                        (if clef-is-flat (list key-flat) '()))))
+                    (('note-with-pitch note pitch)
+                     (append
+                      (cond
+                       ((or (and is-melisma (eq? first-note item))
+                            is-single-note-special-head)
+                        (list (make-music 'LigatureEvent 'span-direction -1)))
+                       ((and is-melisma
+                             (not (or (pitch:pitch=? pitch (third previous-note))
+                                      (gabc:note-is-punctum-inclinatum? note)
+                                      (gabc:note-is-virga? note)
+                                      (gabc:note-is-punctum-inclinatum? (second previous-note))
+                                      (gabc:note-is-virga? (second previous-note))
+                                      (and previous-item (eq? 'space (first previous-item))))))
+                        (list
+                         (once
+                          (context-spec-music
+                           (make-grob-property-override 'NoteHead 'pes-or-flexa #t)
+                           'Bottom))))
+                       (else
+                        '()))
+                      (begin
+                        (set! previous-note item)
+                        '())
+                      (apply-note-repetitions
+                       note
+                       (apply-vaticana-note-features-2
                         note
-                        (apply-vaticana-note-features-2
-                         note
-                         (list
-                          (apply-vaticana-note-features-1
-                           note
-                           (apply-episema-events
-                            episema-events
-                            (make-ly-note
-                             (apply ly:make-pitch (list-tail pitch 1))
-                             (ly:make-duration 2)
-                             #f))))))
+                        (list
+                         (apply-vaticana-note-features-1
+                          note
+                          (apply-episema-events
+                           episema-events
+                           (make-ly-note
+                            (apply ly:make-pitch (list-tail pitch 1))
+                            (ly:make-duration 2)
+                            #f))))))
+                      (cond
+                       ((and is-melisma (eq? first-note item))
+                        (list (context-spec-music (make-property-set 'melismaBusy #t) 'Bottom)))
+                       ((and is-melisma (eq? last-note item))
+                        (list (context-spec-music (make-property-unset 'melismaBusy) 'Bottom)))
+                       (else '()))
+                      (if (or (and is-melisma (eq? last-note item))
+                              is-single-note-special-head)
+                          (list (make-music 'LigatureEvent 'span-direction 1))
+                          '())))
+                    (('divisio type)
+                     (filter
+                      values
+                      (list
+                       (if (and (gabc:syl-has-lyrics? syllable)
+                                (not (syl-has-decorated-notes? syllable)))
+                           ;; lyrics under a divisio are very common in gabc,
+                           ;; but unsupported in LilyPond
+                           (make-invisible-note)
+                           #f)
+                       (primitive-eval (or (assoc-ref vaticana-divisiones-mapping type)
+                                           default-vaticana-bar)))))
+                    (('space type)
+                     (let*
+                         ((previous-pitch
+                           (if previous-note
+                               (apply ly:make-pitch (list-tail (third previous-note) 1))
+                               (ly:make-pitch -1 4)))
+                          (one-step-below (ly:pitch-transpose previous-pitch (ly:make-pitch -1 5 1/2)))) ; 1 diatonic step under the last note
                        (cond
-                        ((and is-melisma (eq? first-note item))
-                         (list (context-spec-music (make-property-set 'melismaBusy #t) 'Bottom)))
-                        ((and is-melisma (eq? last-note item))
-                         (list (context-spec-music (make-property-unset 'melismaBusy) 'Bottom)))
-                        (else '()))
-                       (if (or (and is-melisma (eq? last-note item))
-                               is-single-note-special-head)
-                           (list (make-music 'LigatureEvent 'span-direction 1))
-                           '())))
-                     (('divisio type)
-                      (filter
-                       values
-                       (list
-                        (if (and (gabc:syl-has-lyrics? syllable)
-                                 (not (syl-has-decorated-notes? syllable)))
-                            ;; lyrics under a divisio are very common in gabc,
-                            ;; but unsupported in LilyPond
-                            (make-invisible-note)
-                            #f)
-                        (primitive-eval (or (assoc-ref vaticana-divisiones-mapping type)
-                                            default-vaticana-bar)))))
-                     (('space type)
-                      (let*
-                          ((previous-pitch
-                            (if previous-note
-                                (apply ly:make-pitch (list-tail (third previous-note) 1))
-                                (ly:make-pitch -1 4)))
-                           (one-step-below (ly:pitch-transpose previous-pitch (ly:make-pitch -1 5 1/2)))) ; 1 diatonic step under the last note
-                        (cond
-                         ((string=? " " type)
-                          (invisible-note-on-pitch previous-pitch))
-                         ((string=? "//" type)
-                          (invisible-note-on-pitch one-step-below))
-                         ((string=? "/" type)
-                          (list
-                           (once hideNotes) (once teeny)
-                           (make-ly-note one-step-below (ly:make-duration 2) #f)))
-                         (else '()))))
-                     (('line-break type)
-                      (list break))
-                     (any '()))))
-               items-with-episema-events))))))
-       syllables))
-     'VaticanaVoice
-     context-id)))
+                        ((string=? " " type)
+                         (invisible-note-on-pitch previous-pitch))
+                        ((string=? "//" type)
+                         (invisible-note-on-pitch one-step-below))
+                        ((string=? "/" type)
+                         (list
+                          (once hideNotes) (once teeny)
+                          (make-ly-note one-step-below (ly:make-duration 2) #f)))
+                        (else '()))))
+                    (('line-break type)
+                     (list break))
+                    (any '()))))
+              items-with-episema-events))))))
+      syllables))))
 
 (define (apply-episema-events events ly-note)
   (cond
@@ -208,31 +205,3 @@
   (list
    (once hideNotes)
    (make-ly-note pitch (ly:make-duration 2) #f)))
-
-(define gabc-vaticana
-  (define-scheme-function
-    (options input)
-    ((symbol-key-alist? '()) string?)
-    (let*
-        ((parse-fn (if (eq? 'gly (assq-ref options 'parse-as)) gabc:parse-gly gabc:parse))
-         (score (parse-fn input))
-         (score-with-pitches (pitch:decorate-notes score #:base-octave -1)) ;; LilyPond treats the chant c clef as middle c
-         (set-id (assq-ref options 'voice-id))
-         (context-id (or set-id "uniqueContext0"))
-         (has-lyrics (any gabc:syl-has-lyrics? (util:flatten score)))
-         (notes (make-vaticana-notes score-with-pitches (if (or has-lyrics set-id) context-id #f))))
-      (set! (ly:music-property notes 'create-new) #t)
-      (if has-lyrics
-          (make-simultaneous-music
-           (list
-            notes
-            (make-lyrics score context-id 'VaticanaLyrics)))
-          notes))))
-
-(define gabc-vaticana-file
-  (define-scheme-function
-    (options path)
-    ((symbol-key-alist? '()) string?)
-    (gabc-vaticana
-     options
-     (call-with-input-file path get-string-all)))) ; TODO: resolve path relative to the current lilypond file, not to cwd

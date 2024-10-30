@@ -42,7 +42,8 @@
      (examples
       (append
        (zip (load-examples "test_expected.out") (load-examples "test_actual.out"))
-       (zip (load-examples "vaticana_test_expected.out") (load-examples "vaticana_test_actual.out"))))
+       (zip (load-examples "vaticana_test_expected.out") (load-examples "vaticana_test_actual.out"))
+       (zip (load-examples "lower_level_api_test_expected.out") (load-examples "lower_level_api_test_actual.out"))))
      (failures
       (filter
        (lambda (x)

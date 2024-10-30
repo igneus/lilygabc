@@ -94,3 +94,10 @@
            "\\include \"../../gregorian-shim.ily\"\n")
           ""
           "\\include \"../../lilygabc.ily\"\n")
+
+(generate "../visual/lower_level_api_test.ly"
+          (string-append
+           "\\include \"gregorian.ly\"\n"
+           "\\include \"../../lilygabc.ily\"\n")
+          ""
+          "")

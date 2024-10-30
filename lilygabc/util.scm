@@ -8,7 +8,8 @@
             map-with-previous
             irange
             char-range
-            alist-merge)
+            alist-merge
+            string-or-false?)
   #:use-module (srfi srfi-1)
   #:use-module (srfi srfi-26))
 
@@ -69,3 +70,9 @@
      (or (assoc (car apair) b)
          apair))
    a))
+
+;; Type predicates
+
+(define (string-or-false? x)
+  (or (string? x)
+      (eq? #f x)))

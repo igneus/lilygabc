@@ -22,8 +22,13 @@ GUILE_LOAD_PATH=. lilypond test_actual.ly > test_actual.out & pid2=$!
 lilypond vaticana_test_expected.ly > vaticana_test_expected.out & pid3=$!
 GUILE_LOAD_PATH=. lilypond vaticana_test_actual.ly > vaticana_test_actual.out & pid4=$!
 
+GUILE_LOAD_PATH=. lilypond lower_level_api_test_expected.ly > lower_level_api_test_expected.out & pid5=$!
+GUILE_LOAD_PATH=. lilypond lower_level_api_test_actual.ly > lower_level_api_test_actual.out & pid6=$!
+
 wait "$pid1" &&
     wait "$pid2" &&
     wait "$pid3" &&
     wait "$pid4" &&
+    wait "$pid5" &&
+    wait "$pid6" &&
     guile report.scm "$@"
