@@ -19,3 +19,11 @@
   \score { \gabc-vaticana "(c4) (g)" }
   \score { \lilygabc-vaticana-music \lilygabc-parse-gabc "(c4) (g)" }
 }
+
+\markup\fill-line{
+  % @test equal gly and gabc produce equal music
+  \score { \lilygabc-modern-music \lilygabc-parse-gabc "(c4) (g)" }
+  \score { \lilygabc-modern-music \lilygabc-parse-gly "c4 g" }
+
+  "" ""
+}
