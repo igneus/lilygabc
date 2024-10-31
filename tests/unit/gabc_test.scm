@@ -62,6 +62,8 @@
  ;; score header
  (test-equal '((((clef "c" 4 #f)))) ; header is ignored
              (parse "book: No Book;\n%%\n(c4)"))
+ (test-equal '((((clef "c" 4 #f)))) ; DOS-style newlines
+             (parse "book: No Book;\r\n%%\r\n(c4)"))
  ;; multiple headers: official Gregorio documentation doesn't specify
  ;; this behaviour, but the actual implementation allows multiple header
  ;; sections and GregoBase produces a lot of such gabc files
