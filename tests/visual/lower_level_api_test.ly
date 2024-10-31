@@ -13,9 +13,9 @@
 \markup\fill-line{
   % @test
   \score { \gabc "(c4) (g)" }
-  \score { \lilygabc-music-modern \lilygabc-parse-gabc "(c4) (g)" }
+  \score { \lilygabc-modern-music \lilygabc-parse-gabc "(c4) (g)" }
 
   % @test
   \score { \gabc-vaticana "(c4) (g)" }
-  \score { \lilygabc-music-vaticana \lilygabc-parse-gabc "(c4) (g)" }
+  \score { \lilygabc-vaticana-music \lilygabc-parse-gabc "(c4) (g)" }
 }
