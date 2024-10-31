@@ -153,7 +153,12 @@
  (test-equal '((((line-break "z+"))))
              (parse "(z+)"))
  (test-equal '((((line-break "z-"))))
-             (parse "(z-)")))
+             (parse "(z-)"))
+
+ ;; rendering settings and other features in square brackets
+ ;; (in the music)
+ (test-equal '((((note "e") (note "d") (square-brackets "ll:1"))))
+             (parse "(ed[ll:1])")))
 
 (test-group
  "parse-gly"
