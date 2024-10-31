@@ -12,12 +12,12 @@
   #:use-module ((lilygabc lily modern) #:select (make-lyrics make-ly-note apply-note-repetitions syl-has-decorated-notes?)))
 
 ; mapping Gregorio divisiones -> gregorian.ly bars
-(define vaticana-divisiones-mapping
+(define divisiones-mapping
   '(("," . divisioMinima)
     (";" . divisioMaior)
     ("::" . finalis)
     ("`" . virgula)))
-(define default-vaticana-bar 'divisioMaxima) ; used for all not explicitly mapped
+(define default-bar 'divisioMaxima) ; used for all not explicitly mapped
 
 (define (make-notes score)
   (let
@@ -87,10 +87,10 @@
                         '())
                       (apply-note-repetitions
                        note
-                       (apply-vaticana-note-features-2
+                       (apply-note-features-2
                         note
                         (list
-                         (apply-vaticana-note-features-1
+                         (apply-note-features-1
                           note
                           (apply-episema-events
                            episema-events
@@ -118,8 +118,8 @@
                            ;; but unsupported in LilyPond
                            (make-invisible-note)
                            #f)
-                       (primitive-eval (or (assoc-ref vaticana-divisiones-mapping type)
-                                           default-vaticana-bar)))))
+                       (primitive-eval (or (assoc-ref divisiones-mapping type)
+                                           default-bar)))))
                     (('space type)
                      (let*
                          ((previous-pitch
@@ -155,7 +155,7 @@
     (close-episema ly-note))))
 
 ;; apply features that are music functions
-(define (apply-vaticana-note-features-1 gabc-note ly-note)
+(define (apply-note-features-1 gabc-note ly-note)
   (let ((tests-and-transformations
          `((,gabc:note-has-punctum-mora? . ,augmentum)
            (,(lambda (x) (< 1 (gabc:note-punctum-mora-count x))) . ,augmentum)
@@ -176,7 +176,7 @@
      tests-and-transformations)))
 
 ;; apply features that are prepended music elements
-(define (apply-vaticana-note-features-2 gabc-note ly-note-list)
+(define (apply-note-features-2 gabc-note ly-note-list)
   (let ((tests-and-transformations
          `((,gabc:note-is-diminutive? . ,deminutum)
            (,gabc:note-is-punctum-inclinatum? . ,inclinatum)
