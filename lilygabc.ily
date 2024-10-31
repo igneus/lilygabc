@@ -1,6 +1,5 @@
 #(add-to-load-path (dirname (current-filename)))
 #(load "lilygabc.scm")
-#(load "vaticana.scm")
 
 \include "gregorian-shim.ily"
 
@@ -125,3 +124,60 @@ apply-musica-ficta =
 
 key-flat = { \key f \major }
 key-natural = { \key c \major }
+
+%% TODO if possible, make the definitions local to the let block
+#(begin
+  (let ((mdl (resolve-module '(lilygabc lily music-functions))))
+   (module-define! mdl 'make-invisible-note make-invisible-note)
+   (module-define! mdl 'tiny-note tiny-note)
+   (module-define! mdl 'teeny-note teeny-note)
+   (module-define! mdl 'apply-articulation apply-articulation)
+   (module-define! mdl 'apply-articulation-down apply-articulation-down)
+   (module-define! mdl 'apply-articulation-up apply-articulation-up)
+   (module-define! mdl 'apply-single-note-episema apply-single-note-episema)
+   (module-define! mdl 'open-episema open-episema)
+   (module-define! mdl 'close-episema close-episema)
+   (module-define! mdl 'apply-virga apply-virga)
+   (module-define! mdl 'apply-musica-ficta apply-musica-ficta)
+   (module-define! mdl 'key-flat key-flat)
+   (module-define! mdl 'key-natural key-natural)
+
+   ;; standard LilyPond names which aren't available by importing the (lily) module
+   (for-each
+    (lambda (sym)
+     (module-define! mdl sym (eval sym (current-module))))
+    '(bar
+      break
+      breathe
+      clef
+      hideNotes
+      once
+      prall
+      staccatissimo
+      teeny
+      tenuto
+
+      lilygabcAccentGrave
+      lilygabcSemicircleUpper))
+
+   ;; gregorian.ly names
+   (when (defined? 'virga) ; gregorian.ly is \included
+    (for-each
+     (lambda (sym)
+      (module-define! mdl sym (eval sym (current-module))))
+     '(accentus
+       ascendens
+       auctum
+       augmentum
+       cavum
+       circulus
+       deminutum
+       descendens
+       ictus
+       inclinatum
+       linea
+       oriscus
+       quilisma
+       semicirculus
+       stropha
+       virga)))))

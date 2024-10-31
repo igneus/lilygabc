@@ -118,8 +118,8 @@ global settings quite recklessly and the user should be in
 control over *if* and *when* these changes are applied.)
 
 ```lilypond
-% If the \lilygabcVaticanaLayout layout variable is used,
-% it's important to include gregorian.ly *before* lilygabc
+% gregorian.ly MUST be included BEFORE lilygabc,
+% otherwise bad things happen
 \include "gregorian.ly"
 
 \include "lilygabc.ily"

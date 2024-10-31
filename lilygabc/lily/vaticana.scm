@@ -1,13 +1,15 @@
-(use-modules
- (ice-9 match)
- (ice-9 regex)
- (ice-9 textual-ports)
- (srfi srfi-1)
- (srfi srfi-26)
- ((lilygabc episema) #:prefix episema:)
- ((lilygabc gabc) #:prefix gabc:)
- ((lilygabc pitch) #:prefix pitch:)
- ((lilygabc util) #:prefix util:))
+(define-module (lilygabc lily vaticana)
+  #:export (make-notes)
+  #:use-module (ice-9 match)
+  #:use-module (srfi srfi-1)
+  #:use-module (srfi srfi-26)
+  #:use-module (lily) ; LilyPond Scheme API
+  #:use-module ((lilygabc episema) #:prefix episema:)
+  #:use-module ((lilygabc gabc) #:prefix gabc:)
+  #:use-module ((lilygabc pitch) #:prefix pitch:)
+  #:use-module ((lilygabc util) #:prefix util:)
+  #:use-module (lilygabc lily music-functions)
+  #:use-module ((lilygabc lily modern) #:select (make-lyrics make-ly-note apply-note-repetitions syl-has-decorated-notes?)))
 
 ; mapping Gregorio divisiones -> gregorian.ly bars
 (define vaticana-divisiones-mapping
@@ -17,7 +19,7 @@
     ("`" . virgula)))
 (define default-vaticana-bar 'divisioMaxima) ; used for all not explicitly mapped
 
-(define (make-vaticana-notes score)
+(define (make-notes score)
   (let
       ((syllables (util:flatten score)))
     (make-sequential-music
