@@ -62,85 +62,67 @@ lilygabcVaticanaLayout = \layout {
 
 
 
-% Utility music functions used by the Scheme code.
-% Not part of the public interface.
-
-make-invisible-note =
-#(define-music-function () ()
-  #{ \once \hideNotes g'4 #})
-
-%% N.B.: all functions applying features to a note
-%% must have that note as their last expression
-%% (not e.g. a state-resetting command).
-%% Otherwise a subsequent application of another function
-%% on the result of the function call
-%% results in an unattached ArticulationEvent.
-tiny-note =
-#(define-music-function (note) (ly:music?)
-  #{ \once \tiny #note #})
-
-teeny-note =
-#(define-music-function (note) (ly:music?)
-  #{ \once \teeny #note #})
-
-apply-articulation =
-#(define-music-function (articulation note) (ly:music? ly:music?)
-  #{ #note #articulation #})
-
-apply-articulation-down =
-#(define-music-function (articulation note) (ly:music? ly:music?)
-  #{ #note _#articulation #})
-
-apply-articulation-up =
-#(define-music-function (articulation note) (ly:music? ly:music?)
-  #{ #note ^#articulation #})
-
-apply-single-note-episema =
-#(define-music-function (note) (ly:music?)
-  #{ #note \episemInitium \episemFinis #})
-
-open-episema =
-#(define-music-function (note) (ly:music?)
-  #{ #note \episemInitium #})
-
-close-episema =
-#(define-music-function (note) (ly:music?)
-  #{ #note \episemFinis #})
-
-apply-virga =
-#(define-music-function (side note) (boolean-or-symbol? ly:music?)
-  ; TODO it would be safer to check first that Stem.length is actually overridden to 0
-   #{
-     \once \stemDown
-     \once \revert Stem.length
-     #(if (eq? 'right side)
-       #{ \once \override NoteHead.stem-attachment = #'(0.8 . 0.3) #})
-     #note
-   #})
-
-apply-musica-ficta =
-#(define-music-function (note) (ly:music?)
-  #{ \once \set suggestAccidentals = ##t #note #})
-
-key-flat = { \key f \major }
-key-natural = { \key c \major }
-
-%% TODO if possible, make the definitions local to the let block
+% Internal utility music functions used by the Scheme modules.
 #(begin
   (let ((mdl (resolve-module '(lilygabc lily music-functions))))
-   (module-define! mdl 'make-invisible-note make-invisible-note)
-   (module-define! mdl 'tiny-note tiny-note)
-   (module-define! mdl 'teeny-note teeny-note)
-   (module-define! mdl 'apply-articulation apply-articulation)
-   (module-define! mdl 'apply-articulation-down apply-articulation-down)
-   (module-define! mdl 'apply-articulation-up apply-articulation-up)
-   (module-define! mdl 'apply-single-note-episema apply-single-note-episema)
-   (module-define! mdl 'open-episema open-episema)
-   (module-define! mdl 'close-episema close-episema)
-   (module-define! mdl 'apply-virga apply-virga)
-   (module-define! mdl 'apply-musica-ficta apply-musica-ficta)
-   (module-define! mdl 'key-flat key-flat)
-   (module-define! mdl 'key-natural key-natural)
+   (module-define! mdl 'make-invisible-note
+    (define-music-function () () #{ \once \hideNotes g'4 #}))
+
+   ;; N.B.: all functions applying features to a note
+   ;; must have that note as their last expression
+   ;; (not e.g. a state-resetting command).
+   ;; Otherwise a subsequent application of another function
+   ;; on the result of the function call
+   ;; results in an unattached ArticulationEvent.
+   (module-define! mdl 'tiny-note
+    (define-music-function (note) (ly:music?)
+     #{ \once \tiny #note #}))
+
+   (module-define! mdl 'teeny-note
+    (define-music-function (note) (ly:music?)
+     #{ \once \teeny #note #}))
+
+   (module-define! mdl 'apply-articulation
+    (define-music-function (articulation note) (ly:music? ly:music?)
+     #{ #note #articulation #}))
+
+   (module-define! mdl 'apply-articulation-down
+    (define-music-function (articulation note) (ly:music? ly:music?)
+     #{ #note _#articulation #}))
+
+   (module-define! mdl 'apply-articulation-up
+    (define-music-function (articulation note) (ly:music? ly:music?)
+     #{ #note ^#articulation #}))
+
+   (module-define! mdl 'apply-single-note-episema
+    (define-music-function (note) (ly:music?)
+     #{ #note \episemInitium \episemFinis #}))
+
+   (module-define! mdl 'open-episema
+    (define-music-function (note) (ly:music?)
+     #{ #note \episemInitium #}))
+
+   (module-define! mdl 'close-episema
+    (define-music-function (note) (ly:music?)
+     #{ #note \episemFinis #}))
+
+   (module-define! mdl 'apply-virga
+    (define-music-function (side note) (boolean-or-symbol? ly:music?)
+     ; TODO it would be safer to check first that Stem.length is actually overridden to 0
+     #{
+       \once \stemDown
+       \once \revert Stem.length
+       #(if (eq? 'right side)
+         #{ \once \override NoteHead.stem-attachment = #'(0.8 . 0.3) #})
+       #note
+       #}))
+
+   (module-define! mdl 'apply-musica-ficta
+    (define-music-function (note) (ly:music?)
+     #{ \once \set suggestAccidentals = ##t #note #}))
+
+   (module-define! mdl 'key-flat #{ { \key f \major } #})
+   (module-define! mdl 'key-natural #{ { \key c \major } #})
 
    ;; standard LilyPond names which aren't available by importing the (lily) module
    (for-each
