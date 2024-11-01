@@ -18,7 +18,8 @@
     (let*
         ((parse-fn (if (eq? 'gly (assq-ref options 'parse-as)) lilygabc-parse-gly lilygabc-parse-gabc))
          (score (parse-fn input)))
-      (lilygabc-modern-music options score))))
+      (set-notes-origin
+       (lilygabc-modern-music options score)))))
 
 (define gabc-file
   (define-scheme-function
@@ -35,7 +36,8 @@
     (let*
         ((parse-fn (if (eq? 'gly (assq-ref options 'parse-as)) lilygabc-parse-gly lilygabc-parse-gabc))
          (score (parse-fn input)))
-      (lilygabc-vaticana-music options score))))
+      (set-notes-origin
+       (lilygabc-vaticana-music options score)))))
 
 (define gabc-vaticana-file
   (define-scheme-function
@@ -149,3 +151,17 @@
      (pitch:decorate-notes
       score
       #:base-octave -1)))) ; LilyPond treats the chant c clef as middle c
+
+
+
+;; private
+
+(define (set-notes-origin music)
+  (music-map
+   (lambda (m)
+     (let ((name (ly:music-property m 'name)))
+       (if (or (eq? 'NoteEvent name)
+               (eq? 'LyricEvent name))
+           (ly:set-origin! m (*location*))
+           m)))
+   music))
