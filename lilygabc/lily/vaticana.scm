@@ -8,6 +8,7 @@
   #:use-module ((lilygabc gabc) #:prefix gabc:)
   #:use-module ((lilygabc pitch) #:prefix pitch:)
   #:use-module ((lilygabc util) #:prefix util:)
+  #:use-module (lilygabc lily lilypond-globals)
   #:use-module (lilygabc lily music-functions)
   #:use-module ((lilygabc lily modern) #:select (make-lyrics make-ly-note apply-note-repetitions syl-has-decorated-notes?)))
 

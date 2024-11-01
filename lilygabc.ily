@@ -124,7 +124,14 @@ lilygabcVaticanaLayout = \layout {
    (module-define! mdl 'key-flat #{ { \key f \major } #})
    (module-define! mdl 'key-natural #{ { \key c \major } #})
 
-   ;; standard LilyPond names which aren't available by importing the (lily) module
+   (for-each
+    (lambda (sym)
+     (module-define! mdl sym (eval sym (current-module))))
+    '(lilygabcAccentGrave
+      lilygabcSemicircleUpper)))
+
+  ;; standard LilyPond names which aren't available by importing the (lily) module
+  (let ((mdl (resolve-module '(lilygabc lily lilypond-globals))))
    (for-each
     (lambda (sym)
      (module-define! mdl sym (eval sym (current-module))))
@@ -137,10 +144,7 @@ lilygabcVaticanaLayout = \layout {
       prall
       staccatissimo
       teeny
-      tenuto
-
-      lilygabcAccentGrave
-      lilygabcSemicircleUpper))
+      tenuto))
 
    ;; gregorian.ly names
    (when (defined? 'virga) ; gregorian.ly is \included

@@ -15,6 +15,7 @@
   #:use-module ((lilygabc gabc) #:prefix gabc:)
   #:use-module ((lilygabc pitch) #:prefix pitch:)
   #:use-module ((lilygabc util) #:prefix util:)
+  #:use-module (lilygabc lily lilypond-globals)
   #:use-module (lilygabc lily music-functions))
 
 ; mapping Gregorio divisiones -> LilyPond bars

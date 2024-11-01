@@ -13,42 +13,12 @@
    apply-articulation
    apply-articulation-up
    apply-articulation-down
+   open-episema
+   close-episema
    apply-virga
    apply-single-note-episema
    key-flat
    key-natural
-
-   ;; fundamental LilyPond syntax features
-   bar
-   break
-   breathe
-   clef
-   close-episema
-   hideNotes
-   once
-   open-episema
-   prall
-   staccatissimo
-   teeny
-   tenuto
-
-   ;; gregorian.ly variables
-   accentus
-   ascendens
-   auctum
-   augmentum
-   cavum
-   circulus
-   deminutum
-   descendens
-   ictus
-   inclinatum
-   linea
-   oriscus
-   quilisma
-   semicirculus
-   stropha
-   virga
 
    ;; gregorian-shim.ly variables
    lilygabcAccentGrave
