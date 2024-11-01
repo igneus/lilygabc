@@ -15,7 +15,7 @@
   #:use-module ((lilygabc gabc) #:prefix gabc:)
   #:use-module ((lilygabc pitch) #:prefix pitch:)
   #:use-module ((lilygabc util) #:prefix util:)
-  #:use-module (lilygabc lily lilypond-globals)
+  #:use-module ((lilygabc lily lilypond-globals) #:prefix l:)
   #:use-module (lilygabc lily music-functions))
 
 ; mapping Gregorio divisiones -> LilyPond bars
@@ -43,7 +43,7 @@
                 (last-note (and is-melisma (last notes))))
            (cond
             ((eq? '() syllable) ; void syllable rendered as invisible bar
-             (list (bar "")))
+             (list (l:bar "")))
             ((and (gabc:syl-has-lyrics? syllable)
                   (= 1 (length syllable))) ; the syllable has only lyrics, no renderable music elements
              (list (make-invisible-note)))
@@ -89,10 +89,10 @@
                             (make-invisible-note)
                             #f)
                         (if (eq? 'breathe (car lilybar))
-                            (breathe)
-                            (bar bartype))))))
+                            (l:breathe)
+                            (l:bar bartype))))))
                    (('line-break type)
-                    (list break))
+                    (list l:break))
                    (any #f)))
                syllable))))))
        (util:flatten words))))))
@@ -118,11 +118,11 @@
           `((,gabc:note-is-punctum-inclinatum? . ,tiny-note)
             (,gabc:note-is-diminutive? . ,teeny-note)
             (,gabc:note-is-debilis? . ,teeny-note)
-            (,gabc:note-has-ictus? . ,(cut apply-articulation-down staccatissimo <>))
+            (,gabc:note-has-ictus? . ,(cut apply-articulation-down l:staccatissimo <>))
             ;; TODO probably drop in favor of the actual episema
-            (,gabc:note-has-horizontal-episema? . ,(cut apply-articulation-up tenuto <>))
+            (,gabc:note-has-horizontal-episema? . ,(cut apply-articulation-up l:tenuto <>))
             (,gabc:note-is-virga? . ,(cut apply-virga virga-side <>))
-            (,gabc:note-is-quilisma? . ,(cut apply-articulation prall <>))
+            (,gabc:note-is-quilisma? . ,(cut apply-articulation l:prall <>))
             (,gabc:note-has-musica-ficta? . ,apply-musica-ficta))))
     (fold
      (lambda (x r)

@@ -8,11 +8,15 @@
   #:use-module ((lilygabc gabc) #:prefix gabc:)
   #:use-module ((lilygabc pitch) #:prefix pitch:)
   #:use-module ((lilygabc util) #:prefix util:)
-  #:use-module (lilygabc lily lilypond-globals)
+  #:use-module ((lilygabc lily lilypond-globals) #:prefix l:)
   #:use-module (lilygabc lily music-functions)
   #:use-module ((lilygabc lily modern) #:select (make-lyrics make-ly-note apply-note-repetitions syl-has-decorated-notes?)))
 
-; mapping Gregorio divisiones -> gregorian.ly bars
+;; mapping Gregorio divisiones -> gregorian.ly bars
+;;
+;; TODO how comes these are defined here? Are they somehow included
+;; in the (lily) module, although they are defined in LilyPond
+;; (not Scheme) code?
 (define divisiones-mapping
   '(("," . divisioMinima)
     (";" . divisioMaior)
@@ -43,7 +47,7 @@
                       syllable))))
           (cond
            ((eq? '() syllable) ; void syllable rendered as invisible bar
-            (list (bar "")))
+            (list (l:bar "")))
            ((and (gabc:syl-has-lyrics? syllable)
                  (= 1 (length syllable))) ; the syllable has only lyrics, no renderable music elements
             (list (make-invisible-note)))
@@ -58,10 +62,10 @@
                     (('clef type line clef-is-flat)
                      (let* ((lily-clefnum (- line 1)))
                        (append
-                        (list (clef (string-append
-                                     "vaticana-"
-                                     (if (string=? "f" type) "fa" "do")
-                                     (number->string lily-clefnum))))
+                        (list (l:clef (string-append
+                                       "vaticana-"
+                                       (if (string=? "f" type) "fa" "do")
+                                       (number->string lily-clefnum))))
                         (if clef-is-flat (list key-flat) '()))))
                     (('note-with-pitch note pitch)
                      (append
@@ -77,7 +81,7 @@
                                       (gabc:note-is-virga? (second previous-note))
                                       (and previous-item (eq? 'space (first previous-item))))))
                         (list
-                         (once
+                         (l:once
                           (context-spec-music
                            (make-grob-property-override 'NoteHead 'pes-or-flexa #t)
                            'Bottom))))
@@ -135,11 +139,11 @@
                          (invisible-note-on-pitch one-step-below))
                         ((string=? "/" type)
                          (list
-                          (once hideNotes) (once teeny)
+                          (l:once l:hideNotes) (l:once l:teeny)
                           (make-ly-note one-step-below (ly:make-duration 2) #f)))
                         (else '()))))
                     (('line-break type)
-                     (list break))
+                     (list l:break))
                     (any '()))))
               items-with-episema-events))))))
       syllables))))
@@ -158,13 +162,13 @@
 ;; apply features that are music functions
 (define (apply-note-features-1 gabc-note ly-note)
   (let ((tests-and-transformations
-         `((,gabc:note-has-punctum-mora? . ,augmentum)
-           (,(lambda (x) (< 1 (gabc:note-punctum-mora-count x))) . ,augmentum)
-           (,gabc:note-has-ictus? . ,(cut apply-articulation ictus <>))
-           (,gabc:note-has-accentus? . ,(cut apply-articulation accentus <>))
+         `((,gabc:note-has-punctum-mora? . ,l:augmentum)
+           (,(lambda (x) (< 1 (gabc:note-punctum-mora-count x))) . ,l:augmentum)
+           (,gabc:note-has-ictus? . ,(cut apply-articulation l:ictus <>))
+           (,gabc:note-has-accentus? . ,(cut apply-articulation l:accentus <>))
            (,gabc:note-has-accent-grave? . ,(cut apply-articulation lilygabcAccentGrave <>))
-           (,gabc:note-has-circulus? . ,(cut apply-articulation circulus <>))
-           (,gabc:note-has-semicirculus? . ,(cut apply-articulation semicirculus <>))
+           (,gabc:note-has-circulus? . ,(cut apply-articulation l:circulus <>))
+           (,gabc:note-has-semicirculus? . ,(cut apply-articulation l:semicirculus <>))
            (,gabc:note-has-semicirculus-upper? . ,(cut apply-articulation lilygabcSemicircleUpper <>))
            (,gabc:note-has-musica-ficta? . ,apply-musica-ficta))))
     (fold
@@ -179,22 +183,22 @@
 ;; apply features that are prepended music elements
 (define (apply-note-features-2 gabc-note ly-note-list)
   (let ((tests-and-transformations
-         `((,gabc:note-is-diminutive? . ,deminutum)
-           (,gabc:note-is-punctum-inclinatum? . ,inclinatum)
-           (,gabc:note-is-debilis? . ,deminutum)
-           (,gabc:note-is-virga? . ,virga)
+         `((,gabc:note-is-diminutive? . ,l:deminutum)
+           (,gabc:note-is-punctum-inclinatum? . ,l:inclinatum)
+           (,gabc:note-is-debilis? . ,l:deminutum)
+           (,gabc:note-is-virga? . ,l:virga)
            (,(lambda (x)
                (and (gabc:note-is-ascendens? x)
                     (not (gabc:note-is-stropha? x))))
-            . ,ascendens)
-           (,gabc:note-is-ascendens? . ,auctum)
-           (,gabc:note-is-descendens? . ,descendens)
-           (,gabc:note-is-descendens? . ,auctum)
-           (,gabc:note-is-quilisma? . ,quilisma)
-           (,gabc:note-is-oriscus? . ,oriscus)
-           (,gabc:note-is-cavum? . ,cavum)
-           (,gabc:note-has-linea? . ,linea)
-           (,gabc:note-is-stropha? . ,stropha))))
+            . ,l:ascendens)
+           (,gabc:note-is-ascendens? . ,l:auctum)
+           (,gabc:note-is-descendens? . ,l:descendens)
+           (,gabc:note-is-descendens? . ,l:auctum)
+           (,gabc:note-is-quilisma? . ,l:quilisma)
+           (,gabc:note-is-oriscus? . ,l:oriscus)
+           (,gabc:note-is-cavum? . ,l:cavum)
+           (,gabc:note-has-linea? . ,l:linea)
+           (,gabc:note-is-stropha? . ,l:stropha))))
     (fold
      (lambda (x r)
        (match-let (((test . transformation) x))
@@ -206,5 +210,5 @@
 
 (define (invisible-note-on-pitch pitch)
   (list
-   (once hideNotes)
+   (l:once l:hideNotes)
    (make-ly-note pitch (ly:make-duration 2) #f)))
