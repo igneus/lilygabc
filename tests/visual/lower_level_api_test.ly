@@ -25,5 +25,7 @@
   \score { \lilygabc-modern-music \lilygabc-parse-gabc "(c4) (g)" }
   \score { \lilygabc-modern-music \lilygabc-parse-gly "c4 g" }
 
-  "" ""
+  % @test *-notes can be combined with addlyrics
+  \score { { \lilygabc-modern-notes \lilygabc-parse-gly "c4 fg g" } \addlyrics { A -- men } }
+  \score { { { f'4( g') g' } } \addlyrics { A -- men } }
 }
