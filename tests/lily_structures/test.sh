@@ -11,19 +11,13 @@ guile generate.scm "$@"
 # before reporting results.
 echo "Dumping music structures"
 lilypond test_expected.ly > test_expected.out & pid1=$!
-
-# The GUILE_LOAD_PATH setting is not completely straightforward:
-# the path of `(load "lilygabc.scm")` in lilygabc.ily is expanded
-# to "../../lilygabc.scm" (taking either cwd or the main LilyPond
-# file as a base) and that relative path is then searched
-# relative to all registered load paths.
-GUILE_LOAD_PATH=. lilypond test_actual.ly > test_actual.out & pid2=$!
+lilypond test_actual.ly > test_actual.out & pid2=$!
 
 lilypond vaticana_test_expected.ly > vaticana_test_expected.out & pid3=$!
-GUILE_LOAD_PATH=. lilypond vaticana_test_actual.ly > vaticana_test_actual.out & pid4=$!
+lilypond vaticana_test_actual.ly > vaticana_test_actual.out & pid4=$!
 
-GUILE_LOAD_PATH=. lilypond lower_level_api_test_expected.ly > lower_level_api_test_expected.out & pid5=$!
-GUILE_LOAD_PATH=. lilypond lower_level_api_test_actual.ly > lower_level_api_test_actual.out & pid6=$!
+lilypond lower_level_api_test_expected.ly > lower_level_api_test_expected.out & pid5=$!
+lilypond lower_level_api_test_actual.ly > lower_level_api_test_actual.out & pid6=$!
 
 wait "$pid1" &&
     wait "$pid2" &&

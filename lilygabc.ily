@@ -1,5 +1,7 @@
 #(add-to-load-path (dirname (current-filename)))
-#(load "lilygabc.scm")
+#(use-modules
+  (lilygabc)
+  ((lilygabc util) #:prefix util:))
 
 \include "gregorian-shim.ily"
 
