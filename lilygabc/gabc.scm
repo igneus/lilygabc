@@ -1,37 +1,6 @@
 ;; gabc parsing - pure Scheme, no LilyPond-specific types/functions
 
 (define-module (lilygabc gabc)
-  #:export (parse
-            parse-gly
-            syl-has-lyrics?
-            syl-has-notes?
-            clef-has-bflat?
-            note-is-punctum-inclinatum?
-            note-is-diminutive?
-            note-is-debilis?
-            note-is-ascendens?
-            note-is-descendens?
-            note-is-oriscus?
-            note-is-quilisma?
-            note-is-cavum?
-            note-is-stropha?
-            note-is-virga?
-            note-has-punctum-mora?
-            note-has-ictus?
-            note-has-horizontal-episema?
-            note-has-linea?
-            note-has-accentus?
-            note-has-accent-grave?
-            note-has-circulus?
-            note-has-semicirculus?
-            note-has-semicirculus-upper?
-            note-has-musica-ficta?
-            note-virga-side
-            note-repetitions
-            note-punctum-mora-count
-            note-ficta-value
-            note-has-special-note-head?
-            map-syl-elements)
   #:use-module (srfi srfi-1) ; required to use the correct version of `iota`
   #:use-module (srfi srfi-26)
   #:use-module (ice-9 regex)
@@ -46,7 +15,7 @@
 ;;   Lyrics, if present, are always the first element of a syllable.
 ;; Syllable element is a list where the first item is a symbol
 ;;   specifying element type, subsequent items vary depending on type.
-(define (parse gabc-str)
+(define-public (parse gabc-str)
   (let*
       ((gabc-body (without-comments (body gabc-str)))
        (syllables (list-matches "([^\\(]*)\\(([^\\)]*)\\)" gabc-body))
@@ -71,7 +40,7 @@
 ;; (~ gabc with no lyrics and optional parentheses).
 ;; Typical use case is entering music as gly
 ;; and lyrics using LilyPond native syntax.
-(define (parse-gly gly-str)
+(define-public (parse-gly gly-str)
   (let
       ((syllables (list-matches "([^[:space:]\\(]+)|\\(([^\\)]+)\\)" gly-str)))
     (map
@@ -95,20 +64,20 @@
 
 ;; syllable predicates
 
-(define (syl-has-lyrics? syllable)
+(define-public (syl-has-lyrics? syllable)
   (find (lambda (x) (eq? 'lyrics (first x))) syllable))
 
-(define (syl-has-notes? syllable)
+(define-public (syl-has-notes? syllable)
   (find (lambda (x) (eq? 'note (first x))) syllable))
 
 ;; clef predicates
 
-(define (clef-has-bflat? clef)
+(define-public (clef-has-bflat? clef)
   (fourth clef))
 
 ;; note predicates
 
-(define (note-is-punctum-inclinatum? note)
+(define-public (note-is-punctum-inclinatum? note)
   (char-upper-case? (string-ref (note-name note) 0)))
 
 (define note-name second)
@@ -126,94 +95,94 @@
 (define (note-additional-matches? regexp note)
   (not (eq? #f (string-match regexp (note-additional note)))))
 
-(define (note-is-diminutive? note)
+(define-public (note-is-diminutive? note)
   (string-prefix? "~" (note-additional note)))
 
-(define (note-is-debilis? note)
+(define-public (note-is-debilis? note)
   (string-suffix? "-" (note-additional note)))
 
-(define (note-is-ascendens? note)
+(define-public (note-is-ascendens? note)
   (note-additional-contains? #\< note))
 
-(define (note-is-descendens? note)
+(define-public (note-is-descendens? note)
   (note-additional-contains? #\> note))
 
-(define (note-is-oriscus? note)
+(define-public (note-is-oriscus? note)
   (note-additional-contains? #\o note))
 
-(define (note-is-quilisma? note)
+(define-public (note-is-quilisma? note)
   (note-additional-contains? #\w note))
 
-(define (note-is-cavum? note)
+(define-public (note-is-cavum? note)
   (note-additional-matches? "r($|[^1-9])" note))
 
-(define (note-is-stropha? note)
+(define-public (note-is-stropha? note)
   (note-additional-contains? #\s note))
 
-(define (note-is-virga? note)
+(define-public (note-is-virga? note)
   (not (eq? #f (note-virga-side note))))
 
-(define (note-has-punctum-mora? note)
+(define-public (note-has-punctum-mora? note)
   (note-additional-contains? #\. note))
 
-(define (note-has-ictus? note)
+(define-public (note-has-ictus? note)
   (note-additional-contains? #\' note))
 
-(define (note-has-horizontal-episema? note)
+(define-public (note-has-horizontal-episema? note)
   (note-additional-contains? #\_ note))
 
-(define (note-has-linea? note)
+(define-public (note-has-linea? note)
   (note-additional-matches? "R|r0" note))
 
-(define (note-has-accentus? note)
+(define-public (note-has-accentus? note)
   (note-additional-contains? "r1" note))
 
 ;; TODO is there a standard Latin name?
-(define (note-has-accent-grave? note)
+(define-public (note-has-accent-grave? note)
   (note-additional-contains? "r2" note))
 
-(define (note-has-circulus? note)
+(define-public (note-has-circulus? note)
   (note-additional-contains? "r3" note))
 
-(define (note-has-semicirculus? note)
+(define-public (note-has-semicirculus? note)
   (note-additional-contains? "r4" note))
 
 ;; TODO is there a standard Latin name?
-(define (note-has-semicirculus-upper? note)
+(define-public (note-has-semicirculus-upper? note)
   (note-additional-contains? "r5" note))
 
-(define (note-has-musica-ficta? note)
+(define-public (note-has-musica-ficta? note)
   (note-additional-matches? "r[6-8]" note))
 
-(define (note-virga-side note)
+(define-public (note-virga-side note)
   (let ((a (note-additional note)))
     (cond
      ((string-index a #\V) 'left)
      ((string-index a #\v) 'right)
      (else #f))))
 
-(define (note-repetitions note)
+(define-public (note-repetitions note)
   (let ((m (string-match "[vs]{2,3}" (note-additional note))))
     (and m (string-length (match:substring m 0)))))
 
-(define (note-punctum-mora-count note)
+(define-public (note-punctum-mora-count note)
   (let ((m (string-match "\\.{1,2}" (note-additional note))))
     (or (and m (string-length (match:substring m 0)))
         0)))
 
-(define (note-ficta-value note)
+(define-public (note-ficta-value note)
   (let* ((m (string-match "r([6-8])" (note-additional note)))
          (num (and m (string->number (match:substring m 1)))))
     (/ (- num 7) 2))) ; LOL
 
 ;; any note head other than a simple punctum
-(define (note-has-special-note-head? note)
+(define-public (note-has-special-note-head? note)
   (or (char-upper-case? (string-ref (note-name note) 0))
       (string-match "[-~<>=osvVwWR]|r($|[^1-9])" (note-additional note))))
 
 ;; operations on the score data structure
 
-(define map-syl-elements util:map3)
+(define-public map-syl-elements util:map3)
 
 ;; maps gabc accidentals to symbols we return in the parsing results
 (define accidentals

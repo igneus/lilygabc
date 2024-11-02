@@ -2,11 +2,6 @@
 ;; Requires the LilyPond runtime.
 
 (define-module (lilygabc lily modern)
-  #:export (make-notes
-            make-lyrics
-            apply-note-repetitions
-            make-ly-note
-            syl-has-decorated-notes?)
   #:use-module (ice-9 match)
   #:use-module (ice-9 regex)
   #:use-module (srfi srfi-1)
@@ -28,10 +23,10 @@
 
 ;; equivalent of gabc:syl-has-notes? operating on the results
 ;; of pitch:decorate-notes
-(define (syl-has-decorated-notes? syllable)
+(define-public (syl-has-decorated-notes? syllable)
   (find (lambda (x) (eq? 'note-with-pitch (first x))) syllable))
 
-(define (make-notes words)
+(define-public (make-notes words)
   (make-sequential-music
    (util:flatten
     (let ((last-clef-was-flat #f))
@@ -97,7 +92,7 @@
                syllable))))))
        (util:flatten words))))))
 
-(define (make-ly-note pitch duration slur-direction)
+(define-public (make-ly-note pitch duration slur-direction)
   (apply
    make-music
    (append
@@ -133,11 +128,11 @@
      ly-note
      tests-and-transformations)))
 
-(define (apply-note-repetitions gabc-note music)
+(define-public (apply-note-repetitions gabc-note music)
   (let ((num (or (gabc:note-repetitions gabc-note) 1)))
     (append-map (lambda (i) music) (iota num))))
 
-(define (make-lyrics words context-id lyrics-type)
+(define-public (make-lyrics words context-id lyrics-type)
   (make-music
    'ContextSpeccedMusic
    'create-new #t

@@ -1,25 +1,16 @@
 ;; General-purpose utility functions
 
 (define-module (lilygabc util)
-  #:export (flatten
-            split-at
-            map2
-            map3
-            map-with-previous
-            irange
-            char-range
-            alist-merge
-            string-or-false?)
   #:use-module (srfi srfi-1)
   #:use-module (srfi srfi-26))
 
 ;; List transformations
 
-(define flatten (cut apply append <>))
+(define-public flatten (cut apply append <>))
 
 ;; Splits the list, starting a new sublist on each
 ;; item for which fn is truthy
-(define (split-at fn lst)
+(define-public (split-at fn lst)
   (fold
    (lambda (i r)
      (if (or (null? r)
@@ -32,16 +23,16 @@
    lst))
 
 ;; Two-dimensional map
-(define (map2 fn lst)
+(define-public (map2 fn lst)
   (map (cut map fn <>) lst))
 
-(define (map3 fn lst)
+(define-public (map3 fn lst)
   (map (cut map2 fn <>) lst))
 
 ;; Map variant passing to the function two arguments.
 ;; The second argument is "current", the first "previous".
 ;; For the first list item "previous" is #nil.
-(define (map-with-previous fn lst)
+(define-public (map-with-previous fn lst)
   (pair-fold
    (lambda (sublist r)
      (if (> 2 (length sublist))
@@ -53,9 +44,9 @@
 ;; Generating lists of value ranges
 
 ;; integer range, final element included
-(define (irange x y) (iota (+ (- y x) 1) x))
+(define-public (irange x y) (iota (+ (- y x) 1) x))
 
-(define (char-range x y)
+(define-public (char-range x y)
   (map (lambda (x) (string (integer->char x)))
        (apply irange (map char->integer (list x y)))))
 
@@ -64,7 +55,7 @@
 ;; Note: this only replaces entries known to 'a' with matching entries
 ;; from 'b', entries unknown to 'a' are not added.
 ;; i.e. semantics don't match Ruby's Hash#merge.
-(define (alist-merge a b)
+(define-public (alist-merge a b)
   (map
    (lambda (apair)
      (or (assoc (car apair) b)
@@ -73,6 +64,6 @@
 
 ;; Type predicates
 
-(define (string-or-false? x)
+(define-public (string-or-false? x)
   (or (string? x)
       (eq? #f x)))

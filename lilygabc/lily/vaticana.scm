@@ -1,5 +1,4 @@
 (define-module (lilygabc lily vaticana)
-  #:export (make-notes)
   #:use-module (ice-9 match)
   #:use-module (srfi srfi-1)
   #:use-module (srfi srfi-26)
@@ -24,7 +23,7 @@
     ("`" . virgula)))
 (define default-bar 'divisioMaxima) ; used for all not explicitly mapped
 
-(define (make-notes score)
+(define-public (make-notes score)
   (let
       ((syllables (util:flatten score)))
     (make-sequential-music

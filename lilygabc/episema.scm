@@ -1,12 +1,10 @@
 (define-module (lilygabc episema)
-  #:export (episema-events
-            episema-events-default)
   #:use-module (srfi srfi-1)
   #:use-module (lilygabc gabc))
 
 ;; Accepts a list of music items (parts of a music syllable),
 ;; returns a list containing for each item a list of episema events.
-(define (episema-events is-note-with-episema? items)
+(define-public (episema-events is-note-with-episema? items)
   (let ((in-episema #f))
     (pair-fold
      (lambda (sublist r)
@@ -33,7 +31,7 @@
 
 ;; Runs episema-events with a default episema detection function,
 ;; suitable for vanilla data produced by gabc:parse
-(define (episema-events-default items)
+(define-public (episema-events-default items)
   (episema-events
    (lambda (i) (and (is-note? i) (note-has-horizontal-episema? i)))
    items))

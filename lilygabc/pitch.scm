@@ -2,9 +2,7 @@
 
 (define-module (lilygabc pitch)
   #:export (note-pitch
-            accidental-step
-            decorate-notes
-            pitch=?)
+            decorate-notes)
   #:use-module (srfi srfi-1)
   #:use-module (srfi srfi-26)
   #:use-module ((lilygabc gabc) #:prefix gabc:)
@@ -36,7 +34,7 @@
         (list octave step accidental))))
 
 ;; Octave step to which an accidental is related, as an integer
-(define (accidental-step clef accidental)
+(define-public (accidental-step clef accidental)
   (second (note-pitch clef accidental))) ; abuse the similarity of note and accidental data structures
 
 ;; default clef assumed when the score hasn't (yet) specified any
@@ -87,6 +85,6 @@
           word)))
      score)))
 
-(define (pitch=? a b)
+(define-public (pitch=? a b)
   (and (= (second a) (second b))
        (= (third a) (third b))))
