@@ -1,5 +1,7 @@
-(use-modules (srfi srfi-64))
-(use-modules (lilygabc episema))
+(use-modules
+ (srfi srfi-64)
+ ((lilygabc gabc) #:prefix gabc:)
+ (lilygabc episema))
 
 (define suite-name "episema_unit_tests")
 
@@ -34,5 +36,14 @@
  (test-equal '((open close) () (open close))
              (episema-events-default '((note "g" "_") (space "/") (note "f" "_"))))
  )
+
+(test-group
+ "decorate-notes"
+ (test-equal '((note-with-episema-events (note "g" "_") (open close))
+               (space "/"))
+             (decorate-notes
+              (lambda (x) (eq? 'note (car x)))
+              gabc:note-has-horizontal-episema?
+              '((note "g" "_") (space "/")))))
 
 (test-end suite-name)

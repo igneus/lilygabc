@@ -36,6 +36,19 @@
    (lambda (i) (and (is-note? i) (note-has-horizontal-episema? i)))
    items))
 
+(define-public (decorate-notes is-note? has-episema? items)
+  (map
+   (lambda (x)
+     (let ((i (first x))
+           (events (second x)))
+       (if (is-note? i)
+           (list 'note-with-episema-events i events)
+           i)))
+   (zip items
+        (episema-events
+         (lambda (x) (and (is-note? x) (has-episema? x)))
+         items))))
+
 (define (is-note? item)
   (and (< 0 (length item))
        (eq? 'note (first item))))
