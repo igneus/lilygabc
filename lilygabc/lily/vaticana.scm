@@ -29,7 +29,7 @@
     (make-sequential-music
      (append-map
       (lambda (syllable)
-        (let* ((notes (filter (lambda (x) (eq? 'note-with-pitch (first x))) syllable))
+        (let* ((notes (filter pitch:is-note-with-pitch? syllable))
                (is-melisma (< 1 (length notes)))
                (first-note (and is-melisma (first notes)))
                (last-note (and is-melisma (last notes)))
@@ -41,7 +41,7 @@
                (items-with-episema-events
                 (zip syllable
                      (episema:episema-events
-                      (lambda (i) (and (eq? 'note-with-pitch (first i))
+                      (lambda (i) (and (pitch:is-note-with-pitch? i)
                                        (gabc:note-has-horizontal-episema? (second i))))
                       syllable))))
           (cond

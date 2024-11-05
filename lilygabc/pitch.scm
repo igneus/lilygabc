@@ -85,6 +85,11 @@
           word)))
      score)))
 
+;; functions operating on the data produced by decorate-notes
+
+(define-public (is-note-with-pitch? item)
+  (eq? 'note-with-pitch (first item)))
+
 (define-public (pitch=? a b)
   (and (= (second a) (second b))
        (= (third a) (third b))))

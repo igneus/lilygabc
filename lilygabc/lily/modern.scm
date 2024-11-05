@@ -24,7 +24,7 @@
 ;; equivalent of gabc:syl-has-notes? operating on the results
 ;; of pitch:decorate-notes
 (define-public (syl-has-decorated-notes? syllable)
-  (find (lambda (x) (eq? 'note-with-pitch (first x))) syllable))
+  (find pitch:is-note-with-pitch? syllable))
 
 (define-public (make-notes words)
   (make-sequential-music
@@ -32,7 +32,7 @@
     (let ((last-clef-was-flat #f))
       (map
        (lambda (syllable)
-         (let* ((notes (filter (lambda (x) (eq? 'note-with-pitch (first x))) syllable))
+         (let* ((notes (filter pitch:is-note-with-pitch? syllable))
                 (is-melisma (< 1 (length notes)))
                 (first-note (and is-melisma (first notes)))
                 (last-note (and is-melisma (last notes))))
