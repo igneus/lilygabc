@@ -15,11 +15,11 @@
 
 ; mapping Gregorio divisiones -> LilyPond bars
 (define divisiones-mapping
-  '(("," . (bar . "'"))
-    (";" . (bar . ","))
-    ("::" . (bar . "||"))
-    ("`" . (breathe . #f))))
-(define default-bar '(bar . "|")) ; used for all not explicitly mapped
+  `(("," . ,(l:bar "'"))
+    (";" . ,(l:bar ","))
+    ("::" . ,(l:bar "||"))
+    ("`" . ,(l:breathe))))
+(define default-bar (l:bar "|")) ; used for all not explicitly mapped
 
 ;; equivalent of gabc:syl-has-notes? operating on the results
 ;; of pitch:decorate-notes
@@ -70,22 +70,17 @@
                                   (else #f))
                             #f))))))
                    (('divisio type)
-                    (let* ((lilybar
-                            (or (assoc-ref divisiones-mapping type)
-                                default-bar))
-                           (bartype (cdr lilybar)))
-                      (filter
-                       values
-                       (list
-                        (if (and (gabc:syl-has-lyrics? syllable)
-                                 (not (syl-has-decorated-notes? syllable)))
-                            ;; lyrics under a divisio are very common in gabc,
-                            ;; but unsupported in LilyPond
-                            (make-invisible-note)
-                            #f)
-                        (if (eq? 'breathe (car lilybar))
-                            (l:breathe)
-                            (l:bar bartype))))))
+                    (filter
+                     values
+                     (list
+                      (if (and (gabc:syl-has-lyrics? syllable)
+                               (not (syl-has-decorated-notes? syllable)))
+                          ;; lyrics under a divisio are very common in gabc,
+                          ;; but unsupported in LilyPond
+                          (make-invisible-note)
+                          #f)
+                      (or (assoc-ref divisiones-mapping type)
+                          default-bar))))
                    (('line-break type)
                     (list l:break))
                    (any #f)))
