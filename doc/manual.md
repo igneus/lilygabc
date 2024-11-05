@@ -98,8 +98,8 @@ produced by the parsing functions above.
 Optionally an association list of options may be passed.
 For supported options see the high-level API above.
 
-- `\lilygabc-modern-music options score`
-- `\lilygabc-vaticana-music options score`
+- `\lilygabc-modern-music (options) score`
+- `\lilygabc-vaticana-music (options) score`
 
 #### Voice
 
@@ -120,5 +120,11 @@ won't be recognized as such and will be rendered in modern notation.
 - `\lilygabc-vaticana-notes score`
 
 #### Lyrics
+
+`context-id` is a unique ID of a voice the lyrics will be aligned to,
+`score` is the data structure produced by parsing functions.
+
+- `\lilygabc-modern-lyrics context-id score`
+- `\lilygabc-vaticana-lyrics context-id score`
 
 [gly]: https://github.com/igneus/gly
