@@ -58,15 +58,17 @@ halveNotesInLigatures =
 
 \score {
   <<
-    \halveNotesInLigatures \gabc-vaticana #'((voice-id . "a") (parse-as . gly))
-      "c4 k j hg f g f g  h : h j k  j hg fe f d :z
-          d f d  e f g fe d : d f hi j k  ji j k ::"
+    \halveNotesInLigatures
+      \gabc-vaticana #'((parse-as . gly) (produce . voice) (voice-id . "voice-a"))
+        "c4 k j hg f g f g  h : h j k  j hg fe f d :z
+            d f d  e f g fe d : d f hi j k  ji j k ::"
 
-    \new VaticanaLyrics \lyricsto "a" { \repeat unfold 16 { A -- men } }
+    \new VaticanaLyrics \lyricsto "voice-a" { \repeat unfold 16 { A -- men } }
 
-    \halveNotesInLigatures \gabc-vaticana #'((parse-as . gly))
-      "c4 d c d f g fe f d : b d b  d b d  e f :
-          h j h i j k  j k : k j hg f g fe f d ::"
+    \halveNotesInLigatures
+      \gabc-vaticana #'((parse-as . gly) (produce . voice))
+        "c4 d c d f g fe f d : b d b  d b d  e f :
+            h j h i j k  j k : k j hg f g fe f d ::"
   >>
   \layout {}
   % \midi { \tempo 4 = 100 } % Uncomment to generate MIDI

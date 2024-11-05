@@ -76,14 +76,21 @@
     (options score)
     ((symbol-key-alist? '()) list?)
     (let*
-        ((context-id (or (assq-ref options 'voice-id) "uniqueContext0"))
+        ((set-id (assq-ref options 'voice-id))
+         (context-id (or set-id "uniqueContext0"))
+         (requested-result (assq-ref options 'produce))
          (has-lyrics (any gabc:syl-has-lyrics? (util:flatten score))))
-      (if has-lyrics
-          (make-simultaneous-music
-           (list
-            (lilygabc-modern-voice context-id score)
-            (lilygabc-modern-lyrics context-id score)))
-          (lilygabc-modern-notes score)))))
+      (case requested-result
+        ((notes) (lilygabc-modern-notes score))
+        ((voice) (lilygabc-modern-voice set-id score))
+        ((lyrics) (lilygabc-modern-lyrics set-id score))
+        (else
+         (if has-lyrics
+             (make-simultaneous-music
+              (list
+               (lilygabc-modern-voice context-id score)
+               (lilygabc-modern-lyrics context-id score)))
+             (lilygabc-modern-notes score)))))))
 
 (define-public lilygabc-vaticana-music
   (define-scheme-function
@@ -92,13 +99,19 @@
     (let*
         ((set-id (assq-ref options 'voice-id))
          (context-id (or set-id "uniqueContext0"))
+         (requested-result (assq-ref options 'produce))
          (has-lyrics (any gabc:syl-has-lyrics? (util:flatten score))))
-      (if has-lyrics
-          (make-simultaneous-music
-           (list
-            (lilygabc-vaticana-voice context-id score)
-            (lilygabc-vaticana-lyrics context-id score)))
-          (lilygabc-vaticana-voice (if (or has-lyrics set-id) context-id #f) score)))))
+      (case requested-result
+        ((notes) (lilygabc-vaticana-notes score))
+        ((voice) (lilygabc-vaticana-voice set-id score))
+        ((lyrics) (lilygabc-vaticana-lyrics set-id score))
+        (else
+         (if has-lyrics
+             (make-simultaneous-music
+              (list
+               (lilygabc-vaticana-voice context-id score)
+               (lilygabc-vaticana-lyrics context-id score)))
+             (lilygabc-vaticana-voice (if (or has-lyrics set-id) context-id #f) score)))))))
 
 ;; parsed gabc -> voice
 
