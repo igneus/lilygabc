@@ -7,6 +7,13 @@
   title = "lilygabc visual tests - modern notation"
 }
 
+\layout {
+  \context {
+    \Voice
+    \consists Episema_engraver
+  }
+}
+
 \bookpart {
   \header { subtitle = "Introduction" }
 
@@ -345,18 +352,45 @@ allGabcNotes = " (a) (b) (c) (d) (e) (f) (g) (h) (i) (j) (k) (l) (m)"
     \score { \gabc "(c4) (g')" }
 
     % @test horizontal episema
-    \score { { g'4^- } }
+    \score { { g'4\episemInitium\episemFinis } }
     \score { \gabc "(c4) (g_)" }
   }
 
   \markup\fill-line{
     % @test all supported articulations at once
-    \score { { g'4._!^- } }
+    \score { { g'4.\episemInitium\episemFinis_! } }
     \score { \gabc "(c4) (g._')" }
 
     % @test articulations on a punctum inclinatum
-    \score { { g'4( { \once \tiny f')_!^- } } }
+    \score { { g'4( { \once \tiny f')\episemInitium\episemFinis_! } } }
     \score { \gabc "(c4) (gF_')" }
+  }
+
+  \markup\justify{
+    Horizontal episema spanning multiple notes:
+    the solution with a hacked HorizontalBracket may be more suitable
+    for stemmed layouts. For the stemless layout the EpisemaEngraver
+    (also shipped with LilyPond) is a clear choice.
+  }
+  \markup\fill-line{
+    \score {
+      \relative {
+        \once \override HorizontalBracket.direction = #UP
+        g'4(\startGroup f)\stopGroup
+      }
+      \layout {
+        \context {
+          \Voice
+          \consists Horizontal_bracket_engraver
+          \override HorizontalBracket.edge-height = #'(0 . 0)
+        }
+      }
+    }
+    \score { \gabc "(c4) (g_f_)" \layout { \xtodo } }
+
+    % @test horizontal episema spanning multiple notes
+    \score { { g'4(\episemInitium f')\episemFinis } }
+    \score { \gabc "(c4) (g_f_)" }
   }
 
   \markup\fill-line{

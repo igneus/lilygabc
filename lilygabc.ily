@@ -41,6 +41,10 @@ lilygabcModernGregorianLayout = \layout {
     \Staff
     \remove Time_signature_engraver
   }
+  \context {
+    \Voice
+    \consists Episema_engraver
+  }
 }
 
 lilygabcModernGregorianStemlessLayout = \layout {

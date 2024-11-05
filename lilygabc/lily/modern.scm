@@ -7,6 +7,7 @@
   #:use-module (srfi srfi-1)
   #:use-module (srfi srfi-26)
   #:use-module (lily) ; LilyPond Scheme API
+  #:use-module ((lilygabc episema) #:prefix episema:)
   #:use-module ((lilygabc gabc) #:prefix gabc:)
   #:use-module ((lilygabc pitch) #:prefix pitch:)
   #:use-module ((lilygabc util) #:prefix util:)
@@ -35,7 +36,12 @@
          (let* ((notes (filter pitch:is-note-with-pitch? syllable))
                 (is-melisma (< 1 (length notes)))
                 (first-note (and is-melisma (first notes)))
-                (last-note (and is-melisma (last notes))))
+                (last-note (and is-melisma (last notes)))
+                (items-with-episema-events
+                 (episema:decorate-notes
+                  pitch:is-note-with-pitch?
+                  (lambda (x) (gabc:note-has-horizontal-episema? (second x)))
+                  syllable)))
            (cond
             ((eq? '() syllable) ; void syllable rendered as invisible bar
              (list (l:bar "")))
@@ -53,22 +59,24 @@
                         (begin
                           (set! last-clef-was-flat clef-is-flat)
                           (list (if clef-is-flat key-flat key-natural)))))
-                   (('note-with-pitch note pitch)
+                   (('note-with-episema-events ('note-with-pitch note pitch) episema-events)
                     (apply-note-repetitions
                      note
                      (list
                       (apply-note-features
                        note
-                       (make-ly-note
-                        (apply ly:make-pitch (list-tail pitch 1))
-                        (if (gabc:note-has-punctum-mora? note)
-                            (ly:make-duration 2 (gabc:note-punctum-mora-count note))
-                            (ly:make-duration 2))
-                        (if is-melisma
-                            (cond ((eq? item first-note) -1)
-                                  ((eq? item last-note) 1)
-                                  (else #f))
-                            #f))))))
+                       (apply-episema-events
+                        episema-events
+                        (make-ly-note
+                         (apply ly:make-pitch (list-tail pitch 1))
+                         (if (gabc:note-has-punctum-mora? note)
+                             (ly:make-duration 2 (gabc:note-punctum-mora-count note))
+                             (ly:make-duration 2))
+                         (if is-melisma
+                             (cond ((eq? (second item) first-note) -1)
+                                   ((eq? (second item) last-note) 1)
+                                   (else #f))
+                             #f)))))))
                    (('divisio type)
                     (filter
                      values
@@ -84,7 +92,7 @@
                    (('line-break type)
                     (list l:break))
                    (any #f)))
-               syllable))))))
+               items-with-episema-events))))))
        (util:flatten words))))))
 
 (define-public (make-ly-note pitch duration slur-direction)
@@ -100,6 +108,17 @@
               (list (make-music 'SlurEvent 'span-direction slur-direction)))
         '()))))
 
+(define-public (apply-episema-events events ly-note)
+  (cond
+   ((= 0 (length events))
+    ly-note)
+   ((< 1 (length events))
+    (apply-single-note-episema ly-note))
+   ((eq? 'open (car events))
+    (open-episema ly-note))
+   (else
+    (close-episema ly-note))))
+
 ;; apply features of the gabc note
 ;; on a modern notation LilyPond note
 (define (apply-note-features gabc-note ly-note)
@@ -109,8 +128,6 @@
             (,gabc:note-is-diminutive? . ,teeny-note)
             (,gabc:note-is-debilis? . ,teeny-note)
             (,gabc:note-has-ictus? . ,(cut apply-articulation-down l:staccatissimo <>))
-            ;; TODO probably drop in favor of the actual episema
-            (,gabc:note-has-horizontal-episema? . ,(cut apply-articulation-up l:tenuto <>))
             (,gabc:note-is-virga? . ,(cut apply-virga virga-side <>))
             (,gabc:note-is-quilisma? . ,(cut apply-articulation l:prall <>))
             (,gabc:note-has-musica-ficta? . ,apply-musica-ficta))))

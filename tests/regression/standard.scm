@@ -15,12 +15,8 @@
             (list (make-music
                     'NoteEvent
                     'articulations
-                    (list (make-music
-                            'ArticulationEvent
-                            'direction
-                            1
-                            'articulation-type
-                            'tenuto))
+                    (list (make-music 'EpisemaEvent 'span-direction -1)
+                          (make-music 'EpisemaEvent 'span-direction 1))
                     'duration
                     (ly:make-duration 2)
                     'pitch
@@ -255,7 +251,7 @@
                             'midi-extra-velocity
                             6
                             'midi-length
-                            #<procedure 7f22cb62ee00 at ice-9/eval.scm:336:13 (a b)>
+                            #<procedure 7f70b23bf6a0 at ice-9/eval.scm:336:13 (a b)>
                             'articulation-type
                             'staccatissimo))
                     'duration
@@ -278,7 +274,7 @@
                             'midi-extra-velocity
                             6
                             'midi-length
-                            #<procedure 7f22cb62ee00 at ice-9/eval.scm:336:13 (a b)>
+                            #<procedure 7f70b23bf6a0 at ice-9/eval.scm:336:13 (a b)>
                             'articulation-type
                             'staccatissimo))
                     'duration
@@ -295,12 +291,8 @@
                     'NoteEvent
                     'articulations
                     (list (make-music 'SlurEvent 'span-direction -1)
-                          (make-music
-                            'ArticulationEvent
-                            'direction
-                            1
-                            'articulation-type
-                            'tenuto))
+                          (make-music 'EpisemaEvent 'span-direction -1)
+                          (make-music 'EpisemaEvent 'span-direction 1))
                     'duration
                     (ly:make-duration 2)
                     'pitch
@@ -316,22 +308,18 @@
                   (make-music
                     'NoteEvent
                     'articulations
-                    (list (make-music
+                    (list (make-music 'EpisemaEvent 'span-direction -1)
+                          (make-music 'EpisemaEvent 'span-direction 1)
+                          (make-music
                             'ArticulationEvent
                             'direction
                             -1
                             'midi-extra-velocity
                             6
                             'midi-length
-                            #<procedure 7f22cb62ee00 at ice-9/eval.scm:336:13 (a b)>
+                            #<procedure 7f70b23bf6a0 at ice-9/eval.scm:336:13 (a b)>
                             'articulation-type
-                            'staccatissimo)
-                          (make-music
-                            'ArticulationEvent
-                            'direction
-                            1
-                            'articulation-type
-                            'tenuto))
+                            'staccatissimo))
                     'duration
                     (ly:make-duration 2)
                     'pitch
@@ -347,12 +335,8 @@
                     'NoteEvent
                     'articulations
                     (list (make-music 'SlurEvent 'span-direction -1)
-                          (make-music
-                            'ArticulationEvent
-                            'direction
-                            1
-                            'articulation-type
-                            'tenuto))
+                          (make-music 'EpisemaEvent 'span-direction -1)
+                          (make-music 'EpisemaEvent 'span-direction 1))
                     'duration
                     (ly:make-duration 2)
                     'pitch

@@ -9,7 +9,7 @@
   #:use-module ((lilygabc util) #:prefix util:)
   #:use-module ((lilygabc lily lilypond-globals) #:prefix l:)
   #:use-module (lilygabc lily music-functions)
-  #:use-module ((lilygabc lily modern) #:select (make-lyrics make-ly-note apply-note-repetitions syl-has-decorated-notes?)))
+  #:use-module ((lilygabc lily modern) #:select (make-lyrics make-ly-note apply-episema-events apply-note-repetitions syl-has-decorated-notes?)))
 
 ;; mapping Gregorio divisiones -> gregorian.ly bars
 ;;
@@ -142,17 +142,6 @@
                   (any '())))
               items-with-episema-events))))))
       syllables))))
-
-(define (apply-episema-events events ly-note)
-  (cond
-   ((= 0 (length events))
-    ly-note)
-   ((< 1 (length events))
-    (apply-single-note-episema ly-note))
-   ((eq? 'open (car events))
-    (open-episema ly-note))
-   (else
-    (close-episema ly-note))))
 
 ;; apply features that are music functions
 (define (apply-note-features-1 gabc-note ly-note)
