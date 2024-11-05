@@ -23,17 +23,6 @@ in terms of output quality, there are still plenty of use cases
 where a convenient way to include existing gabc scores
 is useful.
 
-## Project Status & Roadmap
-
-*Early stage of development, several fundamental features still missing.*
-
-- [ ] render contents of gabc files in modern notation
-- [ ] fundamental support for the chant notation styles supported by LilyPond
-- [ ] neume detection/interpretation mimicking Gregorio (for all basic neumes and at least the most common composed ones)
-- [ ] (yet another) conversion script converting gabc to clean LilyPond
-  code - because easy inclusion of gabc scores in LilyPond documents
-  is nice, but sometimes manual tweaking is necessary
-
 ## Prerequisites
 
 *Only LilyPond is required* for using the provided LilyPond commands.
@@ -43,6 +32,9 @@ LilyPond 2.24 (built with Guile 2.2).
 Status on other versions is unknown.
 
 ---
+
+For building the example documents:
+free fonts "Junicode" and "Linux Libertine O".
 
 For running tests:
 
