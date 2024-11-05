@@ -59,14 +59,14 @@ halveNotesInLigatures =
 \score {
   <<
     \halveNotesInLigatures
-      \gabc-vaticana #'((parse-as . gly) (produce . voice) (voice-id . "voice-a"))
+      \gly-vaticana #'((voice-id . "voice-a"))
         "c4 k j hg f g f g  h : h j k  j hg fe f d :z
             d f d  e f g fe d : d f hi j k  ji j k ::"
 
     \new VaticanaLyrics \lyricsto "voice-a" { \repeat unfold 16 { A -- men } }
 
     \halveNotesInLigatures
-      \gabc-vaticana #'((parse-as . gly) (produce . voice))
+      \gly-vaticana
         "c4 d c d f g fe f d : b d b  d b d  e f :
             h j h i j k  j k : k j hg f g fe f d ::"
   >>

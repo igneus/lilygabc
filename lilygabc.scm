@@ -49,6 +49,20 @@
      options
      (call-with-input-file path get-string-all)))) ; TODO: resolve path relative to the current lilypond file, not to cwd
 
+(define-public gly
+  (define-scheme-function
+    (options input)
+    ((symbol-key-alist? '()) string?)
+    (gabc (acons 'parse-as 'gly options)
+          input)))
+
+(define-public gly-vaticana
+  (define-scheme-function
+    (options input)
+    ((symbol-key-alist? '()) string?)
+    (gabc-vaticana (acons 'parse-as 'gly options)
+                   input)))
+
 
 
 ;;
