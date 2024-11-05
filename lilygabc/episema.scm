@@ -38,16 +38,14 @@
 
 (define-public (decorate-notes is-note? has-episema? items)
   (map
-   (lambda (x)
-     (let ((i (first x))
-           (events (second x)))
-       (if (is-note? i)
-           (list 'note-with-episema-events i events)
-           i)))
-   (zip items
-        (episema-events
-         (lambda (x) (and (is-note? x) (has-episema? x)))
-         items))))
+   (lambda (i events)
+     (if (is-note? i)
+         (list 'note-with-episema-events i events)
+         i))
+   items
+   (episema-events
+    (lambda (x) (and (is-note? x) (has-episema? x)))
+    items)))
 
 (define (is-note? item)
   (and (< 0 (length item))
