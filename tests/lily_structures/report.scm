@@ -10,6 +10,23 @@
  (srfi srfi-1)
  (srfi srfi-26))
 
+;; try to load module, define fallback if not available
+(with-exception-handler
+ (lambda (exn)
+   (display "WARN: coloring module not found, using fallback\n\n")
+   #f)
+ (lambda ()
+   ;; module from the Guile Library https://www.nongnu.org/guile-lib/doc/ ,
+   ;; not available by default in LilyPond installations
+   (use-modules ((term ansi-color) #:prefix ansi-color:)))
+ #:unwind? #t)
+(define colorize-string
+  (let ((sym 'ansi-color:colorize-string))
+    (if (defined? sym)
+        (eval sym (current-module))
+        (lambda (str colour)
+          str))))
+
 (define (load-examples path)
   (call-with-input-file
    path
@@ -67,12 +84,14 @@
      failures))
   (newline)
 
-  (display (string-append
-            (number->string (length failures))
-            " failures, "
-            (number->string (length examples))
-            " examples total\n"))
+  (display (colorize-string
+            (string-append
+             (number->string (length failures))
+             " failures, "
+             (number->string (length examples))
+             " examples total\n")
+            (if (= 0 (length failures)) 'GREEN 'RED)))
 
   (when (and (< 0 (length examples))
              (= 0 (length failures)))
-    (display "ALL TESTS GREEN\n")))
+    (display (colorize-string "ALL TESTS GREEN\n" 'GREEN))))
