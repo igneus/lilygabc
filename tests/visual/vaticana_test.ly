@@ -262,7 +262,8 @@
     \score { \new VaticanaVoice { \clef "vaticana-do3" \[ \inclinatum \deminutum g \] } }
     \score { \gabc-vaticana "(c4) (G~)" }
 
-    \score { \new VaticanaVoice { \clef "vaticana-do3" \[ \inclinatum \auctum g \] } }
+    % @test
+    \score { \new VaticanaVoice { \clef "vaticana-do3" \[ \auctum \descendens \inclinatum g \] } }
     \score { \gabc-vaticana "(c4) (G>)" }
   }
 
