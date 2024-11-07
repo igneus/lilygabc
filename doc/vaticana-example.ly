@@ -29,7 +29,7 @@ my-roman-font = "Linux Libertine O"
 \include "gregorian.ly"
 \include "../lilygabc.ily"
 
-% https://gregobase.selapa.net/chant.php?id=13305
+% https://gregobase.selapa.net/chant.php?id=12115
 \score {
   \gabc-vaticana
     "(c4) Ju(e)bi(f)lá(g')te(f) De(d_f)o(f'_) (,)
