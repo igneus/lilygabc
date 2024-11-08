@@ -61,8 +61,8 @@
     (define-music-function (note) (ly:music?)
      #{ \once \set suggestAccidentals = ##t #note #}))
 
-   (module-define! mdl 'key-flat #{ { \key f \major } #})
-   (module-define! mdl 'key-natural #{ { \key c \major } #})
+   (module-define! mdl 'key-flat #{ \key f \major #})
+   (module-define! mdl 'key-natural #{ \key c \major #})
 
    (for-each
     (lambda (sym)

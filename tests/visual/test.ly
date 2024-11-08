@@ -224,39 +224,39 @@ allGabcNotes = " (a) (b) (c) (d) (e) (f) (g) (h) (i) (j) (k) (l) (m)"
 
   \markup\line{
     % @test
-    \score { { { \key f \major } bes'4 } }
+    \score { { \key f \major bes'4 } }
     \score { \gabc "(cb4) (i)" }
 
     % @test
-    \score { { { \key f \major } b'4 } }
+    \score { { \key f \major b'4 } }
     \score { \gabc "(cb4) (iyi)" }
   }
 
   % natural lasts until the end of the word
   \markup\line{
     % @test
-    \score { { { \key f \major } b' b' } \addlyrics { la -- la } }
+    \score { { \key f \major b' b' } \addlyrics { la -- la } }
     \score { \gabc "(cb4) la(iyi)la(i)" }
 
     % @test
-    \score { { { \key f \major } b' bes' } \addlyrics { la la } }
+    \score { { \key f \major b' bes' } \addlyrics { la la } }
     \score { \gabc "(cb4) la(iyi) la(i)" }
   }
 
   % clef changes and b flat
   \markup\line{
     % @test
-    \score { { { \key f \major } g'4 bes' } }
+    \score { { \key f \major g'4 bes' } }
     \score { \gabc "(cb4) (g) (cb3) (g)" }
 
     % @test
-    \score { { { \key f \major } g'4 { \key c \major } b' } }
+    \score { { \key f \major g'4 \key c \major b' } }
     \score { \gabc "(cb4) (g) (c3) (g)" }
   }
 
   \markup\line{
     % @test
-    \score { { g'4 { \key f \major } bes' } }
+    \score { { g'4 \key f \major bes' } }
     \score { \gabc "(c4) (g) (cb3) (g)" }
 
     "" ""
@@ -270,7 +270,7 @@ allGabcNotes = " (a) (b) (c) (d) (e) (f) (g) (h) (i) (j) (k) (l) (m)"
     \score { \gabc "(c3) (gr6)" }
 
     % @test musica ficta natural
-    \score { { { \key f \major } { \once \set suggestAccidentals = ##t b'4 } } }
+    \score { { \key f \major { \once \set suggestAccidentals = ##t b'4 } } }
     \score { \gabc "(cb3) (gr7)" }
   }
 

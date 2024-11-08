@@ -180,11 +180,11 @@
 
   \markup\fill-line{
     % @test
-    \score { \new VaticanaVoice { \clef "vaticana-do3" { \key f \major } bes4 } }
+    \score { \new VaticanaVoice { \clef "vaticana-do3" \key f \major bes4 } }
     \score { \gabc-vaticana "(cb4) (i)" }
 
     % @test
-    \score { \new VaticanaVoice { \clef "vaticana-do3" { \key f \major } b4 } }
+    \score { \new VaticanaVoice { \clef "vaticana-do3" \key f \major b4 } }
     \score { \gabc-vaticana "(cb4) (iyi)" }
   }
 
@@ -203,7 +203,7 @@
     % doesn't render the key signature, so we have to insert it "manually"
     % in case of gabc clefs with b flat.
     % @test
-    \score { \new VaticanaVoice { \clef "vaticana-do3" { \key f \major } g4 \clef "vaticana-do2" { \key f \major } bes } }
+    \score { \new VaticanaVoice { \clef "vaticana-do3" \key f \major g4 \clef "vaticana-do2" \key f \major bes } }
     \score { \gabc-vaticana "(cb4) (g) (cb3) (g)" }
 
 
@@ -216,7 +216,7 @@
 
   \markup\fill-line{
     % @test
-    \score { \new VaticanaVoice { \clef "vaticana-do3" g4 \clef "vaticana-do2" { \key f \major } bes } }
+    \score { \new VaticanaVoice { \clef "vaticana-do3" g4 \clef "vaticana-do2" \key f \major bes } }
     \score { \gabc-vaticana "(c4) (g) (cb3) (g)" }
 
     "" ""
@@ -230,7 +230,7 @@
     \score { \gabc-vaticana "(c3) (gr6)" }
 
     % @test musica ficta natural
-    \score { \new VaticanaVoice { \clef "vaticana-do2" { \key f \major } { \once \set suggestAccidentals = ##t b4 } } }
+    \score { \new VaticanaVoice { \clef "vaticana-do2" \key f \major { \once \set suggestAccidentals = ##t b4 } } }
     \score { \gabc-vaticana "(cb3) (gr7)" }
   }
 
