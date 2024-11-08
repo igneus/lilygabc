@@ -251,7 +251,7 @@
                             'midi-extra-velocity
                             6
                             'midi-length
-                            #<procedure 7f70b23bf6a0 at ice-9/eval.scm:336:13 (a b)>
+                            #<procedure XXXXXXXX at ice-9/eval.scm:336:13 (a b)>
                             'articulation-type
                             'staccatissimo))
                     'duration
@@ -274,7 +274,7 @@
                             'midi-extra-velocity
                             6
                             'midi-length
-                            #<procedure 7f70b23bf6a0 at ice-9/eval.scm:336:13 (a b)>
+                            #<procedure XXXXXXXX at ice-9/eval.scm:336:13 (a b)>
                             'articulation-type
                             'staccatissimo))
                     'duration
@@ -317,7 +317,7 @@
                             'midi-extra-velocity
                             6
                             'midi-length
-                            #<procedure 7f70b23bf6a0 at ice-9/eval.scm:336:13 (a b)>
+                            #<procedure XXXXXXXX at ice-9/eval.scm:336:13 (a b)>
                             'articulation-type
                             'staccatissimo))
                     'duration
