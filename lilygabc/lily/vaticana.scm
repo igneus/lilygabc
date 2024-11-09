@@ -9,7 +9,7 @@
   #:use-module ((lilygabc util) #:prefix util:)
   #:use-module ((lilygabc lily lilypond-globals) #:prefix l:)
   #:use-module (lilygabc lily music-functions)
-  #:use-module ((lilygabc lily modern) #:select (make-lyrics make-ly-note apply-episema-events expand-note-repetitions syl-has-decorated-notes?)))
+  #:use-module ((lilygabc lily modern) #:select (make-ly-note apply-episema-events expand-note-repetitions syl-has-decorated-notes?)))
 
 ;; mapping Gregorio divisiones -> gregorian.ly bars
 ;;
