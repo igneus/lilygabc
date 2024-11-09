@@ -22,18 +22,24 @@ and an optional [association list](https://lilypond.org/doc/v2.24/Documentation/
 which can be used to pass options.
 
 ```lilypond
+\include "lilygabc.ily"
+
 \score { \gabc "(c4) A(ghg)men(fg)" }
 
-% using the optional argument
 \score {
-  \gabc #'((produce . voice)
-           (voice-id . "my_voice_1"))
-        "(c4) A(ghg)men(fg)"
-  \new Lyrics \lyricsto "my_voice_1" { La -- la }
+  <<
+    % using the optional argument
+    \gabc #'((produce . voice)
+             (voice-id . "my_voice_1"))
+      "(c4) A(ghg)men(fg)"
+    \new Lyrics \lyricsto "my_voice_1" { La -- la }
+  >>
 }
 ```
 
-Supported options (the key is always a symbol):
+### Options
+
+(The key is always a symbol.)
 
 - `parse-as` - value `gly` (symbol) makes the input be handled
   as [gly][gly] *music line(s)* rather than gabc.
@@ -49,6 +55,8 @@ Supported options (the key is always a symbol):
 - `voice-id` - sets the voice ID (string),
   which is useful mainly for attaching additional lyrics
   to the same voice in LilyPond code.
+
+### Functions
 
 The functions are a matrix combining
 input format (gabc / gly),
@@ -75,6 +83,17 @@ The low level API exposes input parsing and music production
 as separate functions, allowing parsed gabc data to be used repeatedly
 to produce output of different kinds or
 to be transformed before producing some sort of output.
+
+```lilypond
+\include "gregorian.ly"
+\include "lilygabc.ily"
+
+parsed = \lilygabc-parse-gabc "(c4) A(ghg)men(fg)"
+
+\score { \lilygabc-vaticana-music \parsed }
+\score { \lilygabc-modern-music \parsed }
+\score { \lilygabc-modern-notes \parsed }
+```
 
 ### Parsing input
 
