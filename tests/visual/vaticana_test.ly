@@ -344,21 +344,21 @@
 
   \markup\fill-line{
     % @test bivirga
-    \score { \new VaticanaVoice { \clef "vaticana-do3" \[ \virga g \virga g \] } }
+    \score { \new VaticanaVoice { \clef "vaticana-do3" \[ \virga g\melisma \virga g\melismaEnd \] } }
     \score { \gabc-vaticana "(c4) (gvv)" }
 
     % @test trivirga
-    \score { \new VaticanaVoice { \clef "vaticana-do3" \[ \virga g \virga g \virga g \] } }
+    \score { \new VaticanaVoice { \clef "vaticana-do3" \[ \virga g\melisma \virga g \virga g\melismaEnd \] } }
     \score { \gabc-vaticana "(c4) (gvvv)" }
   }
 
   \markup\fill-line{
     % @test bistropha
-    \score { \new VaticanaVoice { \clef "vaticana-do3" \[ \stropha g \stropha g \] } }
+    \score { \new VaticanaVoice { \clef "vaticana-do3" \[ \stropha g\melisma \stropha g\melismaEnd \] } }
     \score { \gabc-vaticana "(c4) (gss)" }
 
     % @test tristropha
-    \score { \new VaticanaVoice { \clef "vaticana-do3" \[ \stropha g \stropha g \stropha g \] } }
+    \score { \new VaticanaVoice { \clef "vaticana-do3" \[ \stropha g\melisma \stropha g \stropha g\melismaEnd \] } }
     \score { \gabc-vaticana "(c4) (gsss)" }
   }
 }
@@ -486,6 +486,14 @@
     % @test
     \score { \new VaticanaVoice { \clef "vaticana-do3" \[ g\melisma \flexa f \pes g\melismaEnd \] } }
     \score { \gabc-vaticana "(c4) (gfg)" }
+  }
+
+  \markup\fill-line{
+    % @test bivirga as beginning of a melisma
+    \score { \new VaticanaVoice { \clef "vaticana-do3" \[ \virga g\melisma \virga g \inclinatum f \inclinatum e\melismaEnd \] } }
+    \score { \gabc-vaticana "(c4) (gvvFE)" }
+
+    "" "" "" ""
   }
 }
 

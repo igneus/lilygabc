@@ -9,7 +9,7 @@
   #:use-module ((lilygabc util) #:prefix util:)
   #:use-module ((lilygabc lily lilypond-globals) #:prefix l:)
   #:use-module (lilygabc lily music-functions)
-  #:use-module ((lilygabc lily modern) #:select (make-lyrics make-ly-note apply-episema-events apply-note-repetitions syl-has-decorated-notes?)))
+  #:use-module ((lilygabc lily modern) #:select (make-lyrics make-ly-note apply-episema-events expand-note-repetitions syl-has-decorated-notes?)))
 
 ;; mapping Gregorio divisiones -> gregorian.ly bars
 ;;
@@ -29,7 +29,8 @@
     (make-sequential-music
      (append-map
       (lambda (syllable)
-        (let* ((notes (filter pitch:is-note-with-pitch? syllable))
+        (let* ((expanded-syllable (expand-note-repetitions syllable))
+               (notes (filter pitch:is-note-with-pitch? expanded-syllable))
                (is-melisma (< 1 (length notes)))
                (first-note (and is-melisma (first notes)))
                (last-note (and is-melisma (last notes)))
@@ -42,7 +43,7 @@
                 (episema:decorate-notes
                  pitch:is-note-with-pitch?
                  (lambda (x) (gabc:note-has-horizontal-episema? (second x)))
-                 syllable)))
+                 expanded-syllable)))
           (cond
            ((eq? '() syllable) ; void syllable rendered as invisible bar
             (list (l:bar "")))
@@ -85,19 +86,17 @@
                     (begin
                       (set! previous-note (second item))
                       '())
-                    (apply-note-repetitions
+                    (apply-note-features-2
                      note
-                     (apply-note-features-2
-                      note
-                      (list
-                       (apply-note-features-1
-                        note
-                        (apply-episema-events
-                         episema-events
-                         (make-ly-note
-                          (apply ly:make-pitch (list-tail pitch 1))
-                          (ly:make-duration 2)
-                          #f))))))
+                     (list
+                      (apply-note-features-1
+                       note
+                       (apply-episema-events
+                        episema-events
+                        (make-ly-note
+                         (apply ly:make-pitch (list-tail pitch 1))
+                         (ly:make-duration 2)
+                         #f)))))
                     (cond
                      ((and is-melisma (eq? first-note (second item)))
                       (list (context-spec-music (make-property-set 'melismaBusy #t) 'Bottom)))

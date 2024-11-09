@@ -433,21 +433,21 @@ allGabcNotes = " (a) (b) (c) (d) (e) (f) (g) (h) (i) (j) (k) (l) (m)"
 
   \markup\fill-line{
     % bivirga
-    \score { { g'4 g' } }
+    \score { { g'4( g') } }
     \score { \gabc "(c4) (gvv)" \layout { \xfail } }
 
     % trivirga
-    \score { { g'4 g' g' } }
+    \score { { g'4( g' g') } }
     \score { \gabc "(c4) (gvvv)" \layout { \xfail } }
   }
 
   \markup\fill-line{
     % @test bistropha
-    \score { { g'4 g' } }
+    \score { { g'4( g') } }
     \score { \gabc "(c4) (gss)" }
 
     % @test tristropha
-    \score { { g'4 g' g' } }
+    \score { { g'4( g' g') } }
     \score { \gabc "(c4) (gsss)" }
   }
 }

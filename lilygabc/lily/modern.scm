@@ -33,7 +33,8 @@
     (let ((last-clef-was-flat #f))
       (map
        (lambda (syllable)
-         (let* ((notes (filter pitch:is-note-with-pitch? syllable))
+         (let* ((expanded-syllable (expand-note-repetitions syllable))
+                (notes (filter pitch:is-note-with-pitch? expanded-syllable))
                 (is-melisma (< 1 (length notes)))
                 (first-note (and is-melisma (first notes)))
                 (last-note (and is-melisma (last notes)))
@@ -41,7 +42,7 @@
                  (episema:decorate-notes
                   pitch:is-note-with-pitch?
                   (lambda (x) (gabc:note-has-horizontal-episema? (second x)))
-                  syllable)))
+                  expanded-syllable)))
            (cond
             ((eq? '() syllable) ; void syllable rendered as invisible bar
              (list (l:bar "")))
@@ -60,23 +61,21 @@
                           (set! last-clef-was-flat clef-is-flat)
                           (list (if clef-is-flat key-flat key-natural)))))
                    (('note-with-episema-events ('note-with-pitch note pitch) episema-events)
-                    (apply-note-repetitions
-                     note
-                     (list
-                      (apply-note-features
-                       note
-                       (apply-episema-events
-                        episema-events
-                        (make-ly-note
-                         (apply ly:make-pitch (list-tail pitch 1))
-                         (if (gabc:note-has-punctum-mora? note)
-                             (ly:make-duration 2 (gabc:note-punctum-mora-count note))
-                             (ly:make-duration 2))
-                         (if is-melisma
-                             (cond ((eq? (second item) first-note) -1)
-                                   ((eq? (second item) last-note) 1)
-                                   (else #f))
-                             #f)))))))
+                    (list
+                     (apply-note-features
+                      note
+                      (apply-episema-events
+                       episema-events
+                       (make-ly-note
+                        (apply ly:make-pitch (list-tail pitch 1))
+                        (if (gabc:note-has-punctum-mora? note)
+                            (ly:make-duration 2 (gabc:note-punctum-mora-count note))
+                            (ly:make-duration 2))
+                        (if is-melisma
+                            (cond ((eq? (second item) first-note) -1)
+                                  ((eq? (second item) last-note) 1)
+                                  (else #f))
+                            #f))))))
                    (('divisio type)
                     (filter
                      values
@@ -140,9 +139,15 @@
      ly-note
      tests-and-transformations)))
 
-(define-public (apply-note-repetitions gabc-note music)
-  (let ((num (or (gabc:note-repetitions gabc-note) 1)))
-    (append-map (lambda (i) music) (iota num))))
+(define-public (expand-note-repetitions syllable)
+  (append-map
+   (lambda (item)
+     (if (pitch:is-note-with-pitch? item)
+         (let* ((gabc-note (second item))
+                (num (or (gabc:note-repetitions gabc-note) 1)))
+           (map (lambda (i) (list-copy item)) (iota num)))
+         (list item)))
+   syllable))
 
 (define-public (make-lyrics words context-id lyrics-type)
   (make-music
