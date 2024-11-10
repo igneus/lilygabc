@@ -489,6 +489,20 @@
   }
 
   \markup\fill-line{
+    % @test two ascending seconds, no structural cue
+    \score { \new VaticanaVoice { \clef "vaticana-do3" \[ g\melisma \pes a \pes b\melismaEnd \] } }
+    \score { \gabc-vaticana "(c4) (ghi)" }
+
+    % @test
+    \score { \new VaticanaVoice { \clef "vaticana-do3" \[ g\melisma a \pes b\melismaEnd \] } }
+    \score { \gabc-vaticana "(c4) (g!hi)" }
+
+    % @test
+    \score { \new VaticanaVoice { \clef "vaticana-do3" \[ g\melisma \pes a b\melismaEnd \] } }
+    \score { \gabc-vaticana "(c4) (gh!i)" }
+  }
+
+  \markup\fill-line{
     % @test bivirga as beginning of a melisma
     \score { \new VaticanaVoice { \clef "vaticana-do3" \[ \virga g\melisma \virga g \inclinatum f \inclinatum e\melismaEnd \] } }
     \score { \gabc-vaticana "(c4) (gvvFE)" }
