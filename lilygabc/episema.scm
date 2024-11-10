@@ -46,7 +46,3 @@
    (episema-events
     (lambda (x) (and (is-note? x) (has-episema? x)))
     items)))
-
-(define (is-note? item)
-  (and (< 0 (length item))
-       (eq? 'note (first item))))

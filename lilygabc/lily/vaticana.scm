@@ -5,6 +5,7 @@
   #:use-module (lily) ; LilyPond Scheme API
   #:use-module ((lilygabc episema) #:prefix episema:)
   #:use-module ((lilygabc gabc) #:prefix gabc:)
+  #:use-module (lilygabc ligature)
   #:use-module ((lilygabc pitch) #:prefix pitch:)
   #:use-module ((lilygabc util) #:prefix util:)
   #:use-module ((lilygabc lily lilypond-globals) #:prefix l:)
@@ -24,13 +25,18 @@
 (define default-bar 'divisioMaxima) ; used for all not explicitly mapped
 
 (define-public (make-notes score)
-  (let
-      ((syllables (util:flatten score)))
+  (let*
+      ((enhanced-score
+        (pitch:decorate-notes
+         (gabc:map-syllables
+          (lambda (syl) (add-ligatures (expand-note-repetitions syl)))
+          score)
+         #:base-octave -1)) ; LilyPond treats the chant c clef as middle c
+       (syllables (util:flatten enhanced-score)))
     (make-sequential-music
      (append-map
       (lambda (syllable)
-        (let* ((expanded-syllable (expand-note-repetitions syllable))
-               (notes (filter pitch:is-note-with-pitch? expanded-syllable))
+        (let* ((notes (filter pitch:is-note-with-pitch? syllable))
                (is-melisma (< 1 (length notes)))
                (first-note (and is-melisma (first notes)))
                (last-note (and is-melisma (last notes)))
@@ -43,7 +49,7 @@
                 (episema:decorate-notes
                  pitch:is-note-with-pitch?
                  (lambda (x) (gabc:note-has-horizontal-episema? (second x)))
-                 expanded-syllable)))
+                 syllable)))
           (cond
            ((eq? '() syllable) ; void syllable rendered as invisible bar
             (list (l:bar "")))
@@ -66,10 +72,8 @@
                   (('note-with-episema-events ('note-with-pitch note pitch) episema-events)
                    (append
                     (cond
-                     ((or (and is-melisma (eq? first-note (second item)))
-                          is-single-note-special-head)
-                      (list (make-music 'LigatureEvent 'span-direction -1)))
                      ((and is-melisma
+                           previous-note
                            (not (or (pitch:pitch=? pitch (third previous-note))
                                     (gabc:note-is-punctum-inclinatum? note)
                                     (gabc:note-is-virga? note)
@@ -102,11 +106,7 @@
                       (list (context-spec-music (make-property-set 'melismaBusy #t) 'Bottom)))
                      ((and is-melisma (eq? last-note (second item)))
                       (list (context-spec-music (make-property-unset 'melismaBusy) 'Bottom)))
-                     (else '()))
-                    (if (or (and is-melisma (eq? last-note (second item)))
-                            is-single-note-special-head)
-                        (list (make-music 'LigatureEvent 'span-direction 1))
-                        '())))
+                     (else '()))))
                   (('divisio type)
                    (filter
                     values
@@ -138,6 +138,12 @@
                       (else '()))))
                   (('line-break type)
                    (list l:break))
+                  (('ligature event)
+                   (when (eq? 'open event)
+                     (set! previous-note #f))
+                   (list (make-music
+                          'LigatureEvent
+                          'span-direction (if (eq? 'open event) -1 1))))
                   (any '())))
               items-with-episema-events))))))
       syllables))))

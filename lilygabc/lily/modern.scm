@@ -27,14 +27,16 @@
 (define-public (syl-has-decorated-notes? syllable)
   (find pitch:is-note-with-pitch? syllable))
 
-(define-public (make-notes words)
+(define-public (make-notes score)
   (make-sequential-music
    (util:flatten
-    (let ((last-clef-was-flat #f))
+    (let ((enhanced-score
+           (pitch:decorate-notes
+            (gabc:map-syllables expand-note-repetitions score)))
+          (last-clef-was-flat #f))
       (map
        (lambda (syllable)
-         (let* ((expanded-syllable (expand-note-repetitions syllable))
-                (notes (filter pitch:is-note-with-pitch? expanded-syllable))
+         (let* ((notes (filter pitch:is-note-with-pitch? syllable))
                 (is-melisma (< 1 (length notes)))
                 (first-note (and is-melisma (first notes)))
                 (last-note (and is-melisma (last notes)))
@@ -42,7 +44,7 @@
                  (episema:decorate-notes
                   pitch:is-note-with-pitch?
                   (lambda (x) (gabc:note-has-horizontal-episema? (second x)))
-                  expanded-syllable)))
+                  syllable)))
            (cond
             ((eq? '() syllable) ; void syllable rendered as invisible bar
              (list (l:bar "")))
@@ -92,7 +94,7 @@
                     (list l:break))
                    (any #f)))
                items-with-episema-events))))))
-       (util:flatten words))))))
+       (util:flatten enhanced-score))))))
 
 (define-public (make-ly-note pitch duration slur-direction)
   (apply
@@ -142,9 +144,8 @@
 (define-public (expand-note-repetitions syllable)
   (append-map
    (lambda (item)
-     (if (pitch:is-note-with-pitch? item)
-         (let* ((gabc-note (second item))
-                (num (or (gabc:note-repetitions gabc-note) 1)))
+     (if (gabc:is-note? item)
+         (let ((num (or (gabc:note-repetitions item) 1)))
            (map (lambda (i) (list-copy item)) (iota num)))
          (list item)))
    syllable))

@@ -70,6 +70,12 @@
 (define-public (syl-has-notes? syllable)
   (find (lambda (x) (eq? 'note (first x))) syllable))
 
+;; syllable item predicates
+
+(define-public (is-note? item)
+  (and (< 0 (length item))
+       (eq? 'note (first item))))
+
 ;; clef predicates
 
 (define-public (clef-has-bflat? clef)
@@ -181,6 +187,8 @@
       (string-match "[-~<>=osvVwWR]|r($|[^1-9])" (note-additional note))))
 
 ;; operations on the score data structure
+
+(define-public map-syllables util:map2)
 
 (define-public map-syl-elements util:map3)
 

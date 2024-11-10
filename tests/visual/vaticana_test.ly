@@ -495,6 +495,23 @@
 
     "" "" "" ""
   }
+
+  \markup{
+    Divisio inside a music syllable
+  }
+  \markup\fill-line{
+    % @test divisio inside a music syllable - no ligature brackets
+    \score { \new VaticanaVoice { \clef "vaticana-do3" g\melisma \divisioMinima g\melismaEnd } }
+    \score { \gabc-vaticana "(c4) (g,g)" }
+
+    % @test divisio inside a music syllable - ligatures
+    \score { \new VaticanaVoice { \clef "vaticana-do3" \[ g\melisma \pes a \] \divisioMinima \[ g \pes a\melismaEnd \] } }
+    \score { \gabc-vaticana "(c4) (gh,gh)" }
+
+    % @test divisio inside a music syllable - single note ligature
+    \score { \new VaticanaVoice { \clef "vaticana-do3" \[ \virga g\melisma \] \divisioMinima g\melismaEnd } }
+    \score { \gabc-vaticana "(c4) (gv,g)" }
+  }
 }
 
 \bookpart {

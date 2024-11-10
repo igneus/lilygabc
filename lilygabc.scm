@@ -170,16 +170,13 @@
   (define-scheme-function
     (score)
     (list?)
-    (lilygabc:modern:make-notes (pitch:decorate-notes score))))
+    (lilygabc:modern:make-notes score)))
 
 (define-public lilygabc-vaticana-notes
   (define-scheme-function
     (score)
     (list?)
-    (lilygabc:vaticana:make-notes
-     (pitch:decorate-notes
-      score
-      #:base-octave -1)))) ; LilyPond treats the chant c clef as middle c
+    (lilygabc:vaticana:make-notes score)))
 
 
 
