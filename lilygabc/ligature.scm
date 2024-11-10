@@ -8,38 +8,33 @@
 (define-public (add-ligatures syllable)
   (if (= 0 (length syllable))
       syllable
-      (inner syllable #f)))
+      (not-in-ligature syllable)))
 
-;; TODO there must be a way to make the function concise and easy to read
-(define (inner lst in-ligature)
+(define (in-ligature lst)
   (let ((head (car lst))
         (tail (cdr lst)))
     (cond
      ((= 1 (length lst))
-      (cond
-       (in-ligature
-        (append lst '((ligature close))))
-       ((and (gabc:is-note? head)
-             (gabc:note-has-special-note-head? head))
-        `((ligature open) ,head (ligature close)))
-       (else lst)))
-     ((and (not in-ligature)
-           (gabc:is-note? head)
-           (or (begins-with-a-note? tail)
-               (gabc:note-has-special-note-head? head)))
-      (append
-       (list '(ligature open) head)
-       (if (begins-with-a-note? tail)
-           '()
-           '((ligature close)))
-       (inner tail (begins-with-a-note? tail))))
-     ((and in-ligature
-           (breaks-ligature? head))
+      (append lst '((ligature close))))
+     ((breaks-ligature? head)
       (append
        (list '(ligature close) head)
-       (inner tail #f)))
+       (not-in-ligature tail)))
      (else
-      (cons head (inner tail in-ligature))))))
+      (cons head (in-ligature tail))))))
+
+(define (not-in-ligature lst)
+  (let ((head (car lst))
+        (tail (cdr lst)))
+    (cond
+     ((and (gabc:is-note? head)
+           (or (begins-with-a-note? tail)
+               (gabc:note-has-special-note-head? head)))
+      (cons '(ligature open) (in-ligature lst)))
+     ((= 1 (length lst))
+      lst)
+     (else
+      (cons head (not-in-ligature tail))))))
 
 (define (begins-with-a-note? lst)
   (and (< 0 (length lst))
