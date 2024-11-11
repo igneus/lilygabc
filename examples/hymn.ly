@@ -76,12 +76,20 @@
     \autoLineBreaksOff
 
     % music based on https://gregobase.selapa.net/chant.php?id=12999
-    \gabc-vaticana #'((voice-id . "v2"))
+    % (from the gabc only music is actually rendered)
+    \gabc-vaticana #'((produce . voice) (voice-id . "v2"))
       "(c4) Ve(f)xil(gh)la(ixi) Re(hvGF')gis(g) pró(ghg)de(f)unt:(e.d.) (;)
       Ful(g)get(g') Cru(h)cis(fd) my(f)sté(ef)ri(d)um,(c.d.) (:z)
       Qua(d) vi(d')ta(f) mor(dc)tem(f) pér(fgh)tu(g)lit,(g.f.) (;)
       Et(f) mor(ixfh!ivHG')te(h) vi(fd)tam(f) pró(ef)tu(d)lit.(c.d.) (::)"
 
+    \new VaticanaLyrics \lyricsto "v2" {
+      \set stanza = "1."
+      Ve -- xil -- la Re -- gis pró -- de -- unt:
+      Ful -- get Cru -- cis my -- sté -- ri -- um,
+      Qua vi -- ta mor -- tem pér -- tu -- lit,
+      Et mor -- te vi -- tam pró -- tu -- lit.
+    }
     \new VaticanaLyrics \lyricsto "v2" {
       \set stanza = "2."
       Quæ, vul -- ne -- rá -- ta lán -- ce -- æ
