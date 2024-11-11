@@ -2,18 +2,24 @@
 
 \header {
   title = "Hymns"
+  tagline = ##f
 }
 
 \include "gregorian.ly"
 \include "../lilygabc.ily"
 
-#(set-global-staff-size 32)
+#(set-global-staff-size 30)
 
 \layout {
   \override VaticanaStaff.StaffSymbol.color = "black"
 
   \override VaticanaLyrics.LyricText.font-size = #-2
   \override VaticanaLyrics.StanzaNumber.font-size = #-2
+
+  \override VaticanaLyrics.VerticalAxisGroup.nonstaff-nonstaff-spacing.minimum-distance = #2
+  \override VaticanaLyrics.VerticalAxisGroup.nonstaff-relatedstaff-spacing.basic-distance = #4
+
+  ragged-last = ##f
 }
 
 \paper {
@@ -22,7 +28,7 @@
   #(define fonts
      (set-global-fonts
       #:roman "Junicode"
-      #:factor (/ staff-height pt 25)))
+      #:factor (/ staff-height pt 21)))
 
   scoreTitleMarkup =
     \markup\fill-line { "" \tiny\smallCaps\fromproperty #'header:piece "" }
@@ -41,7 +47,7 @@
     % so we can attach additional lines of lyrics to that voice.
     \gabc-vaticana #'((voice-id . "v1"))
       "(c4)Re(h)rum(h') De(h)us(h) te(h)nax(h') vi(g)gor,(g'_) (,)
-      Im(h)mó(h')tus(h) in(h) te(g) pér(h')ma(h)nens,(h.) (;)
+      Im(h)mó(h')tus(h) in(h) te(g) pér(h')ma(h)nens,(h.) (;z)
       Lu(h)cis(h') di(h)úr(g)næ(f) tém(g')po(f)ra(e'_) (,)
       Suc(f)cés(g')si(g)bus(g) de(f)tér(h')mi(g)nans.(g.) (::)"
 
@@ -67,10 +73,12 @@
 
 \score {
   <<
+    \autoLineBreaksOff
+
     % music based on https://gregobase.selapa.net/chant.php?id=12999
     \gabc-vaticana #'((voice-id . "v2"))
       "(c4) Ve(f)xil(gh)la(ixi) Re(hvGF')gis(g) pró(ghg)de(f)unt:(e.d.) (;)
-      Ful(g)get(g') Cru(h)cis(fd) my(f)sté(ef)ri(d)um,(c.d.) (:)
+      Ful(g)get(g') Cru(h)cis(fd) my(f)sté(ef)ri(d)um,(c.d.) (:z)
       Qua(d) vi(d')ta(f) mor(dc)tem(f) pér(fgh)tu(g)lit,(g.f.) (;)
       Et(f) mor(ixfh!ivHG')te(h) vi(fd)tam(f) pró(ef)tu(d)lit.(c.d.) (::)"
 
