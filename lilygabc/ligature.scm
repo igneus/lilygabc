@@ -9,15 +9,19 @@
       syllable
       (not-in-ligature syllable)))
 
+;; Music items we enrich the parsed gabc with
+(define ligature-open  '(ligature open))
+(define ligature-close '(ligature close))
+
 (define (in-ligature lst)
   (let ((head (car lst))
         (tail (cdr lst)))
     (cond
      ((= 1 (length lst))
-      (append lst '((ligature close))))
+      (append lst (list ligature-close)))
      ((breaks-ligature? head)
       (append
-       (list '(ligature close) head)
+       (list ligature-close head)
        (not-in-ligature tail)))
      (else
       (cons head (in-ligature tail))))))
@@ -29,7 +33,7 @@
      ((and (gabc:is-note? head)
            (or (begins-with-a-note? tail)
                (gabc:note-has-special-note-head? head)))
-      (cons '(ligature open) (in-ligature lst)))
+      (cons ligature-open (in-ligature lst)))
      ((= 1 (length lst))
       lst)
      (else
