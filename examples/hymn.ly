@@ -76,7 +76,7 @@
     \autoLineBreaksOff
 
     % music based on https://gregobase.selapa.net/chant.php?id=12999
-    % (from the gabc only music is actually rendered)
+    % (from the gabc only music is actually rendered, not lyrics)
     \gabc-vaticana #'((produce . voice) (voice-id . "v2"))
       "(c4) Ve(f)xil(gh)la(ixi) Re(hvGF')gis(g) pró(ghg)de(f)unt:(e.d.) (;)
       Ful(g)get(g') Cru(h)cis(fd) my(f)sté(ef)ri(d)um,(c.d.) (:z)
