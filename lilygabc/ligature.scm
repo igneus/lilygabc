@@ -1,5 +1,4 @@
 (define-module (lilygabc ligature)
-  #:use-module (srfi srfi-1)
   #:use-module ((lilygabc gabc) #:prefix gabc:))
 
 ;; Logic specific to square notation:
@@ -42,9 +41,6 @@
          (or (gabc:is-note? head)
              (and (not (breaks-ligature? head))
                   (begins-with-a-note? (cdr lst)))))))
-
-(define (is-space? item)
-  (eq? 'space (car item)))
 
 (define (breaks-ligature? item)
   (eq? 'divisio (car item)))
