@@ -100,7 +100,12 @@
   (newline fw)
   (display header fw)
   (newline fw)
-  (for-each (cut call-with-input-file <> (cut process-input-from-port <> fw)) input-files)
+  (if (= 0 (length input-files))
+      (process-input-from-port (current-input-port) fw)
+      (for-each
+       (cut call-with-input-file <>
+            (cut process-input-from-port <> fw))
+       input-files))
   (display footer fw)
   (newline fw)
   (when output-file
