@@ -13,7 +13,7 @@
 
 %% Articulations
 
-%% Note: "scripts.daccentus" is not suitable, as its slightly tipped to the top
+%% Note: "scripts.daccentus" is not suitable, as it's slightly tipped to the top
 #(define (lilygabc-accent-grave-stencil grob)
   (ly:stencil-scale (ly:font-get-glyph (ly:grob-default-font grob) "scripts.uaccentus") -1 1))
 
