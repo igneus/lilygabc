@@ -109,6 +109,6 @@
   (display footer fw)
   (newline fw)
   (when output-file
-    (close-port fw))
-  (when (and compile output-file)
-    (system (string-append "lualatex -shell-escape " output-file))))
+    (close-port fw)
+    (when compile
+      (system (string-append "lualatex -shell-escape " output-file)))))
