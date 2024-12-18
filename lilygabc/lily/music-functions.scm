@@ -16,7 +16,6 @@
    open-episema
    close-episema
    apply-virga
-   apply-single-note-episema
    key-flat
    key-natural
 

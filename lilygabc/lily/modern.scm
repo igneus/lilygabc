@@ -114,7 +114,7 @@
    ((= 0 (length events))
     ly-note)
    ((< 1 (length events))
-    (apply-single-note-episema ly-note))
+    (close-episema (open-episema ly-note)))
    ((eq? 'open (car events))
     (open-episema ly-note))
    (else

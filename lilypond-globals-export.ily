@@ -34,10 +34,6 @@
     (define-music-function (articulation note) (ly:music? ly:music?)
      #{ #note ^#articulation #}))
 
-   (module-define! mdl 'apply-single-note-episema
-    (define-music-function (note) (ly:music?)
-     #{ #note \episemInitium \episemFinis #}))
-
    (module-define! mdl 'open-episema
     (define-music-function (note) (ly:music?)
      #{ #note \episemInitium #}))
