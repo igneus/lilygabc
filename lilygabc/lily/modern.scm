@@ -110,15 +110,13 @@
         '()))))
 
 (define-public (apply-episema-events events ly-note)
-  (cond
-   ((= 0 (length events))
-    ly-note)
-   ((< 1 (length events))
-    (close-episema (open-episema ly-note)))
-   ((eq? 'open (car events))
-    (open-episema ly-note))
-   (else
-    (close-episema ly-note))))
+  (if (= 0 (length events))
+      ly-note
+      (apply-episema-events
+       (cdr events)
+       (case (car events)
+         ((open) (open-episema ly-note))
+         (else (close-episema ly-note))))))
 
 ;; apply features of the gabc note
 ;; on a modern notation LilyPond note
