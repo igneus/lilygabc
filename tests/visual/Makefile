@@ -15,5 +15,5 @@ TEX_SRC=gregorio_comparison.tex
 tex: $(TEX_SRC)
 	rm -r tmp-ly && lualatex -shell-escape gregorio_comparison.tex
 
-$(TEX_SRC): snippets.txt generate.scm
-	guile generate.scm snippets.txt > $(TEX_SRC)
+$(TEX_SRC): gregorio_comparison/*.txt generate.scm
+	guile generate.scm gregorio_comparison/*.txt > $(TEX_SRC)

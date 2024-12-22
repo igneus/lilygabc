@@ -1,0 +1,7 @@
+= Accidentals
+
+(gxg g#g gyg)
+
+= Musica ficta
+
+(gr6) (gr7) (gr8)
