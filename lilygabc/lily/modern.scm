@@ -100,8 +100,8 @@
   (apply
    make-music
    (append
-    (list 'NoteEvent)
     (list
+     'NoteEvent
      'pitch pitch
      'duration duration)
     (if slur-direction
