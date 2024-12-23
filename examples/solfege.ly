@@ -42,7 +42,7 @@ lygabc =
   \lilygabc-vaticana-voice "voiceid" \lygabc
 
   \new NoteNames {
-    \set printNotesLanguage = "français"
+    \set printNotesLanguage = "italiano"
     \override NoteName.font-size = #-4
 
     \lilygabc-vaticana-notes \lygabc
