@@ -13,8 +13,6 @@
 \layout {
   \override VaticanaStaff.StaffSymbol.color = "black"
   \override VaticanaLyrics.LyricText.font-size = #-2
-
-  ragged-last = ##f
 }
 
 \paper {
@@ -29,12 +27,15 @@
 }
 
 lygabc =
-  % music from https://gregobase.selapa.net/chant.php?id=8653
+  % music from https://gregobase.selapa.net/chant.php?id=2539
   \lilygabc-parse-gabc
-    "(c4)Re(h)rum(h') De(h)us(h) te(h)nax(h') vi(g)gor,(g'_) (,)
-    Im(h)mó(h')tus(h) in(h) te(g) pér(h')ma(h)nens,(h.) (;z)
-    Lu(h)cis(h') di(h)úr(g)næ(f) tém(g')po(f)ra(e'_) (,)
-    Suc(f)cés(g')si(g)bus(g) de(f)tér(h')mi(g)nans.(g.) (::)"
+    "(f3) Ut(e) que(f')ant(h) la(fg)xis(f.) (,)
+    re(f')so(f)ná(e')re(f) fi(g)bris(g.) (;)
+    Mi(g!hwi)ra(g) ge(f)stó(ge)rum(f.) (,z)
+    fá(h')mu(i)li(j) tu(i)ó(hf)rum,(f.) (:)
+    Sol(iji)ve(hg) pol(h)lú(i)ti(f.) (,)
+    lá(j')bi(i)i(j) re(hi)á(j)tum,(j.) (,z)
+    San(ih)cte(gf) Jo(e)án(g)nes.(f.) (::)"
 
 \score {
   <<
