@@ -26,7 +26,7 @@
   markup-system-spacing.basic-distance = #1
 }
 
-lygabc =
+ligabc =
   % music from https://gregobase.selapa.net/chant.php?id=2539
   \lilygabc-parse-gabc
     "(f3) Ut(e) que(f')ant(h) la(fg)xis(f.) (,)
@@ -39,15 +39,15 @@ lygabc =
 
 \score {
   <<
-  \lilygabc-vaticana-voice "voiceid" \lygabc
+  \lilygabc-vaticana-voice "voiceid" \ligabc
 
   \new NoteNames {
     \set printNotesLanguage = "italiano"
     \override NoteName.font-size = #-4
 
-    \lilygabc-vaticana-notes \lygabc
+    \lilygabc-vaticana-notes \ligabc
   }
 
-  \lilygabc-vaticana-lyrics "voiceid" \lygabc
+  \lilygabc-vaticana-lyrics "voiceid" \ligabc
   >>
 }
