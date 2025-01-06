@@ -52,7 +52,9 @@ For building the Gregorio vs. lilygabc visual test (`make visual_tex`):
 
 ## Usage
 
-(See also: [API Manual](/doc/manual.md))
+(See also:
+[Examples directory](/examples),
+[API Manual](/doc/manual.md))
 
 lilygabc supports rendering gabc scores both in modern notation
 and in square notation.
