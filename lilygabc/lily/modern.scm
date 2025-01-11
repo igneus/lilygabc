@@ -178,8 +178,7 @@
                make-music
                (append
                 (list
-                 'LyricEvent)
-                (list
+                 'LyricEvent
                  'duration (ly:make-duration 2)
                  'text (second lyr))
                 (if (and (> (length word) 1)
