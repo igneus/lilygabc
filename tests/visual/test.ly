@@ -495,7 +495,7 @@ allGabcNotes = " (a) (b) (c) (d) (e) (f) (g) (h) (i) (j) (k) (l) (m)"
 }
 
 \bookpart {
-  \header { subtitle = "lyrics" }
+  \header { subtitle = "lyrics alignment" }
 
   \markup\fill-line{
     % @test
@@ -565,6 +565,27 @@ allGabcNotes = " (a) (b) (c) (d) (e) (f) (g) (h) (i) (j) (k) (l) (m)"
     % @test formatting tags (for the time being ignored)
     \score { { g'4 } \addlyrics { La } }
     \score { \gabc "(c4) <b>La</b>(g)" }
+
+  }
+}
+
+\bookpart {
+  \header { subtitle = "lyrics special characters" }
+
+  \markup\fill-line{
+    % @test response
+    \score { { g'4 } \addlyrics { ℟ } }
+    \score { \gabc "(c4) <sp>R/</sp>(g)" }
+
+    % @test versicle
+    \score { { g'4 } \addlyrics { ℣ } }
+    \score { \gabc "(c4) <sp>V/</sp>(g)" }
+  }
+
+  \markup\fill-line{
+    % barred A
+    \score { { g'4 } \addlyrics { A/ } }
+    \score { \gabc "(c4) <sp>A/</sp>(g)" \layout { \xfail } }
 
     "" ""
   }
