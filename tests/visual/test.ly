@@ -587,6 +587,26 @@ allGabcNotes = " (a) (b) (c) (d) (e) (f) (g) (h) (i) (j) (k) (l) (m)"
     \score { { g'4 } \addlyrics { A/ } }
     \score { \gabc "(c4) <sp>A/</sp>(g)" \layout { \xfail } }
 
+    % @test dagger
+    \score { { g'4 } \addlyrics { † } }
+    \score { \gabc "(c4) <sp>+</sp>(g)" }
+  }
+
+  \markup\fill-line{
+    % @test
+    \score { { g'4 } \addlyrics { æ } }
+    \score { \gabc "(c4) <sp>ae</sp>(g)" }
+
+    % @test
+    \score { { g'4 } \addlyrics { œ́ } }
+    \score { \gabc "(c4) <sp>'oe</sp>(g)" }
+  }
+
+  \markup\fill-line{
+    % @test
+    \score { { g'4 } \addlyrics { Æ } }
+    \score { \gabc "(c4) <sp>AE</sp>(g)" }
+
     "" ""
   }
 }
