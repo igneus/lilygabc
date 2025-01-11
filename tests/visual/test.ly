@@ -607,7 +607,9 @@ allGabcNotes = " (a) (b) (c) (d) (e) (f) (g) (h) (i) (j) (k) (l) (m)"
     \score { { g'4 } \addlyrics { Æ } }
     \score { \gabc "(c4) <sp>AE</sp>(g)" }
 
-    "" ""
+    % @test manual vowel marking for lyrics alignment (ignored, removed)
+    \score { { g'4 } \addlyrics { La } }
+    \score { \gabc "(c4) L{a}(g)" }
   }
 }
 

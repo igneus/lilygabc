@@ -181,7 +181,9 @@
                 (list
                  'LyricEvent
                  'duration (ly:make-duration 2)
-                 'text (lyrics:remove-tags (lyrics:expand-special-chars (second lyr))))
+                 'text (lyrics:remove-braces
+                        (lyrics:remove-tags
+                         (lyrics:expand-special-chars (second lyr)))))
                 (if (and (> (length word) 1)
                          (not (eq? lyr (last lyrics))))
                     (list 'articulations

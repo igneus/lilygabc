@@ -1,7 +1,8 @@
 ;; processing lyrics
 
 (define-module (lilygabc lyrics)
-  #:use-module (ice-9 regex))
+  #:use-module (ice-9 regex)
+  #:use-module (srfi srfi-26))
 
 (define sp-tag-re (make-regexp "<sp>([^<]*)</sp>"))
 
@@ -33,5 +34,10 @@
          (expand-special-chars (substring str (match:end m))))
         str)))
 
-(define-public (remove-tags lyric-syllable)
-  (regexp-substitute/global #f "<[^>]*>" lyric-syllable 'pre "" 'post))
+(define-public (remove-tags str)
+  (regexp-substitute/global #f "<[^>]*>" str 'pre "" 'post))
+
+(define-public (remove-braces str)
+  (string-delete
+   (cut member <> '(#\{ #\}))
+   str))
