@@ -1,7 +1,7 @@
 # lilygabc
 
-LilyPond library which reads chant scores encoded in the
-[gabc][gabc] format and translates them to LilyPond data structures,
+LilyPond library which translates chant scores encoded in the
+[gabc][gabc] format to LilyPond data structures,
 allowing easy inclusion of gabc scores in LilyPond documents.
 This kind of easy:
 
@@ -103,7 +103,7 @@ include paths:
 
 ### Square notation
 
-Analogically to commands `\gabc` and `\gabc-file`
+Analogically to `\gabc` and `\gabc-file`
 there are commands `\gabc-vaticana` and `\gabc-vaticana-file`
 generating square notation.
 
