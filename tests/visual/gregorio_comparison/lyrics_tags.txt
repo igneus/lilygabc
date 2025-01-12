@@ -1,0 +1,7 @@
+= Lyrics tags
+
+# special characters
+
+<sp>R/</sp>(g) <sp>V/</sp>(g) <sp>A/</sp>(g)
+<sp>AE</sp>(g) <sp>ae</sp>(g) <sp>'ae</sp>(g)
+<sp>OE</sp>(g) <sp>oe</sp>(g) <sp>'oe</sp>(g)
