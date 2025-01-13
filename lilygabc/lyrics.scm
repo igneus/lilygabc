@@ -42,7 +42,8 @@
   '(("b"  . bold)
     ("i"  . italic)
     ("sc" . smallCaps)
-    ("u"  . underline)))
+    ("u"  . underline)
+    ("c"  . color)))
 
 (define tag-re (make-regexp "<(/)?([^>]+)>"))
 

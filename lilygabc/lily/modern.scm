@@ -211,13 +211,17 @@
 ;; alist mapping format symbols (e.g. 'bold) to the corresponding
 ;; LilyPond functions (make-bold-markup)
 (define markup-formatting-fns
-  (map
-   (lambda (tagname-sym-pair)
-     (let* ((sym (cdr tagname-sym-pair))
-            (func-name (string-append "make-" (symbol->string sym) "-markup"))
-            (func (primitive-eval (string->symbol func-name))))
-       (cons sym func)))
-   lyrics:formatting-tags))
+  (append
+   ;; custom functions
+   `((color . ,(cut make-with-color-markup '(1.0 0.0 0.0) <>)))
+   ;; standard LilyPond make-*-markup functions
+   (filter-map
+    (lambda (tagname-sym-pair)
+      (let* ((sym (cdr tagname-sym-pair))
+             (func-name (string->symbol (string-append "make-" (symbol->string sym) "-markup"))))
+        (and (defined? func-name)
+             (cons sym (primitive-eval func-name)))))
+    lyrics:formatting-tags)))
 
 (define (build-lyrics-markup arg)
   (if (string? arg)

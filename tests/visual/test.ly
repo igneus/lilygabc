@@ -604,6 +604,14 @@ allGabcNotes = " (a) (b) (c) (d) (e) (f) (g) (h) (i) (j) (k) (l) (m)"
     \score { { g'4 } \addlyrics { \markup\line{ \concat{\bold{L} \bold\italic{a}} } } }
     \score { \gabc "(c4) <b>L<i>a</i></b>(g)" }
   }
+
+  \markup\fill-line{
+    % @test colour - default
+    \score { { g'4 } \addlyrics { \markup\with-color #red {La} } }
+    \score { \gabc "(c4) <c>La</c>(g)" }
+
+    "" ""
+  }
 }
 
 \bookpart {
