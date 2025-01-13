@@ -1,11 +1,11 @@
 ;; Music functions and music expressions
-;; defined in LilyPond code. In lilygabc.ily they are
+;; defined in LilyPond code. They are
 ;; added to this module via module reflection
 ;; in order to make them available to Scheme modules.
 
 (define-module (lilygabc lily music-functions)
   #:export
-  ;; utilities defined in lilygabc.ily
+  ;; utilities defined in lilypond-globals-export.ily
   (make-invisible-note
    tiny-note
    teeny-note

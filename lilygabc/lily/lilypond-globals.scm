@@ -1,7 +1,7 @@
 ;; LilyPond music functions and expressions that are available
 ;; in the global namespace of any LilyPond document,
 ;; but are not imported as part of the (lily) module.
-;; This module is filled with actual content in lilygabc.ily.
+;; This module is filled with actual content in lilypond-globals-export.ily.
 
 (define-module (lilygabc lily lilypond-globals)
   #:export
