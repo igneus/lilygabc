@@ -208,9 +208,19 @@
           (make-concat-markup (map build-lyrics-markup parsed-syllable))
           (build-lyrics-markup (first parsed-syllable)))))))
 
+;; alist mapping format symbols (e.g. 'bold) to the corresponding
+;; LilyPond functions (make-bold-markup)
+(define markup-formatting-fns
+  (map
+   (lambda (tagname-sym-pair)
+     (let* ((sym (cdr tagname-sym-pair))
+            (func-name (string-append "make-" (symbol->string sym) "-markup"))
+            (func (primitive-eval (string->symbol func-name))))
+       (cons sym func)))
+   lyrics:formatting-tags))
+
 (define (build-lyrics-markup arg)
   (if (string? arg)
       arg
-      (let* ((func-name (string-append "make-" (symbol->string (first arg)) "-markup"))
-             (markup-func (primitive-eval (string->symbol func-name))))
+      (let ((markup-func (assq-ref markup-formatting-fns (first arg))))
         (markup-func (build-lyrics-markup (second arg))))))

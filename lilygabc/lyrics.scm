@@ -38,7 +38,7 @@
          (match:substring m 0)))
    'post))
 
-(define formatting-tags
+(define-public formatting-tags
   '(("b" . bold)
     ("i" . italic)
     ("sc" . smallCaps)
