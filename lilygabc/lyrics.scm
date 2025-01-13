@@ -43,7 +43,8 @@
     ("i"  . italic)
     ("sc" . smallCaps)
     ("u"  . underline)
-    ("c"  . color)))
+    ("c"  . color)
+    ("v"  . verbatim)))
 
 (define tag-re (make-regexp "<(/)?([^>]+)>"))
 
@@ -80,7 +81,26 @@
 (define-public (process-formatting str)
   (formatting-inner '() str '()))
 
+(define (brace-remover in-verbatim str)
+  (let* ((tag (if in-verbatim "</v>" "<v>"))
+         (tag-i (string-contains str tag))
+         (subject
+          (if tag-i
+              (substring str 0 (+ tag-i (string-length tag)))
+              str))
+         (processed
+          (if in-verbatim
+              subject
+              (string-delete
+               (cut member <> '(#\{ #\}))
+               subject))))
+    (if tag-i
+        (string-append
+         processed
+         (brace-remover
+          (not in-verbatim)
+          (substring str (string-length subject))))
+        processed)))
+
 (define-public (remove-braces str)
-  (string-delete
-   (cut member <> '(#\{ #\}))
-   str))
+  (brace-remover #f str))

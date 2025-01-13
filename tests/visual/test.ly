@@ -612,6 +612,14 @@ allGabcNotes = " (a) (b) (c) (d) (e) (f) (g) (h) (i) (j) (k) (l) (m)"
 
     "" ""
   }
+
+  \markup\fill-line{
+    % @test verbatim - default (assume LaTeX code, print it in a distinct style)
+    \score { { g'4 } \addlyrics { \markup\line{ \typewriter "{\ae}" } } }
+    \score { \gabc "(c4) <v>{\ae}</v>(g)" }
+
+    "" ""
+  }
 }
 
 \bookpart {

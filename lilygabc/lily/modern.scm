@@ -213,7 +213,8 @@
 (define markup-formatting-fns
   (append
    ;; custom functions
-   `((color . ,(cut make-with-color-markup '(1.0 0.0 0.0) <>)))
+   `((color . ,(cut make-with-color-markup '(1.0 0.0 0.0) <>))
+     (verbatim . ,make-typewriter-markup))
    ;; standard LilyPond make-*-markup functions
    (filter-map
     (lambda (tagname-sym-pair)
@@ -223,6 +224,8 @@
              (cons sym (primitive-eval func-name)))))
     lyrics:formatting-tags)))
 
+;; recursively translates to markup an element
+;; of the data structure produced by lyrics:expand
 (define (build-lyrics-markup arg)
   (if (string? arg)
       arg

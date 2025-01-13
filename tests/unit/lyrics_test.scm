@@ -61,6 +61,8 @@
              (process-formatting "<b><i>text</i></b>"))
  (test-equal '((bold (italic "te")) (bold "xt"))
              (process-formatting "<b><i>te</i>xt</b>"))
+ (test-equal '((verbatim "\\ae"))
+             (process-formatting "<v>\\ae</v>"))
 
  ;; how non-standard tag structures are handled
  ;; (Gregorio segfaults on most of these)
@@ -74,6 +76,16 @@
  ;; unsupported tag
  (test-equal '("te" "xt") ; breaks the string in two, but does not add any formatting
              (process-formatting "te<s>xt</s>"))
+ )
+
+(test-group
+ "remove-braces"
+ (test-equal "La"
+             (remove-braces "L{a}"))
+ (test-equal "<v>L{a}</v>" ; braces inside the <v> tag are left intact
+             (remove-braces "<v>L{a}</v>"))
+ (test-equal "La<v>L{a}</v>La"
+             (remove-braces "L{a}<v>L{a}</v>L{a}"))
  )
 
 (test-end suite-name)
