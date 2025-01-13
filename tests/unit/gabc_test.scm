@@ -1,7 +1,7 @@
 (use-modules (srfi srfi-64))
 (use-modules (lilygabc gabc))
 
-(define suite-name "lilygabc_unit_tests")
+(define suite-name "gabc_unit_tests")
 
 (test-begin suite-name)
 
