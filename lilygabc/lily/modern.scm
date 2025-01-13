@@ -17,10 +17,10 @@
 
 ; mapping Gregorio divisiones -> LilyPond bars
 (define divisiones-mapping
-  `(("," . ,(l:bar "'"))
-    (";" . ,(l:bar ","))
+  `((","  . ,(l:bar "'"))
+    (";"  . ,(l:bar ","))
     ("::" . ,(l:bar "||"))
-    ("`" . ,(l:breathe))))
+    ("`"  . ,(l:breathe))))
 (define default-bar (l:bar "|")) ; used for all not explicitly mapped
 
 ;; equivalent of gabc:syl-has-notes? operating on the results

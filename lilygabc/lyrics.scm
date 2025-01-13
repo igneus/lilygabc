@@ -13,17 +13,17 @@
 ;; - search for a series of \gresetspecial command invocations.
 ;; We only handle a subset.
 (define special-chars
-  '(("R/" . "℟")
-    ("V/" . "℣")
-    ("ae" . "æ")
+  '(("R/"  . "℟")
+    ("V/"  . "℣")
+    ("ae"  . "æ")
     ("'ae" . "ǽ")
-    ("'æ" . "ǽ")
-    ("AE" . "Æ")
-    ("oe" . "œ")
+    ("'æ"  . "ǽ")
+    ("AE"  . "Æ")
+    ("oe"  . "œ")
     ("'oe" . "œ́")
-    ("'œ" . "œ́")
-    ("OE" . "Œ")
-    ("+" . "†")))
+    ("'œ"  . "œ́")
+    ("OE"  . "Œ")
+    ("+"   . "†")))
 
 ;; main entry point
 (define-public (expand str)
@@ -39,10 +39,10 @@
    'post))
 
 (define-public formatting-tags
-  '(("b" . bold)
-    ("i" . italic)
+  '(("b"  . bold)
+    ("i"  . italic)
     ("sc" . smallCaps)
-    ("u" . underline)))
+    ("u"  . underline)))
 
 (define tag-re (make-regexp "<(/)?([^>]+)>"))
 
