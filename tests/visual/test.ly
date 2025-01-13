@@ -560,12 +560,49 @@ allGabcNotes = " (a) (b) (c) (d) (e) (f) (g) (h) (i) (j) (k) (l) (m)"
 
     ""
   }
+}
+
+\bookpart {
+  \header { subtitle = "lyrics formatting" }
 
   \markup\fill-line{
-    % @test formatting tags (for the time being ignored)
-    \score { { g'4 } \addlyrics { La } }
+    % @test bold
+    \score { { g'4 } \addlyrics { \markup\bold{La} } }
     \score { \gabc "(c4) <b>La</b>(g)" }
 
+    % @test italic
+    \score { { g'4 } \addlyrics { \markup\italic{La} } }
+    \score { \gabc "(c4) <i>La</i>(g)" }
+  }
+
+  \markup\fill-line{
+    % @test small caps
+    \score { { g'4 } \addlyrics { \markup\smallCaps{La} } }
+    \score { \gabc "(c4) <sc>La</sc>(g)" }
+
+    % @test italic
+    \score { { g'4 } \addlyrics { \markup\underline{La} } }
+    \score { \gabc "(c4) <u>La</u>(g)" }
+  }
+
+  \markup\fill-line{
+    % @test nested tags
+    \score { { g'4 } \addlyrics { \markup\bold\italic{La} } }
+    \score { \gabc "(c4) <b><i>La</i></b>(g)" }
+
+    % @test formatted and unformatted
+    \score { { g'4 } \addlyrics { \markup\line{ \concat{\bold{L} a} } } }
+    \score { \gabc "(c4) <b>L</b>a(g)" }
+  }
+
+  \markup\fill-line{
+    % @test parts with different style - adjacent
+    \score { { g'4 } \addlyrics { \markup\line{ \concat{\bold{L} \italic{a}} } } }
+    \score { \gabc "(c4) <b>L</b><i>a</i>(g)" }
+
+    % @test parts with different style - nested
+    \score { { g'4 } \addlyrics { \markup\line{ \concat{\bold{L} \bold\italic{a}} } } }
+    \score { \gabc "(c4) <b>L<i>a</i></b>(g)" }
   }
 }
 

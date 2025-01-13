@@ -181,9 +181,7 @@
                 (list
                  'LyricEvent
                  'duration (ly:make-duration 2)
-                 'text (lyrics:remove-braces
-                        (lyrics:remove-tags
-                         (lyrics:expand-special-chars (second lyr)))))
+                 'text (apply-lyrics-formatting (lyrics:expand (second lyr))))
                 (if (and (> (length word) 1)
                          (not (eq? lyr (last lyrics))))
                     (list 'articulations
@@ -194,3 +192,25 @@
       (list (make-music 'CompletizeExtenderEvent))))
     'associated-context context-id
     'associated-context-type 'Voice)))
+
+;; accepts the data structure produced by lyrics:expand,
+;; produces valid value of a LyricEvent 'text property
+(define (apply-lyrics-formatting parsed-syllable)
+  (cond
+   ((= 0 (length parsed-syllable))
+    "")
+   ((and (= 1 (length parsed-syllable))
+         (string? (first parsed-syllable)))
+    (first parsed-syllable)) ; no formatting
+   (else
+    (markup
+      (if (< 1 (length parsed-syllable))
+          (make-concat-markup (map build-lyrics-markup parsed-syllable))
+          (build-lyrics-markup (first parsed-syllable)))))))
+
+(define (build-lyrics-markup arg)
+  (if (string? arg)
+      arg
+      (let* ((func-name (string-append "make-" (symbol->string (first arg)) "-markup"))
+             (markup-func (primitive-eval (string->symbol func-name))))
+        (markup-func (build-lyrics-markup (second arg))))))
