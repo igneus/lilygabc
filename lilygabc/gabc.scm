@@ -18,7 +18,7 @@
 (define-public (parse gabc-str)
   (let*
       ((gabc-body (without-comments (body gabc-str)))
-       (syllables (list-matches "([^\\(]*)\\(([^\\)]*)\\)" gabc-body))
+       (syllables (list-matches "([^(]*)\\(([^)]*)\\)" gabc-body))
        (words
         (util:split-at
          (lambda (x)

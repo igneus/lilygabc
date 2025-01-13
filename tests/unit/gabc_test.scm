@@ -59,6 +59,13 @@
  (test-equal '((((lyrics "<b>la</b>"))))
              (parse "<b>la</b>()"))
 
+ (test-equal '((((lyrics "\\la")))) ; backslash is left intact
+             (parse "\\la()"))
+ (test-equal '((((lyrics "la\\"))))
+             (parse "la\\()"))
+ (test-equal '((((lyrics "l\\a"))))
+             (parse "l\\a()"))
+
  ;; score header
  (test-equal '((((clef "c" 4 #f)))) ; header is ignored
              (parse "book: No Book;\n%%\n(c4)"))
