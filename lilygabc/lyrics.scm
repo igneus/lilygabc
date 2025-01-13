@@ -81,7 +81,9 @@
 (define-public (process-formatting str)
   (formatting-inner '() str '()))
 
-(define (brace-remover in-verbatim str)
+;; removes curly braces except those inside <v></v> tags
+(export remove-braces)
+(define* (remove-braces str #:optional (in-verbatim #f))
   (let* ((tag (if in-verbatim "</v>" "<v>"))
          (tag-i (string-contains str tag))
          (subject
@@ -97,10 +99,7 @@
     (if tag-i
         (string-append
          processed
-         (brace-remover
-          (not in-verbatim)
-          (substring str (string-length subject))))
+         (remove-braces
+          (substring str (string-length subject))
+          (not in-verbatim)))
         processed)))
-
-(define-public (remove-braces str)
-  (brace-remover #f str))
