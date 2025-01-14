@@ -111,7 +111,7 @@
         '()))))
 
 (define-public (apply-episema-events events ly-note)
-  (if (= 0 (length events))
+  (if (null? events)
       ly-note
       (apply-episema-events
        (cdr events)
@@ -197,7 +197,7 @@
 ;; produces valid value of a LyricEvent 'text property
 (define (apply-lyrics-formatting parsed-syllable)
   (cond
-   ((= 0 (length parsed-syllable))
+   ((null? parsed-syllable)
     "")
    ((and (= 1 (length parsed-syllable))
          (string? (first parsed-syllable)))

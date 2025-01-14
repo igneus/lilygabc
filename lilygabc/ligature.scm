@@ -5,7 +5,7 @@
 ;; determine where ligature brackets must be placed
 ;; for the notes to be correctly rendered.
 (define-public (add-ligatures syllable)
-  (if (= 0 (length syllable))
+  (if (null? syllable)
       syllable
       (not-in-ligature syllable)))
 
