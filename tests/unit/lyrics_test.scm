@@ -57,9 +57,9 @@
              (process-formatting "<b>te</b>xt"))
  (test-equal '("te" (bold "xt"))
              (process-formatting "te<b>xt</b>"))
- (test-equal '((bold (italic "text")))
+ (test-equal '((bold italic "text"))
              (process-formatting "<b><i>text</i></b>"))
- (test-equal '((bold (italic "te")) (bold "xt"))
+ (test-equal '((bold italic "te") (bold "xt"))
              (process-formatting "<b><i>te</i>xt</b>"))
  (test-equal '((verbatim "\\ae"))
              (process-formatting "<v>\\ae</v>"))
@@ -70,7 +70,7 @@
              (process-formatting "<b>text"))
  (test-equal '("text")
              (process-formatting "text</b>"))
- (test-equal '((bold "t") (bold (italic "ex")) (italic "t"))
+ (test-equal '((bold "t") (bold italic "ex") (italic "t"))
              (process-formatting "<b>t<i>ex</b>t</i>"))
 
  ;; unsupported tag

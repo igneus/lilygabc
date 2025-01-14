@@ -227,7 +227,9 @@
 ;; recursively translates to markup an element
 ;; of the data structure produced by lyrics:expand
 (define (build-lyrics-markup arg)
-  (if (string? arg)
-      arg
-      (let ((markup-func (assq-ref markup-formatting-fns (first arg))))
-        (markup-func (build-lyrics-markup (second arg))))))
+  (cond
+   ((string? arg) arg)
+   ((string? (car arg)) (car arg))
+   (else
+    (let ((markup-func (assq-ref markup-formatting-fns (car arg))))
+      (markup-func (build-lyrics-markup (cdr arg)))))))

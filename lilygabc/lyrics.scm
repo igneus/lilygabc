@@ -76,7 +76,9 @@
                 (remove (cut equal? format-sym <>) active-formats))))))
 
 (define (apply-formats formats str)
-  (fold-right (cut list <> <>) str formats))
+  (if (null? formats)
+      str
+      (append formats (list str))))
 
 (define-public (process-formatting str)
   (formatting-inner '() str '()))
