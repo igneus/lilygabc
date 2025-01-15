@@ -1,6 +1,7 @@
 ;; processing lyrics
 
 (define-module (lilygabc lyrics)
+  #:use-module (ice-9 optargs)
   #:use-module (ice-9 regex)
   #:use-module (srfi srfi-1)
   #:use-module (srfi srfi-26))
@@ -84,8 +85,7 @@
   (formatting-inner '() str '()))
 
 ;; removes curly braces except those inside <v></v> tags
-(export remove-braces)
-(define* (remove-braces str #:optional (in-verbatim #f))
+(define*-public (remove-braces str #:optional (in-verbatim #f))
   (let* ((tag (if in-verbatim "</v>" "<v>"))
          (tag-i (string-contains str tag))
          (subject
