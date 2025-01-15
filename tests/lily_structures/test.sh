@@ -19,10 +19,15 @@ lilypond vaticana_test_actual.ly > vaticana_test_actual.out & pid4=$!
 lilypond lower_level_api_test_expected.ly > lower_level_api_test_expected.out & pid5=$!
 lilypond lower_level_api_test_actual.ly > lower_level_api_test_actual.out & pid6=$!
 
+bash -c 'cd ../regression && ./process.sh > actual.out' & pid7=$!
+
+test_files="test.ly vaticana_test.ly lower_level_api_test.ly ../regression/expected.txt:../regression/actual.out"
+
 wait "$pid1" &&
     wait "$pid2" &&
     wait "$pid3" &&
     wait "$pid4" &&
     wait "$pid5" &&
     wait "$pid6" &&
-    guile report.scm "$@"
+    wait "$pid7" &&
+    guile report.scm "$@" $test_files

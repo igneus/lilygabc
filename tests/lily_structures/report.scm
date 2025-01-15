@@ -6,6 +6,7 @@
  (ice-9 getopt-long)
  (ice-9 match)
  (ice-9 rdelim)
+ (ice-9 string-fun)
  (ice-9 textual-ports)
  (srfi srfi-1)
  (srfi srfi-26))
@@ -44,6 +45,10 @@
          (set! result (append result (list (cons title content)))))
        result))))
 
+(define (load-example-pairs expected-path actual-path)
+  (zip (load-examples expected-path)
+       (load-examples actual-path)))
+
 (define (show-diff unified a b)
   (let ((fa "tmp1.out") (fb "tmp2.out"))
     (call-with-output-file fa (cut put-string <> a))
@@ -56,11 +61,18 @@
 
 (let*
     ((diff-unified (option-ref options 'unified "3"))
+     (strr string-replace-substring)
+     (cmdline-paths (option-ref options '() '()))
      (examples
-      (append
-       (zip (load-examples "test_expected.out") (load-examples "test_actual.out"))
-       (zip (load-examples "vaticana_test_expected.out") (load-examples "vaticana_test_actual.out"))
-       (zip (load-examples "lower_level_api_test_expected.out") (load-examples "lower_level_api_test_actual.out"))))
+      (append-map
+       (lambda (f)
+         (if (string-index f #\:)
+             ;; expected_path.out:actual_path.out
+             (apply load-example-pairs (string-split f #\:))
+             ;; single .ly file path the examples have been generated from
+             (load-example-pairs (strr f ".ly" "_expected.out")
+                                 (strr f ".ly" "_actual.out"))))
+       cmdline-paths))
      (failures
       (filter
        (lambda (x)
