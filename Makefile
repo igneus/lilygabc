@@ -10,7 +10,8 @@ visual_ly:
 visual_tex:
 	cd tests/visual && make tex
 
-# Run regression tests
+# Run regression tests on their own
+# (they are also included in the structural test suite)
 test-regression:
 	cd tests/regression && ./test.sh
 
@@ -20,4 +21,4 @@ test-structures:
 	cd tests/lily_structures && ./test.sh --lily-only
 
 # All automated tests
-test: test-unit test-structures test-regression
+test: test-unit test-structures
