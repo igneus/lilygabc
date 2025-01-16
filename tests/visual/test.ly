@@ -586,6 +586,14 @@ allGabcNotes = " (a) (b) (c) (d) (e) (f) (g) (h) (i) (j) (k) (l) (m)"
   }
 
   \markup\fill-line{
+    % @test teletype
+    \score { { g'4 } \addlyrics { \markup\typewriter{La} } }
+    \score { \gabc "(c4) <tt>La</tt>(g)" }
+
+    "" ""
+  }
+
+  \markup\fill-line{
     % @test nested tags
     \score { { g'4 } \addlyrics { \markup\bold\italic{La} } }
     \score { \gabc "(c4) <b><i>La</i></b>(g)" }

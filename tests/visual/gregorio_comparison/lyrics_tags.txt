@@ -4,6 +4,7 @@
 
 A(g) <b>A</b>(g) <i>A</i>(g)
 <ul>A</ul>(g) <c>A</c>(g) <sc>Aa</sc>(g)
+<tt>A</tt>(g)
 
 # special characters
 

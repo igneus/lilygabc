@@ -44,6 +44,7 @@
     ("i"  . italic)
     ("sc" . smallCaps)
     ("ul" . underline)
+    ("tt" . typewriter)
     ("c"  . color)
     ("v"  . verbatim)))
 
