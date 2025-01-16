@@ -3,7 +3,7 @@
 # formatting
 
 A(g) <b>A</b>(g) <i>A</i>(g)
-<u>A</u>(g) <c>A</c>(g) <sc>Aa</sc>(g)
+<ul>A</ul>(g) <c>A</c>(g) <sc>Aa</sc>(g)
 
 # special characters
 

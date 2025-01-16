@@ -43,7 +43,7 @@
   '(("b"  . bold)
     ("i"  . italic)
     ("sc" . smallCaps)
-    ("u"  . underline)
+    ("ul" . underline)
     ("c"  . color)
     ("v"  . verbatim)))
 

@@ -580,9 +580,9 @@ allGabcNotes = " (a) (b) (c) (d) (e) (f) (g) (h) (i) (j) (k) (l) (m)"
     \score { { g'4 } \addlyrics { \markup\smallCaps{La} } }
     \score { \gabc "(c4) <sc>La</sc>(g)" }
 
-    % @test italic
+    % @test underline
     \score { { g'4 } \addlyrics { \markup\underline{La} } }
-    \score { \gabc "(c4) <u>La</u>(g)" }
+    \score { \gabc "(c4) <ul>La</ul>(g)" }
   }
 
   \markup\fill-line{
