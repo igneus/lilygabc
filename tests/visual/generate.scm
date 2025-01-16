@@ -23,6 +23,8 @@
 \\usepackage[usenames]{xcolor}
 \\colorlet{shadecolor}{white}
 
+\\gresetinitiallines{0}
+
 \\title{lilygabc visual tests: comparison with gregorio}
 
 \\begin{document}
