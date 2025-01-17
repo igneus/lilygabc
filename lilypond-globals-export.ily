@@ -44,14 +44,35 @@
 
    (module-define! mdl 'apply-virga
     (define-music-function (side note) (boolean-or-symbol? ly:music?)
-     ; TODO it would be safer to check first that Stem.length is actually overridden to 0
-     #{
-       \once \stemDown
-       \once \revert Stem.length
-       #(if (eq? 'right side)
-         #{ \once \override NoteHead.stem-attachment = #'(0.8 . 0.3) #})
-       #note
-       #}))
+     (define (stems-hidden? context)
+      (let* ((grob-def (ly:context-grob-definition context 'Stem))
+             (length (ly:assoc-get 'length grob-def)))
+       ;; see \lilygabcModernGregorianStemlessLayout
+       (and (number? length) (= 0 length))))
+
+     (define stems-were-hidden #f)
+
+     (make-sequential-music
+      (list
+       (make-apply-context
+        (lambda (context)
+         (when (stems-hidden? context)
+          (set! stems-were-hidden #t)
+          (ly:context-pushpop-property context 'Stem 'length)
+          (ly:context-pushpop-property context 'Stem 'direction DOWN)
+          (when (eq? 'right side)
+           (ly:context-pushpop-property context 'NoteHead 'stem-attachment '(0.8 . 0.3))))))
+
+       note
+
+       (make-apply-context
+        (lambda (context)
+         (when stems-were-hidden
+          (ly:context-pushpop-property context 'Stem 'length 0)
+          (ly:context-pushpop-property context 'Stem 'direction)
+          (when (eq? 'right side)
+           (ly:context-pushpop-property context 'NoteHead 'stem-attachment)))))
+     ))))
 
    (module-define! mdl 'apply-musica-ficta
     (define-music-function (note) (ly:music?)

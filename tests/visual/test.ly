@@ -404,12 +404,13 @@ allGabcNotes = " (a) (b) (c) (d) (e) (f) (g) (h) (i) (j) (k) (l) (m)"
   }
 
   \markup\fill-line{
-    % when stems are not hidden by default, virga should have no visible effect:
+    % virga: no visible effect when stems of regular notes are not hidden: virga right
     \score { \relative { g'4 g( \tiny f e d) \normalsize } }
-    \score { \gabc "(c4) (g) (gvFED)" \layout { \xfail } } % virga right
+    \score { \gabc "(c4) (g) (gvFED)" }
 
+    % virga: no visible effect when stems of regular notes are not hidden: virga left
     \score { \relative { g'4 g( \tiny f e d) \normalsize } }
-    \score { \gabc "(c4) (g) (gVFED)" \layout { \xfail } } % virga left
+    \score { \gabc "(c4) (g) (gVFED)" }
   }
 
   \markup\fill-line{
@@ -439,6 +440,38 @@ allGabcNotes = " (a) (b) (c) (d) (e) (f) (g) (h) (i) (j) (k) (l) (m)"
     % trivirga
     \score { { g'4( g' g') } }
     \score { \gabc "(c4) (gvvv)" \layout { \xfail } }
+  }
+
+  \markup\fill-line{
+    % bivirga
+    \score {
+      {
+        \revert Stem.length
+        \override NoteHead.stem-attachment = #'(0.8 . 0.3)
+        \stemDown
+        g'4( g')
+      }
+      \layout { \lilygabcModernGregorianStemlessLayout }
+    }
+    \score {
+      \gabc "(c4) (gvv)"
+      \layout { \lilygabcModernGregorianStemlessLayout }
+    }
+
+    % trivirga
+    \score {
+      {
+        \revert Stem.length
+        \override NoteHead.stem-attachment = #'(0.8 . 0.3)
+        \stemDown
+        g'4( g' g')
+      }
+      \layout { \lilygabcModernGregorianStemlessLayout }
+    }
+    \score {
+      \gabc "(c4) (gvvv)"
+      \layout { \lilygabcModernGregorianStemlessLayout }
+    }
   }
 
   \markup\fill-line{
