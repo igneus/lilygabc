@@ -1,13 +1,22 @@
 \include "gregorian-shim.ily"
 
-% This alist can only be modified by overwriting values of the existing
+% Global settings.
+% Customize by overwriting values of the existing
 % keys by assoc-set!.
 % Re-assigning the variable as a whole will have no effect.
 lilygabcGlobalSettings =
 #`(
     ;; colour of lyrics marked by the <c> tag - equivalent of Gregorio's `gregoriocolor`.
-    ;; Valid value is anything accepted by the \with-color LilyPond command.
-    (c-tag-color . ,red))
+    ;; Valid value is any value accepted by the \with-color LilyPond command.
+    (c-tag-color . ,red)
+
+    ;; how contents of the <v> tag should be handled:
+    ;; 'print - show as text (default, because existing gabc transcriptions usually
+    ;;          contain LaTeX code in <v> tags)
+    ;; 'ignore - ignore the whole tag
+    ;; 'as-lilypond - evaluate as LilyPond code
+    (verbatim-tag . print)
+    )
 
 \include "lilypond-globals-export.ily"
 

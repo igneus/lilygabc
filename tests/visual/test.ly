@@ -663,6 +663,16 @@ allGabcNotes = " (a) (b) (c) (d) (e) (f) (g) (h) (i) (j) (k) (l) (m)"
     \score { { g'4 } \addlyrics { \markup\line{ \typewriter "{\ae}" } } }
     \score { \gabc "(c4) <v>{\ae}</v>(g)" }
 
+    % @test verbatim - ignore
+    \score { { g'4 } \addlyrics { "" } }
+    \score { \void #(assoc-set! lilygabcGlobalSettings 'verbatim-tag 'ignore) \gabc "(c4) <v>{\ae}</v>(g)" }
+  }
+
+  \markup\fill-line{
+    % @test verbatim - handle as LilyPond code
+    \score { { g'4 } \addlyrics { \markup\large\bold{X} } }
+    \score { \void #(assoc-set! lilygabcGlobalSettings 'verbatim-tag 'as-lilypond) \gabc "(c4) <v>\markup\large\bold{X}</v>(g)" }
+
     "" ""
   }
 }
