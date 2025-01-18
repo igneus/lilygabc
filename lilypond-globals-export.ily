@@ -54,14 +54,16 @@
 
      (make-sequential-music
       (list
-       (make-apply-context
-        (lambda (context)
-         (when (stems-hidden? context)
-          (set! stems-were-hidden #t)
-          (ly:context-pushpop-property context 'Stem 'length)
-          (ly:context-pushpop-property context 'Stem 'direction DOWN)
-          (when (eq? 'right side)
-           (ly:context-pushpop-property context 'NoteHead 'stem-attachment '(0.8 . 0.3))))))
+       (context-spec-music
+        (make-apply-context
+         (lambda (context)
+          (when (stems-hidden? context)
+           (set! stems-were-hidden #t)
+           (ly:context-pushpop-property context 'Stem 'length)
+           (ly:context-pushpop-property context 'Stem 'direction DOWN)
+           (when (eq? 'right side)
+            (ly:context-pushpop-property context 'NoteHead 'stem-attachment '(0.8 . 0.3))))))
+        'Voice)
 
        note
 
