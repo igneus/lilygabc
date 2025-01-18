@@ -213,7 +213,7 @@
 (define markup-formatting-fns
   (append
    ;; custom functions
-   `((color . ,(cut make-with-color-markup '(1.0 0.0 0.0) <>))
+   `((color . ,(cut make-with-color-markup (assoc-ref lilygabc-global-settings 'c-tag-color) <>))
      (verbatim . ,make-typewriter-markup))
    ;; standard LilyPond make-*-markup functions
    (filter-map

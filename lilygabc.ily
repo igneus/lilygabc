@@ -1,4 +1,14 @@
 \include "gregorian-shim.ily"
+
+% This alist can only be modified by overwriting values of the existing
+% keys by assoc-set!.
+% Re-assigning the variable as a whole will have no effect.
+lilygabcGlobalSettings =
+#`(
+    ;; colour of lyrics marked by the <c> tag - equivalent of Gregorio's `gregoriocolor`.
+    ;; Valid value is anything accepted by the \with-color LilyPond command.
+    (c-tag-color . ,red))
+
 \include "lilypond-globals-export.ily"
 
 #(add-to-load-path (dirname (current-filename)))

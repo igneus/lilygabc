@@ -6,7 +6,8 @@
 (define-module (lilygabc lily music-functions)
   #:export
   ;; utilities defined in lilypond-globals-export.ily
-  (make-invisible-note
+  (lilygabc-global-settings
+   make-invisible-note
    tiny-note
    teeny-note
    apply-musica-ficta

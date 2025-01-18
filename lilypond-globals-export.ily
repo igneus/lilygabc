@@ -5,6 +5,8 @@
 
   ;; Internal utility music functions used by the Scheme modules.
   (let ((mdl (resolve-module '(lilygabc lily music-functions))))
+   (module-define! mdl 'lilygabc-global-settings lilygabcGlobalSettings)
+
    (module-define! mdl 'make-invisible-note
     (define-music-function () () #{ \once \hideNotes g'4 #}))
 

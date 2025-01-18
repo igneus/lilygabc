@@ -651,7 +651,11 @@ allGabcNotes = " (a) (b) (c) (d) (e) (f) (g) (h) (i) (j) (k) (l) (m)"
     \score { { g'4 } \addlyrics { \markup\with-color #red {La} } }
     \score { \gabc "(c4) <c>La</c>(g)" }
 
-    "" ""
+    % @test colour - custom
+    \score { { g'4 } \addlyrics { \markup\with-color #blue {La} } }
+    % TODO this overwrites the c-tag-color setting globally for the rest of execution time.
+    %   There should be a way to set it just for the current score.
+    \score { \void #(assoc-set! lilygabcGlobalSettings 'c-tag-color blue) \gabc "(c4) <c>La</c>(g)" }
   }
 
   \markup\fill-line{
