@@ -217,7 +217,7 @@
      (verbatim
       . ,(lambda (tag-body)
            (case (assoc-ref lilygabc-global-settings 'verbatim-tag)
-             ((ignore) empty-markup)
+             ((ignore) "")
              ((as-lilypond) (ly:parse-string-expression (ly:parser-clone) tag-body)) ; TODO add `filename` and `line` optional arguments - is it possible to extract the values from (*location*)?
              (else (make-typewriter-markup tag-body))))))
    ;; standard LilyPond make-*-markup functions

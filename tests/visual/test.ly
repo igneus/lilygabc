@@ -653,9 +653,9 @@ allGabcNotes = " (a) (b) (c) (d) (e) (f) (g) (h) (i) (j) (k) (l) (m)"
 
     % @test colour - custom
     \score { { g'4 } \addlyrics { \markup\with-color #blue {La} } }
+    \score { \void #(assoc-set! lilygabcGlobalSettings 'c-tag-color blue) \gabc "(c4) <c>La</c>(g)" }
     % TODO this overwrites the c-tag-color setting globally for the rest of execution time.
     %   There should be a way to set it just for the current score.
-    \score { \void #(assoc-set! lilygabcGlobalSettings 'c-tag-color blue) \gabc "(c4) <c>La</c>(g)" }
   }
 
   \markup\fill-line{
@@ -664,13 +664,13 @@ allGabcNotes = " (a) (b) (c) (d) (e) (f) (g) (h) (i) (j) (k) (l) (m)"
     \score { \gabc "(c4) <v>{\ae}</v>(g)" }
 
     % @test verbatim - ignore
-    \score { { g'4 } \addlyrics { "" } }
+    \score { { g'4 } \addlyrics { \markup\line { "" } } }
     \score { \void #(assoc-set! lilygabcGlobalSettings 'verbatim-tag 'ignore) \gabc "(c4) <v>{\ae}</v>(g)" }
   }
 
   \markup\fill-line{
     % @test verbatim - handle as LilyPond code
-    \score { { g'4 } \addlyrics { \markup\large\bold{X} } }
+    \score { { g'4 } \addlyrics { \markup\line { \line { \large\bold{X} } } } }
     \score { \void #(assoc-set! lilygabcGlobalSettings 'verbatim-tag 'as-lilypond) \gabc "(c4) <v>\markup\large\bold{X}</v>(g)" }
 
     "" ""
