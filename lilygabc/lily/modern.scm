@@ -7,6 +7,7 @@
   #:use-module (srfi srfi-1)
   #:use-module (srfi srfi-26)
   #:use-module (lily) ; LilyPond Scheme API
+  #:use-module ((lily ly-syntax-constructors) #:select (context-create lyric-combine))
   #:use-module ((lilygabc episema) #:prefix episema:)
   #:use-module ((lilygabc gabc) #:prefix gabc:)
   #:use-module ((lilygabc lyrics) #:prefix lyrics:)
@@ -150,15 +151,11 @@
    syllable))
 
 (define-public (make-lyrics words context-id lyrics-type)
-  (make-music
-   'ContextSpeccedMusic
-   'create-new #t
-   'context-type lyrics-type
-   'property-operations '()
-   'element
-   (make-music
-    'LyricCombineMusic
-    'element
+  (context-create
+   lyrics-type '() '()
+   (lyric-combine
+    context-id
+    'Voice
     (make-sequential-music
      (append
       (append-map
@@ -175,23 +172,17 @@
                  word)))
            (map
             (lambda (lyr)
-              (apply
-               make-music
-               (append
-                (list
-                 'LyricEvent
-                 'duration (ly:make-duration 2)
-                 'text (apply-lyrics-formatting (lyrics:expand (second lyr))))
-                (if (and (> (length word) 1)
-                         (not (eq? lyr (last lyrics))))
-                    (list 'articulations
-                          (list (make-music 'HyphenEvent)))
-                    '()))))
+              (let ((lyric
+                     (make-lyric-event
+                      (apply-lyrics-formatting (lyrics:expand (second lyr)))
+                      (ly:make-duration 2))))
+                (when (and (> (length word) 1)
+                           (not (eq? lyr (last lyrics))))
+                  (set! (ly:music-property lyric 'articulations)
+                        (list (make-music 'HyphenEvent))))
+                lyric))
             lyrics)))
-       words)
-      (list (make-music 'CompletizeExtenderEvent))))
-    'associated-context context-id
-    'associated-context-type 'Voice)))
+       words))))))
 
 ;; accepts the data structure produced by lyrics:expand,
 ;; produces valid value of a LyricEvent 'text property

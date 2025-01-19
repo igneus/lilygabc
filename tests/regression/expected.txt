@@ -407,6 +407,12 @@
                   (make-music 'BarEvent 'bar-type "||"))))
         (make-music
           'ContextSpeccedMusic
+          'create-new
+          #t
+          'property-operations
+          '()
+          'context-type
+          'Lyrics
           'element
           (make-music
             'LyricCombineMusic
@@ -570,13 +576,7 @@
                       "quam."
                       'duration
                       (ly:make-duration 2))
-                    (make-music 'CompletizeExtenderEvent))))
-          'property-operations
-          '()
-          'context-type
-          'Lyrics
-          'create-new
-          #t)))
+                    (make-music 'CompletizeExtenderEvent)))))))
 
 % test ../examples/aquam_quam_ego.gabc: square notation: LilyPond
 
@@ -1261,6 +1261,12 @@
                   (make-music 'SectionEvent))))
         (make-music
           'ContextSpeccedMusic
+          'create-new
+          #t
+          'property-operations
+          '()
+          'context-type
+          'VaticanaLyrics
           'element
           (make-music
             'LyricCombineMusic
@@ -1424,11 +1430,5 @@
                       "quam."
                       'duration
                       (ly:make-duration 2))
-                    (make-music 'CompletizeExtenderEvent))))
-          'property-operations
-          '()
-          'context-type
-          'VaticanaLyrics
-          'create-new
-          #t)))
+                    (make-music 'CompletizeExtenderEvent)))))))
 
