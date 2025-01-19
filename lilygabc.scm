@@ -97,13 +97,13 @@
       (case requested-result
         ((notes) (modern-notes score))
         ((voice) (modern-voice set-id score))
-        ((lyrics) (modern-lyrics set-id score))
+        ((lyrics) (modern-lyrics options set-id score))
         (else
          (if has-lyrics
              (make-simultaneous-music
               (list
                (modern-voice context-id score)
-               (modern-lyrics context-id score)))
+               (modern-lyrics options context-id score)))
              (modern-notes score)))))))
 
 (define-public vaticana-music
@@ -118,13 +118,13 @@
       (case requested-result
         ((notes) (vaticana-notes score))
         ((voice) (vaticana-voice set-id score))
-        ((lyrics) (vaticana-lyrics set-id score))
+        ((lyrics) (vaticana-lyrics options set-id score))
         (else
          (if has-lyrics
              (make-simultaneous-music
               (list
                (vaticana-voice context-id score)
-               (vaticana-lyrics context-id score)))
+               (vaticana-lyrics options context-id score)))
              (vaticana-voice (if (or has-lyrics set-id) context-id #f) score)))))))
 
 ;; parsed gabc -> voice
@@ -154,15 +154,15 @@
 
 (define-public modern-lyrics
   (define-scheme-function
-    (context-id score)
-    (string? list?)
-    (lilygabc:modern:make-lyrics score context-id 'Lyrics)))
+    (options context-id score)
+    ((symbol-key-alist? '()) string? list?)
+    (lilygabc:modern:make-lyrics options score context-id 'Lyrics)))
 
 (define-public vaticana-lyrics
   (define-scheme-function
-    (context-id score)
-    (string? list?)
-    (lilygabc:modern:make-lyrics score context-id 'VaticanaLyrics)))
+    (options context-id score)
+    ((symbol-key-alist? '()) string? list?)
+    (lilygabc:modern:make-lyrics options score context-id 'VaticanaLyrics)))
 
 ;; parsed gabc -> bare notes (not wrapped in a voice)
 

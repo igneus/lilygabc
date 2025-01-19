@@ -150,43 +150,46 @@
          (list item)))
    syllable))
 
-(define-public (make-lyrics words context-id lyrics-type)
-  (context-create
-   lyrics-type '() '()
-   (lyric-combine
-    context-id
-    'Voice
-    (make-sequential-music
-     (append
-      (append-map
-       (lambda (word)
-         (let ((lyrics
-                (filter-map
-                 (lambda (syllable)
-                   (cond
-                    ((gabc:syl-has-lyrics? syllable)
-                     (first syllable))
-                    ((gabc:syl-has-notes? syllable)
-                     '(lyrics ""))
-                    (else #f)))
-                 word)))
-           (map
-            (lambda (lyr)
-              (let ((lyric
-                     (make-lyric-event
-                      (apply-lyrics-formatting (lyrics:expand (second lyr)))
-                      (ly:make-duration 2))))
-                (when (and (> (length word) 1)
-                           (not (eq? lyr (last lyrics))))
-                  (set! (ly:music-property lyric 'articulations)
-                        (list (make-music 'HyphenEvent))))
-                lyric))
-            lyrics)))
-       words))))))
+(define-public (make-lyrics options words context-id lyrics-type)
+  (let* ((options-with-defaults
+          (append options lilygabc-global-settings))
+         (formatting-functions (build-markup-formatting-fns options-with-defaults)))
+    (context-create
+     lyrics-type '() '()
+     (lyric-combine
+      context-id
+      'Voice
+      (make-sequential-music
+       (append
+        (append-map
+         (lambda (word)
+           (let ((lyrics
+                  (filter-map
+                   (lambda (syllable)
+                     (cond
+                      ((gabc:syl-has-lyrics? syllable)
+                       (first syllable))
+                      ((gabc:syl-has-notes? syllable)
+                       '(lyrics ""))
+                      (else #f)))
+                   word)))
+             (map
+              (lambda (lyr)
+                (let ((lyric
+                       (make-lyric-event
+                        (apply-lyrics-formatting formatting-functions (lyrics:expand (second lyr)))
+                        (ly:make-duration 2))))
+                  (when (and (> (length word) 1)
+                             (not (eq? lyr (last lyrics))))
+                    (set! (ly:music-property lyric 'articulations)
+                          (list (make-music 'HyphenEvent))))
+                  lyric))
+              lyrics)))
+         words)))))))
 
 ;; accepts the data structure produced by lyrics:expand,
 ;; produces valid value for the LyricEvent.text property
-(define (apply-lyrics-formatting parsed-syllable)
+(define (apply-lyrics-formatting formatting-functions parsed-syllable)
   (cond
    ((null? parsed-syllable)
     "")
@@ -196,36 +199,42 @@
    (else
     (markup
       (if (< 1 (length parsed-syllable))
-          (make-concat-markup (map build-lyrics-markup parsed-syllable))
-          (build-lyrics-markup (first parsed-syllable)))))))
+          (make-concat-markup (map (cut build-lyrics-markup formatting-functions <>) parsed-syllable))
+          (build-lyrics-markup formatting-functions (first parsed-syllable)))))))
 
-;; alist mapping format symbols produced by lyrics:expand (e.g. 'bold)
+;; accepts an alist with keys and value types matching lilypond-global-settings,
+;; builds an alist mapping format symbols produced by lyrics:expand (e.g. 'bold)
 ;; to the corresponding LilyPond functions (make-bold-markup)
-(define markup-formatting-fns
-  (append
-   ;; custom functions
-   `((color . ,(cut make-with-color-markup (assoc-ref lilygabc-global-settings 'c-tag-color) <>))
-     (verbatim
-      . ,(lambda (tag-body)
-           (case (assoc-ref lilygabc-global-settings 'verbatim-tag)
-             ((ignore) "")
-             ((as-lilypond) (ly:parse-string-expression (ly:parser-clone) tag-body)) ; TODO add `filename` and `line` optional arguments - is it possible to extract the values from (*location*)?
-             (else (make-typewriter-markup tag-body))))))
-   ;; standard LilyPond make-*-markup functions
-   (filter-map
-    (lambda (tagname-sym-pair)
-      (let* ((sym (cdr tagname-sym-pair))
-             (func-name (string->symbol (string-append "make-" (symbol->string sym) "-markup"))))
-        (and (defined? func-name)
-             (cons sym (primitive-eval func-name)))))
-    lyrics:formatting-tags)))
+(define (build-markup-formatting-fns options)
+  (let ((c-tag-color (assoc-ref options 'c-tag-color))
+        (verbatim-tag (assoc-ref options 'verbatim-tag)))
+    (append
+     ;; custom functions
+     `((color . ,(cut make-with-color-markup c-tag-color <>))
+       (verbatim
+        . ,(lambda (tag-body)
+             (case verbatim-tag
+               ((ignore) "")
+               ((as-lilypond) (ly:parse-string-expression (ly:parser-clone) tag-body)) ; TODO add `filename` and `line` optional arguments - is it possible to extract the values from (*location*)?
+               (else (make-typewriter-markup tag-body))))))
+     standard-markup-formatting-fns)))
+
+(define standard-markup-formatting-fns
+  ;; standard LilyPond make-*-markup functions
+  (filter-map
+   (lambda (tagname-sym-pair)
+     (let* ((sym (cdr tagname-sym-pair))
+            (func-name (string->symbol (string-append "make-" (symbol->string sym) "-markup"))))
+       (and (defined? func-name)
+            (cons sym (primitive-eval func-name)))))
+   lyrics:formatting-tags))
 
 ;; recursively translates to markup an element
 ;; of the data structure produced by lyrics:expand
-(define (build-lyrics-markup arg)
+(define (build-lyrics-markup formatting-functions arg)
   (cond
    ((string? arg) arg)
    ((string? (car arg)) (car arg))
    (else
-    (let ((markup-func (assq-ref markup-formatting-fns (car arg))))
-      (markup-func (build-lyrics-markup (cdr arg)))))))
+    (let ((markup-func (assq-ref formatting-functions (car arg))))
+      (markup-func (build-lyrics-markup formatting-functions (cdr arg)))))))

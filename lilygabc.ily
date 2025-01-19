@@ -4,6 +4,10 @@
 % Customize by overwriting values of the existing
 % keys by assoc-set!.
 % Re-assigning the variable as a whole will have no effect.
+% The settings can also be overridden on a per-call basis
+% by passing the keys to the lilygabc LilyPond commands, e.g.
+%
+%   \gabc #'((verbatim-tag . ignore)) "<v>{\ae}</v>(g)"
 lilygabcGlobalSettings =
 #`(
     ;; colour of lyrics marked by the <c> tag - equivalent of Gregorio's `gregoriocolor`.
