@@ -185,7 +185,7 @@
        words))))))
 
 ;; accepts the data structure produced by lyrics:expand,
-;; produces valid value of a LyricEvent 'text property
+;; produces valid value for the LyricEvent.text property
 (define (apply-lyrics-formatting parsed-syllable)
   (cond
    ((null? parsed-syllable)
@@ -199,8 +199,8 @@
           (make-concat-markup (map build-lyrics-markup parsed-syllable))
           (build-lyrics-markup (first parsed-syllable)))))))
 
-;; alist mapping format symbols (e.g. 'bold) to the corresponding
-;; LilyPond functions (make-bold-markup)
+;; alist mapping format symbols produced by lyrics:expand (e.g. 'bold)
+;; to the corresponding LilyPond functions (make-bold-markup)
 (define markup-formatting-fns
   (append
    ;; custom functions
