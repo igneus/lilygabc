@@ -211,6 +211,8 @@
    (options-to-formatting-fns options)
    standard-markup-formatting-fns))
 
+;; accepts an alist with keys and value types matching lilygabc-global-settings,
+;; builds the markup formatting functions which depend on customizable settings
 (define (options-to-formatting-fns options)
   `((color . ,(cut make-with-color-markup (assoc-ref options 'c-tag-color) <>))
     (verbatim

@@ -6,7 +6,9 @@
   #:use-module (ice-9 regex)
   #:use-module ((lilygabc util) #:prefix util:))
 
-(define header-delimiter "\n%%\r?\n")
+(define header-delimiter-re (make-regexp "\n%%\r?\n"))
+
+(define gabc-syllable-re (make-regexp "([^(]*)\\(([^)]*)\\)"))
 
 ;; Parses gabc string and returns its tree-like representation.
 ;; Score is a list of words.
@@ -18,7 +20,7 @@
 (define-public (parse gabc-str)
   (let*
       ((gabc-body (without-comments (body gabc-str)))
-       (syllables (list-matches "([^(]*)\\(([^)]*)\\)" gabc-body))
+       (syllables (list-matches gabc-syllable-re gabc-body))
        (words
         (util:split-at
          (lambda (x)
@@ -33,6 +35,8 @@
         (match:substring x 2)))
      words)))
 
+(define gly-syllable-re (make-regexp "([^[:space:]\\(]+)|\\(([^\\)]+)\\)"))
+
 ;; gly is a language reimagining the structure of gabc
 ;; (more at https://github.com/igneus/gly ).
 ;; This function doesn't parse the input as a complete
@@ -42,7 +46,7 @@
 ;; and lyrics using LilyPond native syntax.
 (define-public (parse-gly gly-str)
   (let
-      ((syllables (list-matches "([^[:space:]\\(]+)|\\(([^\\)]+)\\)" gly-str)))
+      ((syllables (list-matches gly-syllable-re gly-str)))
     (map
      (lambda (x)
        (list
@@ -53,7 +57,7 @@
      syllables)))
 
 (define (body gabc-str)
-  (let* ((m (string-match header-delimiter gabc-str))
+  (let* ((m (regexp-exec header-delimiter-re gabc-str))
          (delimiter-position (and m (match:end m))))
     (if delimiter-position
         (body (substring gabc-str delimiter-position))
@@ -198,8 +202,10 @@
     ("#" . sharp)
     ("y" . natural)))
 
+(define music-element-re (make-regexp "([cf]b?[1-4])|([a-m][xy#])|(-)?([a-mA-M])([n-yN-Y~<>\\._'0-9]+)?|([,;:`]+)|([!@ ]|/{1,2})|([zZ][+-]?)|\\[([^]]*)\\]|\\|(.*$)"))
+
 (define (parse-music-syllable lyrics music)
-  (let ((matches (list-matches "([cf]b?[1-4])|([a-m][xy#])|(-)?([a-mA-M])([n-yN-Y~<>\\._'0-9]+)?|([,;:`]+)|([!@ ]|/{1,2})|([zZ][+-]?)|\\[([^]]*)\\]|\\|(.*$)" music)))
+  (let ((matches (list-matches music-element-re music)))
     (append
       (if (> (string-length lyrics) 0)
           `((lyrics ,lyrics))
@@ -249,4 +255,3 @@
                   (list (string-join (filter values (list note-shape note-debilis)) ""))
                   '()))))))
        matches))))
-
