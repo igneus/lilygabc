@@ -182,7 +182,7 @@
 
 (define-public (note-ficta-value note)
   (let* ((m (string-match "r([6-8])" (note-additional note)))
-         (num (and m (string->number (match:substring m 1)))))
+         (num (string->number (match:substring m 1))))
     (/ (- num 7) 2))) ; LOL
 
 ;; any note head other than a simple punctum
