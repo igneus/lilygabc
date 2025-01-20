@@ -200,13 +200,10 @@
 
 (define (parse-music-syllable lyrics music)
   (let ((matches (list-matches "([cf]b?[1-4])|([a-m][xy#])|(-)?([a-mA-M])([n-yN-Y~<>\\._'0-9]+)?|([,;:`]+)|([!@ ]|/{1,2})|([zZ][+-]?)|\\[([^]]*)\\]|\\|(.*$)" music)))
-    (filter
-     values
-     (append
-      (list
-       (if (> (string-length lyrics) 0)
-           (list 'lyrics lyrics)
-           #f))
+    (append
+      (if (> (string-length lyrics) 0)
+          `((lyrics ,lyrics))
+          '())
       (map
        (lambda (m)
          (let ((clef (match:substring m 1))
@@ -251,5 +248,5 @@
                   ;;   of note features)
                   (list (string-join (filter values (list note-shape note-debilis)) ""))
                   '()))))))
-       matches)))))
+       matches))))
 
