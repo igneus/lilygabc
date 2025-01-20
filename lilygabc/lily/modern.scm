@@ -151,9 +151,10 @@
    syllable))
 
 (define-public (make-lyrics options words context-id lyrics-type)
-  (let* ((options-with-defaults
-          (append options lilygabc-global-settings))
-         (formatting-functions (build-markup-formatting-fns options-with-defaults)))
+  (let ((formatting-functions
+         (if (null? options)
+             standard-markup-formatting-fns
+             (build-markup-formatting-fns (append options lilygabc-global-settings)))))
     (context-create
      lyrics-type '() '()
      (lyric-combine
@@ -202,32 +203,35 @@
           (make-concat-markup (map (cut build-lyrics-markup formatting-functions <>) parsed-syllable))
           (build-lyrics-markup formatting-functions (first parsed-syllable)))))))
 
-;; accepts an alist with keys and value types matching lilypond-global-settings,
+;; accepts an alist with keys and value types matching lilygabc-global-settings,
 ;; builds an alist mapping format symbols produced by lyrics:expand (e.g. 'bold)
 ;; to the corresponding LilyPond functions (make-bold-markup)
 (define (build-markup-formatting-fns options)
-  (let ((c-tag-color (assoc-ref options 'c-tag-color))
-        (verbatim-tag (assoc-ref options 'verbatim-tag)))
-    (append
-     ;; custom functions
-     `((color . ,(cut make-with-color-markup c-tag-color <>))
-       (verbatim
-        . ,(lambda (tag-body)
-             (case verbatim-tag
-               ((ignore) "")
-               ((as-lilypond) (ly:parse-string-expression (ly:parser-clone) tag-body)) ; TODO add `filename` and `line` optional arguments - is it possible to extract the values from (*location*)?
-               (else (make-typewriter-markup tag-body))))))
-     standard-markup-formatting-fns)))
+  (append
+   (options-to-formatting-fns options)
+   standard-markup-formatting-fns))
+
+(define (options-to-formatting-fns options)
+  `((color . ,(cut make-with-color-markup (assoc-ref options 'c-tag-color) <>))
+    (verbatim
+     . ,(lambda (tag-body)
+          (case (assoc-ref options 'verbatim-tag)
+            ((ignore) "")
+            ((as-lilypond) (ly:parse-string-expression (ly:parser-clone) tag-body)) ; TODO add `filename` and `line` optional arguments - is it possible to extract the values from (*location*)?
+            (else (make-typewriter-markup tag-body)))))))
 
 (define standard-markup-formatting-fns
-  ;; standard LilyPond make-*-markup functions
-  (filter-map
-   (lambda (tagname-sym-pair)
-     (let* ((sym (cdr tagname-sym-pair))
-            (func-name (string->symbol (string-append "make-" (symbol->string sym) "-markup"))))
-       (and (defined? func-name)
-            (cons sym (primitive-eval func-name)))))
-   lyrics:formatting-tags))
+  (append
+   ;; custom functions
+   (options-to-formatting-fns lilygabc-global-settings)
+   ;; standard LilyPond make-*-markup functions
+   (filter-map
+    (lambda (tagname-sym-pair)
+      (let* ((sym (cdr tagname-sym-pair))
+             (func-name (string->symbol (string-append "make-" (symbol->string sym) "-markup"))))
+        (and (defined? func-name)
+             (cons sym (primitive-eval func-name)))))
+    lyrics:formatting-tags)))
 
 ;; recursively translates to markup an element
 ;; of the data structure produced by lyrics:expand
