@@ -30,9 +30,12 @@
          syllables)))
     (util:map2
      (lambda (x)
-       (parse-music-syllable
-        (string-trim-both (match:substring x 1))
-        (match:substring x 2)))
+       (let ((lyrics (string-trim-both (match:substring x 1))))
+         (append
+          (if (string-null? lyrics)
+              '()
+              `((lyrics ,lyrics)))
+          (parse-music-syllable (match:substring x 2)))))
      words)))
 
 (define gly-syllable-re (make-regexp "([^[:space:]\\(]+)|\\(([^\\)]+)\\)"))
@@ -51,7 +54,6 @@
      (lambda (x)
        (list
         (parse-music-syllable
-         ""
          (or (match:substring x 1)
              (match:substring x 2)))))
      syllables)))
@@ -204,54 +206,52 @@
 
 (define music-element-re (make-regexp "([cf]b?[1-4])|([a-m][xy#])|(-)?([a-mA-M])([n-yN-Y~<>\\._'0-9]+)?|([,;:`]+)|([!@ ]|/{1,2})|([zZ][+-]?)|\\[([^]]*)\\]|\\|(.*$)"))
 
-(define (parse-music-syllable lyrics music)
-  (let ((matches (list-matches music-element-re music)))
-    (append
-      (if (> (string-length lyrics) 0)
-          `((lyrics ,lyrics))
-          '())
-      (map
-       (lambda (m)
-         (let ((clef (match:substring m 1))
-               (accidental (match:substring m 2))
-               (note-debilis (match:substring m 3))
-               (note (match:substring m 4))
-               (note-shape (match:substring m 5))
-               (divisio (match:substring m 6))
-               (space (match:substring m 7))
-               (line-break (match:substring m 8))
-               (square-brackets (match:substring m 9))
-               (nabc (match:substring m 10)))
-           (cond
-            (clef
-             (list 'clef
-                   (substring clef 0 1)
-                   (string->number (substring (string-reverse clef) 0 1))
-                   (> (string-length clef) 2)))
-            (accidental
-             (list 'accidental
-                   (substring accidental 0 1)
-                   (assoc-ref accidentals (substring accidental 1 2))))
-            (divisio
-             (list 'divisio divisio))
-            (space
-             (list 'space space))
-            (line-break
-             (list 'line-break line-break))
-            (square-brackets
-             (list 'square-brackets square-brackets))
-            (nabc
-             (list 'nabc nabc))
-            (else
-             (append
-              (list 'note note)
-              (if (or note-shape note-debilis)
-                  ;; TODO: check if it is safe to append the "-"
-                  ;;   of initium debilis to the end of the shape
-                  ;;   specifying characters or if it also has other
-                  ;;   uses beyond in. deb. and must be handled differently
-                  ;;   (probably by redesigning the parsed representation
-                  ;;   of note features)
-                  (list (string-join (filter values (list note-shape note-debilis)) ""))
-                  '()))))))
-       matches))))
+(define (parse-music-syllable music)
+  (fold-matches
+   music-element-re music '()
+   (lambda (m memo)
+     (let ((clef (match:substring m 1))
+           (accidental (match:substring m 2))
+           (note-debilis (match:substring m 3))
+           (note (match:substring m 4))
+           (note-shape (match:substring m 5))
+           (divisio (match:substring m 6))
+           (space (match:substring m 7))
+           (line-break (match:substring m 8))
+           (square-brackets (match:substring m 9))
+           (nabc (match:substring m 10)))
+       (append
+        memo
+        (list
+         (cond
+          (clef
+           (list 'clef
+                 (substring clef 0 1)
+                 (string->number (substring (string-reverse clef) 0 1))
+                 (> (string-length clef) 2)))
+          (accidental
+           (list 'accidental
+                 (substring accidental 0 1)
+                 (assoc-ref accidentals (substring accidental 1 2))))
+          (divisio
+           (list 'divisio divisio))
+          (space
+           (list 'space space))
+          (line-break
+           (list 'line-break line-break))
+          (square-brackets
+           (list 'square-brackets square-brackets))
+          (nabc
+           (list 'nabc nabc))
+          (else
+           (append
+            (list 'note note)
+            (if (or note-shape note-debilis)
+                ;; TODO: check if it is safe to append the "-"
+                ;;   of initium debilis to the end of the shape
+                ;;   specifying characters or if it also has other
+                ;;   uses beyond in. deb. and must be handled differently
+                ;;   (probably by redesigning the parsed representation
+                ;;   of note features)
+                (list (string-join (filter values (list note-shape note-debilis)) ""))
+                '()))))))))))
