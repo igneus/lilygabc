@@ -95,7 +95,7 @@
                    (('line-break type)
                     (list l:break))
                    (('unrecognized token)
-                    (ly:warning (string-append "Unrecognized gabc music element: " token)) ; TODO report source code location
+                    (unrecognized-element-warning token (*location*))
                     #f)
                    (any #f)))
                items-with-episema-events))))))
@@ -247,3 +247,9 @@
    (else
     (let ((markup-func (assq-ref formatting-functions (car arg))))
       (markup-func (build-lyrics-markup formatting-functions (cdr arg)))))))
+
+(define-public (unrecognized-element-warning str location)
+  (let ((loc-list (ly:input-file-line-char-column (*location*))))
+    (ly:warning-located
+     (format #f "~a:~a" (first loc-list) (second loc-list))
+     (format #f "Unrecognized gabc music element: ~a" str))))
