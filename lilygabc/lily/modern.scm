@@ -94,6 +94,9 @@
                           default-bar))))
                    (('line-break type)
                     (list l:break))
+                   (('unrecognized token)
+                    (ly:warning (string-append "Unrecognized gabc music element: " token)) ; TODO report source code location
+                    #f)
                    (any #f)))
                items-with-episema-events))))))
        (util:flatten enhanced-score))))))

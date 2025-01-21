@@ -483,6 +483,14 @@ allGabcNotes = " (a) (b) (c) (d) (e) (f) (g) (h) (i) (j) (k) (l) (m)"
     \score { { g'4( g' g') } }
     \score { \gabc "(c4) (gsss)" }
   }
+
+  \markup\fill-line{
+    % @test unrecognized music element (triggers a warning)
+    \score { { g'4 } }
+    \score { \gabc "(c4) (g&)" }
+
+    "" ""
+  }
 }
 
 \bookpart {

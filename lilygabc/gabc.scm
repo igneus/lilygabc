@@ -207,51 +207,60 @@
 (define music-element-re (make-regexp "([cf]b?[1-4])|([a-m][xy#])|(-)?([a-mA-M])([n-yN-Y~<>\\._'0-9]+)?|([,;:`]+)|([!@ ]|/{1,2})|([zZ][+-]?)|\\[([^]]*)\\]|\\|(.*$)"))
 
 (define (parse-music-syllable music)
-  (fold-matches
-   music-element-re music '()
-   (lambda (m memo)
-     (let ((clef (match:substring m 1))
-           (accidental (match:substring m 2))
-           (note-debilis (match:substring m 3))
-           (note (match:substring m 4))
-           (note-shape (match:substring m 5))
-           (divisio (match:substring m 6))
-           (space (match:substring m 7))
-           (line-break (match:substring m 8))
-           (square-brackets (match:substring m 9))
-           (nabc (match:substring m 10)))
-       (append
-        memo
-        (list
-         (cond
-          (clef
-           (list 'clef
-                 (substring clef 0 1)
-                 (string->number (substring (string-reverse clef) 0 1))
-                 (> (string-length clef) 2)))
-          (accidental
-           (list 'accidental
-                 (substring accidental 0 1)
-                 (assoc-ref accidentals (substring accidental 1 2))))
-          (divisio
-           (list 'divisio divisio))
-          (space
-           (list 'space space))
-          (line-break
-           (list 'line-break line-break))
-          (square-brackets
-           (list 'square-brackets square-brackets))
-          (nabc
-           (list 'nabc nabc))
-          (else
-           (append
-            (list 'note note)
-            (if (or note-shape note-debilis)
-                ;; TODO: check if it is safe to append the "-"
-                ;;   of initium debilis to the end of the shape
-                ;;   specifying characters or if it also has other
-                ;;   uses beyond in. deb. and must be handled differently
-                ;;   (probably by redesigning the parsed representation
-                ;;   of note features)
-                (list (string-join (filter values (list note-shape note-debilis)) ""))
-                '()))))))))))
+  (let ((m (regexp-exec music-element-re music)))
+    (if (not m)
+        (if (string-null? music)
+            '()
+            `((unrecognized ,music)))
+        (let* ((prefixx (match:prefix m))
+               (suffixx (match:suffix m))
+               (clef (match:substring m 1))
+               (accidental (match:substring m 2))
+               (note-debilis (match:substring m 3))
+               (note (match:substring m 4))
+               (note-shape (match:substring m 5))
+               (divisio (match:substring m 6))
+               (space (match:substring m 7))
+               (line-break (match:substring m 8))
+               (square-brackets (match:substring m 9))
+               (nabc (match:substring m 10)))
+          (append
+           (if (not (string-null? prefixx))
+               `((unrecognized ,prefixx))
+               '())
+           (list
+            (cond
+             (clef
+              (list 'clef
+                    (substring clef 0 1)
+                    (string->number (substring (string-reverse clef) 0 1))
+                    (> (string-length clef) 2)))
+             (accidental
+              (list 'accidental
+                    (substring accidental 0 1)
+                    (assoc-ref accidentals (substring accidental 1 2))))
+             (divisio
+              (list 'divisio divisio))
+             (space
+              (list 'space space))
+             (line-break
+              (list 'line-break line-break))
+             (square-brackets
+              (list 'square-brackets square-brackets))
+             (nabc
+              (list 'nabc nabc))
+             (else
+              (append
+               (list 'note note)
+               (if (or note-shape note-debilis)
+                   ;; TODO: check if it is safe to append the "-"
+                   ;;   of initium debilis to the end of the shape
+                   ;;   specifying characters or if it also has other
+                   ;;   uses beyond in. deb. and must be handled differently
+                   ;;   (probably by redesigning the parsed representation
+                   ;;   of note features)
+                   (list (string-join (filter values (list note-shape note-debilis)) ""))
+                   '())))))
+           (if (or (not suffixx) (string-null? suffixx))
+               '()
+               (parse-music-syllable suffixx)))))))

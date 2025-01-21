@@ -165,7 +165,17 @@
  ;; rendering settings and other features in square brackets
  ;; (in the music)
  (test-equal '((((note "e") (note "d") (square-brackets "ll:1"))))
-             (parse "(ed[ll:1])")))
+             (parse "(ed[ll:1])"))
+
+ ;; unrecognized tokens
+ (test-equal '((((unrecognized "&") (note "g"))))
+             (parse "(&g)"))
+ (test-equal '((((note "g") (unrecognized "&"))))
+             (parse "(g&)"))
+ (test-equal '((((note "g") (unrecognized "&") (note "h"))))
+             (parse "(g&h)"))
+ (test-equal '((((unrecognized "&"))))
+             (parse "(&)")))
 
 (test-group
  "parse-gly"

@@ -77,6 +77,9 @@
                    (list (make-music
                           'LigatureEvent
                           'span-direction (if (eq? 'open event) -1 1))))
+                  (('unrecognized token)
+                    (ly:warning (string-append "Unrecognized gabc music element: " token)) ; TODO report source code location
+                    '())
                   (any '())))
               items-with-episema-events))))))
       syllables))))

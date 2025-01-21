@@ -433,6 +433,14 @@
     \score { \new VaticanaVoice { \clef "vaticana-do3" \[ g\episemInitium\melisma \pes a \flexa g\episemFinis\melismaEnd \] } }
     \score { \gabc-vaticana "(c4) (g_h_g_)" }
   }
+
+  \markup\fill-line{
+    % @test unrecognized music element (triggers a warning)
+    \score { \new VaticanaVoice { \clef "vaticana-do3" g } }
+    \score { \gabc-vaticana "(c4) (g&)" }
+
+    "" ""
+  }
 }
 
 \bookpart {
