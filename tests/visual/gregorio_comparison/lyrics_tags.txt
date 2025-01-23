@@ -2,12 +2,9 @@
 
 # formatting
 
-A(g) <b>A</b>(g) <i>A</i>(g)
-<ul>A</ul>(g) <c>A</c>(g) <sc>Aa</sc>(g)
-<tt>A</tt>(g)
+A(g) <b>A</b>(g) <i>A</i>(g) <ul>A</ul>(g) <c>A</c>(g) <sc>Aa</sc>(g) <tt>A</tt>(g)
 
 # special characters
 
 <sp>R/</sp>(g) <sp>V/</sp>(g) <sp>A/</sp>(g)
-<sp>AE</sp>(g) <sp>ae</sp>(g) <sp>'ae</sp>(g)
-<sp>OE</sp>(g) <sp>oe</sp>(g) <sp>'oe</sp>(g)
+<sp>AE</sp>(g) <sp>ae</sp>(g) <sp>'ae</sp>(g) <sp>OE</sp>(g) <sp>oe</sp>(g) <sp>'oe</sp>(g)

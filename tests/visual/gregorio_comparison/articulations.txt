@@ -1,11 +1,4 @@
 = Articulations
 
-(g.)
-(g..)
-(g_)
-(g')
-(gr1)
-(gr2)
-(gr3)
-(gr4)
-(gr5)
+(g.) (g..)
+(g_) (g') (gr1) (gr2) (gr3) (gr4) (gr5)

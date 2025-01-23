@@ -1,29 +1,14 @@
 = Note shapes
 
 (g)
-(G)
-(G0)
-(G1)
-(G2)
-(G~)
-(G>)
-(go)
-(go~)
-(gw)
-(gv)
-(gV)
-(gvv)
-(gvvv)
-(gs)
-(gs<)
-(gss)
-(gsss)
-(g~)
-(-g)
-(g<)
-(g>)
-(g=)
-(gr)
-(gR)
-(gr0)
-(Gr)
+# punctum inclinatum variants
+(G) (G0) (G1) (G2) (G~) (G>)
+# oriscus, quilisma
+(go) (go~) (gw)
+# virga
+La(gv) La(gV) La(gvv) La(gvvv)
+# stropha
+La(gs) La(gs<) La(gss) La(gsss)
+(g~) (-g) (g<) (g>)
+# funky practical edition stuff
+(g=) (gr) (gR) (gr0) (Gr)
