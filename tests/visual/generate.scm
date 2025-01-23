@@ -23,6 +23,8 @@
 \\usepackage[usenames]{xcolor}
 \\colorlet{shadecolor}{white}
 
+\\usepackage{spverbatim}
+
 \\gresetinitiallines{0}
 
 \\title{lilygabc visual tests: comparison with gregorio}
@@ -34,7 +36,7 @@
 \\noindent
 \\begin{minipage}[t]{0.25\\textwidth}
   % gabc as text
-  \\mbox{}\\vspace*{3.5mm}\\begin{verbatim}" "\\end{verbatim}
+  \\mbox{}\\vspace*{3.5mm}\\begin{spverbatim}" "\\end{spverbatim}
 \\end{minipage}
 \\begin{minipage}[t]{0.25\\textwidth}
   % Gregorio
