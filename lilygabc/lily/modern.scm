@@ -167,7 +167,8 @@
        (append
         (append-map
          (lambda (word)
-           (let ((lyrics
+           (let ((custom-special-chars (or (assoc-ref options 'special-characters) '()))
+                 (lyrics
                   (filter-map
                    (lambda (syllable)
                      (cond
@@ -179,10 +180,16 @@
                    word)))
              (map
               (lambda (lyr)
-                (let ((lyric
-                       (make-lyric-event
-                        (apply-lyrics-formatting formatting-functions (lyrics:expand (second lyr)))
-                        (ly:make-duration 2))))
+                (let* ((lyr-str
+                        (apply-lyrics-formatting
+                         formatting-functions
+                         (lyrics:expand
+                          (second lyr)
+                          #:custom-special-chars custom-special-chars)))
+                       (lyric
+                        (make-lyric-event
+                         lyr-str
+                         (ly:make-duration 2))))
                   (when (and (> (length word) 1)
                              (not (eq? lyr (last lyrics))))
                     (set! (ly:music-property lyric 'articulations)

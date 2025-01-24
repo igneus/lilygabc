@@ -45,6 +45,11 @@
              (expand-special-chars "<sp>'æ</sp>"))
  (test-equal "œ́"
              (expand-special-chars "<sp>'oe</sp>"))
+
+ ;; custom defined
+ ;; (works and doesn't cancel the predefined ones)
+ (test-equal "ý ℟"
+             (expand-special-chars "<sp>'y</sp> <sp>R/</sp>" #:custom '(("'y" . "ý"))))
  )
 
 (test-group

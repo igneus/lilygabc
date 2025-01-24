@@ -729,9 +729,17 @@ allGabcNotes = " (a) (b) (c) (d) (e) (f) (g) (h) (i) (j) (k) (l) (m)"
     \score { { g'4 } \addlyrics { Æ } }
     \score { \gabc "(c4) <sp>AE</sp>(g)" }
 
+    % @test custom special character
+    \score { { g'4 } \addlyrics { ý } }
+    \score { \gabc #'((special-characters . (("'y" . "ý")))) "(c4) <sp>'y</sp>(g)" }
+  }
+
+  \markup\fill-line{
     % @test manual vowel marking for lyrics alignment (ignored, removed)
     \score { { g'4 } \addlyrics { La } }
     \score { \gabc "(c4) L{a}(g)" }
+
+    "" ""
   }
 }
 

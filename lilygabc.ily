@@ -20,6 +20,14 @@ lilygabcGlobalSettings =
     ;; 'ignore - ignore the whole tag
     ;; 'as-lilypond - evaluate as LilyPond code
     (verbatim-tag . print)
+
+    ;; alist of custom special characters recognized by the <sp> tag.
+    ;; Serves the same purpose as Gregorio's \gresetspecial.
+    ;; Both keys and values must be strings.
+    ;; e.g.
+    ;; (special-characters . (("'y" . "ý") ("'Y" . "Ý"))
+    ;; adds support for <sp>'y</sp> and <sp>'Y</sp>
+    (special-characters . ())
     )
 
 \include "lilypond-globals-export.ily"

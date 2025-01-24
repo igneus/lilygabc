@@ -27,17 +27,20 @@
     ("+"   . "†")))
 
 ;; main entry point
-(define-public (expand str)
-  (process-formatting (remove-braces (expand-special-chars str))))
+(define*-public (expand str #:key (custom-special-chars '()))
+  (process-formatting
+   (remove-braces
+    (expand-special-chars str #:custom custom-special-chars))))
 
-(define-public (expand-special-chars str)
-  (regexp-substitute/global
-   #f sp-tag-re str
-   'pre
-   (lambda (m)
-     (or (assoc-ref special-chars (match:substring m 1))
-         (match:substring m 0)))
-   'post))
+(define*-public (expand-special-chars str #:key (custom '()))
+  (let ((mapping (append custom special-chars)))
+    (regexp-substitute/global
+     #f sp-tag-re str
+     'pre
+     (lambda (m)
+       (or (assoc-ref mapping (match:substring m 1))
+           (match:substring m 0)))
+     'post)))
 
 (define-public formatting-tags
   '(("b"  . bold)
