@@ -47,8 +47,9 @@ For running tests:
 For building the Gregorio vs. lilygabc visual test (`make visual_tex`):
 
 - LuaLaTex
-- the lyluatex package
+- the [lyluatex](https://ctan.org/pkg/lyluatex) package
 - Gregorio
+- Guile GnuTLS bindings (Debian: `apt-get install guile-gnutls`)
 
 ## Usage
 
