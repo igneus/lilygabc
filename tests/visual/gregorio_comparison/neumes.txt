@@ -1,0 +1,48 @@
+= Neumes
+
+#
+# reproducing the table from Liber hymnarius, p. XII, from row 5 on
+# (i.e. skipping the simple notes):
+#
+
+# clivis
+La(hf) La(gf>) La(gf<) La(hf~)
+
+# podatus
+La(fh) La(fh>) La(fg<) La(fh~)
+
+# pes quassus
+La(foh) La(fog>)
+
+# quilisma pes
+La(gwh) La(gwh>)
+
+# podatus initio debilis
+La(-g!hv) La(-fh>)
+
+# torculus
+La(ghe) La(fhg>) La(fhg~)
+
+# torculus initio debilis
+La(-ghg) La(-fhf>) La(-fhg~)
+
+# porrectus
+La(gfh) La(gfg>) La(hfh~)
+
+# climacus
+La(hvGF) La(hvGF>) La(hvGF~)
+
+# scandicus
+La(fh!iv) La(f!g!h>) La(fhi~)
+
+# salicus
+La(e!foh) La(f!go!h>)
+
+# trigonus
+La(GGF)
+
+#
+# default grouping when no neumatic divisions are provided
+#
+
+La(fgh) La(fghi) La(efghi) La(hghg)
