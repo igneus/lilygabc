@@ -1,6 +1,6 @@
 = Accidentals
 
-(gxg g#g gyg)
+(gxg) (g#g) (gyg)
 
 = Musica ficta
 
