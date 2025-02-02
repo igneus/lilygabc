@@ -655,6 +655,14 @@ allGabcNotes = " (a) (b) (c) (d) (e) (f) (g) (h) (i) (j) (k) (l) (m)"
   }
 
   \markup\fill-line{
+    % @test tag spanning multiple syllables
+    \score { { g'4 g' } \addlyrics { \markup\bold{La} \markup\bold{la} } }
+    \score { \gabc "(c4) <b>La(g) la</b>(g)" }
+
+    "" ""
+  }
+
+  \markup\fill-line{
     % @test colour - default
     \score { { g'4 } \addlyrics { \markup\with-color #red {La} } }
     \score { \gabc "(c4) <c>La</c>(g)" }

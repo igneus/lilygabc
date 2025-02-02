@@ -26,11 +26,23 @@
     ("OE"  . "Œ")
     ("+"   . "†")))
 
-;; main entry point
-(define*-public (expand str #:key (custom-special-chars '()))
-  (process-formatting
-   (remove-braces
-    (expand-special-chars str #:custom custom-special-chars))))
+;; Main entry point.
+;; Returns a function which accepts a lyric syllable as string
+;; and returns it expanded.
+;; The function is not thread-safe, must be used on syllables
+;; in order and only for a single score, as it's stateful
+;; and keeps track of formatting tags spanning multiple syllables.
+(define*-public (expander #:key (custom-special-chars '()))
+  (let ((active-formats '()))
+    (lambda (str)
+      (let
+          ((r (expand-formatting
+               '()
+               (remove-braces
+                (expand-special-chars str #:custom custom-special-chars))
+               active-formats)))
+        (set! active-formats (car r))
+        (cdr r)))))
 
 (define*-public (expand-special-chars str #:key (custom '()))
   (let ((mapping (append custom special-chars)))
@@ -53,19 +65,21 @@
 
 (define tag-re (make-regexp "<(/)?([^>]+)>"))
 
-(define (formatting-inner result str active-formats)
+(define-public (expand-formatting result str active-formats)
   (let ((m (regexp-exec tag-re str)))
     (if m
-        (formatting-inner
+        (expand-formatting
          (let ((pre-str (match:prefix m)))
            (if (string-null? pre-str)
                result
                (append result (list (apply-formats active-formats pre-str)))))
          (match:suffix m)
          (update-active-formats (not (match:substring m 1)) (match:substring m 2) active-formats))
-        (if (string-null? str)
-            result
-            (append result (list str))))))
+        (cons
+         active-formats
+         (if (string-null? str)
+             result
+             (append result (list (apply-formats active-formats str))))))))
 
 (define (update-active-formats is-addition tag-name active-formats)
   (let* ((format-sym (assoc-ref formatting-tags tag-name))
@@ -84,9 +98,6 @@
   (if (null? formats)
       str
       (append formats (list str))))
-
-(define-public (process-formatting str)
-  (formatting-inner '() str '()))
 
 ;; removes curly braces except those inside <v></v> tags
 (define*-public (remove-braces str #:optional (in-verbatim #f))

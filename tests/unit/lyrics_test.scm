@@ -52,6 +52,9 @@
              (expand-special-chars "<sp>'y</sp> <sp>R/</sp>" #:custom '(("'y" . "ý"))))
  )
 
+(define-public (process-formatting str)
+  (cdr (expand-formatting '() str '())))
+
 (test-group
  "process-formatting"
  (test-equal '("no formatting")
@@ -71,7 +74,7 @@
 
  ;; how non-standard tag structures are handled
  ;; (Gregorio segfaults on most of these)
- (test-equal '("text")
+ (test-equal '((bold "text"))
              (process-formatting "<b>text"))
  (test-equal '("text")
              (process-formatting "text</b>"))
@@ -81,6 +84,13 @@
  ;; unsupported tag
  (test-equal '("te" "xt") ; breaks the string in two, but does not add any formatting
              (process-formatting "te<s>xt</s>"))
+ )
+
+(test-group
+ "expand"
+ ;; tag spanning multiple syllables
+ (test-equal '(((bold "La")) ((bold "La")) ("La"))
+             (map (expander) '("<b>La" "La</b>" "La")))
  )
 
 (test-group

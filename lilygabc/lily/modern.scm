@@ -154,10 +154,15 @@
    syllable))
 
 (define-public (make-lyrics options words context-id lyrics-type)
-  (let ((formatting-functions
-         (if (null? options)
-             standard-markup-formatting-fns
-             (build-markup-formatting-fns (append options lilygabc-global-settings)))))
+  (let*
+      ((formatting-functions
+        (if (null? options)
+            standard-markup-formatting-fns
+            (build-markup-formatting-fns (append options lilygabc-global-settings))))
+       (custom-special-chars
+        (or (assoc-ref options 'special-characters) '()))
+       (expand-lyrics
+        (lyrics:expander #:custom-special-chars custom-special-chars)))
     (context-create
      lyrics-type '() '()
      (lyric-combine
@@ -167,8 +172,7 @@
        (append
         (append-map
          (lambda (word)
-           (let ((custom-special-chars (or (assoc-ref options 'special-characters) '()))
-                 (lyrics
+           (let ((lyrics
                   (filter-map
                    (lambda (syllable)
                      (cond
@@ -183,9 +187,7 @@
                 (let* ((lyr-str
                         (apply-lyrics-formatting
                          formatting-functions
-                         (lyrics:expand
-                          (second lyr)
-                          #:custom-special-chars custom-special-chars)))
+                         (expand-lyrics (second lyr))))
                        (lyric
                         (make-lyric-event
                          lyr-str
