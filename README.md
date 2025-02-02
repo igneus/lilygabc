@@ -42,7 +42,7 @@ For running tests:
 - Bash
 - GNU Make (or compatible)
 - diff (from GNU diffutils or compatible)
-- optionally [Guile Library](https://www.nongnu.org/guile-lib/doc/) (for colourful test results)
+- optionally [Guile Library](https://www.nongnu.org/guile-lib/doc/) for colourful test results (Debian: `apt-get install guile-library`)
 
 For building the Gregorio vs. lilygabc visual test (`make visual_tex`):
 
