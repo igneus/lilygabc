@@ -729,19 +729,16 @@ size-example-score = "(c4) A(ghg)men.(fg)"
     subsubtitle = "integrating in - and interacting with - other LilyPond constructs"
   }
 
-  %% TODO Constructs like this are possible with the modern notation functions,
-  %% but not with square notation.
-  %
-  % \score {
-  %   <<
-  %     \new VaticanaVoice = "v" { \gabc-vaticana "(c4) (ghg) (fg) (::)" }
-  %     \new VaticanaLyrics \lyricsto "v" { A -- men. }
-  %     \new VaticanaLyrics \lyricsto "v" { La -- la. }
-  %   >>
-  %   \header {
-  %     piece = "gabc music + LilyPond lyrics"
-  %   }
-  % }
+  \score {
+    <<
+      \gabc-vaticana #'((produce . voice) (voice-id . "v")) "(c4) (ghg) (fg) (::)"
+      \new VaticanaLyrics \lyricsto "v" { A -- men. }
+      \new VaticanaLyrics \lyricsto "v" { La -- la. }
+    >>
+    \header {
+      piece = "gabc music + LilyPond lyrics"
+    }
+  }
 }
 
 \bookpart {
