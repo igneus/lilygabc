@@ -4,15 +4,11 @@
 
 \version "2.24.0"
 
-\include "../lilygabc.ily"
-
 #(begin
   (use-modules (srfi srfi-98))
   (define input-file (get-environment-variable "GABC2LY_INPUT_FILE"))
   (define as-vaticana (get-environment-variable "GABC2LY_VATICANA"))
-  (define as-scheme (get-environment-variable "GABC2LY_SCHEME"))
-  (define render-fn (if as-vaticana gabc-vaticana-file gabc-file))
-  (define display-fn (if as-scheme displayMusic displayLilyMusic)))
+  (define as-scheme (get-environment-variable "GABC2LY_SCHEME")))
 
 %% Conditional \include : neither of
 %%
@@ -22,5 +18,11 @@
 %% works.
 #(when as-vaticana
   (ly:parser-include-string "\\include \"gregorian.ly\""))
+
+\include "../lilygabc.ily"
+
+#(begin
+  (define render-fn (if as-vaticana gabc-vaticana-file gabc-file))
+  (define display-fn (if as-scheme displayMusic displayLilyMusic)))
 
 \void \display-fn \render-fn #input-file
