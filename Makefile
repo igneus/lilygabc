@@ -20,5 +20,19 @@ test-regression:
 test-structures:
 	cd tests/lily_structures && ./test.sh --lily-only
 
+GABC2LY=bin/gabc2ly
+INPUT=tests/examples/aquam_quam_ego.gabc
+
+# Smoke test gabc2ly
+test-gabc2ly:
+	$(GABC2LY) --help
+	$(GABC2LY) $(INPUT)
+	$(GABC2LY) --scheme $(INPUT)
+	$(GABC2LY) --vaticana $(INPUT)
+	$(GABC2LY) --vaticana --scheme $(INPUT)
+
 # All automated tests
 test: test-unit test-structures
+
+# All tests, including the particularly slow ones
+test-all: test test-gabc2ly
