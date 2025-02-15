@@ -565,17 +565,17 @@ allGabcNotes = " (a) (b) (c) (d) (e) (f) (g) (h) (i) (j) (k) (l) (m)"
   }
 
   \markup\fill-line{
-    % @test : lyrics with no music
+    % @test lyrics with no music
     \score { { g'4 { \once \hideNotes g' } g' } \addlyrics { La "*" la } }
     \score { \gabc "(c4) La(g) *() la(g)" }
 
-    % @test : music with no lyrics
+    % @test music with no lyrics
     \score { { g'4 g' g' } \addlyrics { La "" la } }
     \score { \gabc "(c4) La(g) (g) la(g)" }
   }
 
   \markup\fill-line{
-    % @test : void syllable
+    % @test void syllable
     \score { { g'4 \bar "" g' } \addlyrics { La la } }
     \score { \gabc "(c4) La(g) () la(g)" }
 
@@ -595,7 +595,7 @@ allGabcNotes = " (a) (b) (c) (d) (e) (f) (g) (h) (i) (j) (k) (l) (m)"
   }
 
   \markup\fill-line{
-    % @test : divisio inside a music syllable
+    % @test divisio inside a music syllable
     \score { { g'4( a' g' \bar "'" g' c'') c'' } \addlyrics { La la } }
     \score { \gabc "(c4) La(ghg,gj) la(j)" }
 
