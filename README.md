@@ -1,27 +1,36 @@
 # lilygabc
 
-LilyPond library which translates chant scores encoded in the
-[gabc][gabc] format to LilyPond data structures,
-allowing easy inclusion of gabc scores in LilyPond documents.
-This kind of easy:
+lilygabc is a LilyPond library allowing direct inclusion
+of chant scores encoded in the [gabc][gabc] format
+in LilyPond documents:
 
 ```lilypond
 \include "lilygabc.ily"
 
+% gabc file
 \score {
   \gabc-file "path/to/score.gabc"
 }
+
+% inline gabc
+\score {
+  \gabc "(c3) A(h)men.(h) (::)"
+}
 ```
 
-Originally inspired by [this forum post](https://forum.musicasacra.com/forum/discussion/comment/256478#Comment_256478).
-Given the vast amount of chant transcriptions available
+Internally lilygabc parses the gabc format and translates it
+to LilyPond data structures, which are then engraved by LilyPond.
+The Gregorio software is not involved in the process.
+
+Creation of lilygabc was originally inspired by [this forum post](https://forum.musicasacra.com/forum/discussion/comment/256478#Comment_256478):
+given the vast amount of chant transcriptions available
 in the gabc format, it makes sense to provide first class support
 for this music encoding format in LilyPond.
 
 While LilyPond is not the first option for chant typesetting
 in terms of output quality, there are still plenty of use cases
 where a convenient way to include existing gabc scores
-is useful.
+in a LilyPond document is useful.
 
 ## Prerequisites
 
@@ -137,18 +146,23 @@ control over *if* and *when* these changes are applied.)
 [![Example output: square notation](/doc/vaticana-example.png)](/doc/vaticana-example.ly)
 
 (The square notation support in lilygabc is still very much a work
-in progress, limits of what LilyPond can do haven't been reached yet.)
+in progress, limits of what LilyPond can do haven't been reached yet.
+For supported gabc features see visual tests.
+Features not covered by tests are not supported.)
 
 ### Conversion script
 
 A script is provided, which simply dumps the music structures
 built by lilygabc as either LilyPond or Scheme code.
-Be warned that the code thus produced is rather ugly.
+It's useful mainly for troubleshooting purposes, providing insight
+into the music structures produced internally by lilygabc.
+The resulting LilyPond code is not beautiful (to put it mildly)
+and sometimes not even compilable without manual clean-up.
 
 ```sh
-$ ./bin/gabc2ly gabc_file.gabc
-$ ./bin/gabc2ly --scheme gabc_file.gabc
-$ ./bin/gabc2ly --vaticana gabc_file.gabc
+$ ./bin/gabc2ly gabc_file.gabc            # modern notation, LilyPond syntax
+$ ./bin/gabc2ly --scheme gabc_file.gabc   # modern notation, Scheme
+$ ./bin/gabc2ly --vaticana gabc_file.gabc # square notation, LilyPond
 ```
 
 ## Running tests
