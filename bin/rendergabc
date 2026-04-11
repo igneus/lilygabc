@@ -1,0 +1,46 @@
+#!/usr/bin/env bash
+
+# Takes path of a gabc file, renders it using LilyPond
+
+POSITIONAL_ARGS=()
+LILYPOND_OPTS=()
+
+while [[ $# -gt 0 ]]; do
+    case $1 in
+        -V|--vaticana)
+            export RENDERGABC_VATICANA=1
+            shift
+            ;;
+        -h|--help)
+            echo "rendergabc [options] <input_file.gabc>"
+            echo
+            echo "Renders a gabc file using lilygabc"
+            echo
+            echo "-V --vaticana Produce square notation"
+            echo ""
+            echo "   --pdf      Generate PDF (default)"
+            echo "   --svg      Generate SVG"
+            echo "   --png      Generate PNG"
+            echo "   --ps       Generate PostScript"
+            echo ""
+            echo "-h --help     Print this help"
+            exit
+            ;;
+        -*|--*)
+            LILYPOND_OPTS+=("$1")
+            shift
+            ;;
+        *)
+            POSITIONAL_ARGS+=("$1")
+            shift
+            ;;
+    esac
+done
+
+set -- "${POSITIONAL_ARGS[@]}" # restore positional parameters
+
+export RENDERGABC_INPUT_FILE=$1
+OUTFILE=$(echo "$RENDERGABC_INPUT_FILE" | xargs basename | sed -E 's/(.gabc)?$//')
+
+BIN_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
+lilypond --output=$OUTFILE $LILYPOND_OPTS $BIN_DIR/rendergabc.ly

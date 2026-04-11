@@ -150,9 +150,9 @@ in progress, limits of what LilyPond can do haven't been reached yet.
 For supported gabc features see visual tests.
 Features not covered by tests are not supported.)
 
-### Conversion script
+### Scripts
 
-A script is provided, which simply dumps the music structures
+`gabc2ly` accepts path of a gabc file and dumps the music structures
 built by lilygabc as either LilyPond or Scheme code.
 It's useful mainly for troubleshooting purposes, providing insight
 into the music structures produced internally by lilygabc.
@@ -163,6 +163,16 @@ and sometimes not even compilable without manual clean-up.
 $ ./bin/gabc2ly gabc_file.gabc            # modern notation, LilyPond syntax
 $ ./bin/gabc2ly --scheme gabc_file.gabc   # modern notation, Scheme
 $ ./bin/gabc2ly --vaticana gabc_file.gabc # square notation, LilyPond
+```
+
+`rendergabc` accepts a gabc file path and renders it
+in any of the output formats supported by LilyPond.
+
+```sh
+$ ./bin/rendergabc gabc_file.gabc                  # modern notation, PDF
+$ ./bin/rendergabc --svg gabc_file.gabc            # modern notation, SVG
+$ ./bin/rendergabc --vaticana gabc_file.gabc       # square notation, PDF
+$ ./bin/rendergabc --vaticana --png gabc_file.gabc # square notation, PNG
 ```
 
 ## Running tests
