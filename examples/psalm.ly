@@ -1,5 +1,8 @@
 \version "2.24.1"
 
+% Psalm: multiple lines of lyrics, aligning varying amount of syllables
+% to the notation of a universal pattern.
+
 \header {
   title = "Psalmus 117 (116)"
   subtitle = "(Nova Vulgata)"

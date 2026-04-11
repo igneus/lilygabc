@@ -1,5 +1,7 @@
 \version "2.24.1"
 
+% Organ accompaniment: combining gabc music with other LilyPond music
+
 \header {
   title = "Organ accompaniment"
   subtitle =

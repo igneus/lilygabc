@@ -1,5 +1,7 @@
 \version "2.24.1"
 
+% Hymns: gabc music extended with additional lines of lyrics
+
 \header {
   title = "Hymns"
   tagline = ##f

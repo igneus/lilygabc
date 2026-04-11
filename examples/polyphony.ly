@@ -1,5 +1,11 @@
 \version "2.24.1"
 
+% Simple medieval polyphony:
+% - gly music syntax (gabc without lyrics => without the ubiquitous parantheses)
+% - lilygabc-produced music used as component of a more complex LilyPond construct
+%   (two staffs with lyrics in between)
+% - transforming the lilygabc-produced music with a LilyPond music function
+
 \header {
   title = "Polyphony"
   subtitle = \markup{Amen ad hymnum de S. Ludmilla \italic{Lux vera lucis radium}}

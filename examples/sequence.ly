@@ -1,5 +1,8 @@
 \version "2.24.1"
 
+% Render gabc with an additional line of lyrics.
+% Useful not only for sequences.
+
 \header {
   title = "Sequence Veni Sancte Spiritus"
 }

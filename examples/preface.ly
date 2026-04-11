@@ -1,5 +1,7 @@
 \version "2.24.1"
 
+% Preface: gabc <sp> special characters support
+
 \header {
   title = "Missal chants"
   subtitle = "Praefatio ferialis communis"

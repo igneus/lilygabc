@@ -1,5 +1,7 @@
 \version "2.24.1"
 
+% Render gabc with automatically added solfege syllables
+
 \header {
   title = "Chant with Solfege"
   tagline = ##f
