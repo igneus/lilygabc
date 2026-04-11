@@ -24,7 +24,7 @@ The Gregorio software is not involved in the process.
 
 Creation of lilygabc was originally inspired by [this forum post](https://forum.musicasacra.com/forum/discussion/comment/256478#Comment_256478):
 given the vast amount of chant transcriptions available
-in the gabc format, it makes sense to provide first class support
+in the gabc format, it makes sense to provide support
 for this music encoding format in LilyPond.
 
 While LilyPond is not the first option for chant typesetting
