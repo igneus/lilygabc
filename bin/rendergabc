@@ -43,4 +43,4 @@ export RENDERGABC_INPUT_FILE=$1
 OUTFILE=$(echo "$RENDERGABC_INPUT_FILE" | xargs basename | sed -E 's/(.gabc)?$//')
 
 BIN_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
-lilypond --output=$OUTFILE $LILYPOND_OPTS $BIN_DIR/rendergabc.ly
+lilypond --output=$OUTFILE "${LILYPOND_OPTS[@]}" $BIN_DIR/rendergabc.ly

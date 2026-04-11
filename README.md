@@ -173,6 +173,9 @@ $ ./bin/rendergabc gabc_file.gabc                  # modern notation, PDF
 $ ./bin/rendergabc --svg gabc_file.gabc            # modern notation, SVG
 $ ./bin/rendergabc --vaticana gabc_file.gabc       # square notation, PDF
 $ ./bin/rendergabc --vaticana --png gabc_file.gabc # square notation, PNG
+
+# most options supported by LilyPond can be used:
+$ ./bin/rendergabc --vaticana -dpaper-size="\"a6\"" -dcrop gabc_file.gabc
 ```
 
 ## Running tests
