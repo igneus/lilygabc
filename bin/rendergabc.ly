@@ -19,16 +19,14 @@
 
 \include "../lilygabc.ily"
 
-emptyLayout = \layout {}
-
 #(begin
   (define render-fn (if as-vaticana gabc-vaticana-file gabc-file))
-  (define useLayout (if as-vaticana emptyLayout lilygabcModernGregorianStemlessLayout)))
+  (define use-layout (if as-vaticana lilygabcVaticanaLayout lilygabcModernGregorianStemlessLayout)))
 
 \score {
   \render-fn #input-file
   \layout {
-    \useLayout
+    \use-layout
     \set Score.forbidBreakBetweenBarLines = ##f
   }
 }
