@@ -27,5 +27,8 @@ emptyLayout = \layout {}
 
 \score {
   \render-fn #input-file
-  \layout { \useLayout }
+  \layout {
+    \useLayout
+    \set Score.forbidBreakBetweenBarLines = ##f
+  }
 }
