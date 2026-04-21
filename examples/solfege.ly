@@ -48,20 +48,6 @@ gabc-score-with-solfege =
      #}))
 
 \score {
-  % music from https://gregobase.selapa.net/chant.php?id=8653
-  \gabc-score-with-solfege
-    "(c4)Re(h)rum(h') De(h)us(h) te(h)nax(h') vi(g)gor,(g'_) (,)
-    Im(h)mó(h')tus(h) in(h) te(g) pér(h')ma(h)nens,(h.) (;z)
-    Lu(h)cis(h') di(h)úr(g)næ(f) tém(g')po(f)ra(e'_) (,)
-    Suc(f)cés(g')si(g)bus(g) de(f)tér(h')mi(g)nans.(g.) (::)"
-  \layout {
-    ragged-last = ##f
-  }
-}
-
-\pageBreak
-
-\score {
   % music from https://gregobase.selapa.net/chant.php?id=2539
   \gabc-score-with-solfege
     "(f3) Ut(e) que(f')ant(h) la(fg)xis(f.) (,)
@@ -71,4 +57,18 @@ gabc-score-with-solfege =
     Sol(iji)ve(hg) pol(h)lú(i)ti(f.) (,)
     lá(j')bi(i)i(j) re(hi)á(j)tum,(j.) (,)
     San(ih)cte(gf) Jo(e)án(g)nes.(f.) (::)"
+}
+
+\pageBreak
+
+\score {
+  % music from https://gregobase.selapa.net/chant.php?id=8653
+  \gabc-score-with-solfege
+    "(c4)Re(h)rum(h') De(h)us(h) te(h)nax(h') vi(g)gor,(g'_) (,)
+    Im(h)mó(h')tus(h) in(h) te(g) pér(h')ma(h)nens,(h.) (;z)
+    Lu(h)cis(h') di(h)úr(g)næ(f) tém(g')po(f)ra(e'_) (,)
+    Suc(f)cés(g')si(g)bus(g) de(f)tér(h')mi(g)nans.(g.) (::)"
+  \layout {
+    ragged-last = ##f
+  }
 }
