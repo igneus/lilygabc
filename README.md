@@ -145,10 +145,15 @@ control over *if* and *when* these changes are applied.)
 
 [![Example output: square notation](/doc/vaticana-example.png)](/doc/vaticana-example.ly)
 
-(The square notation support in lilygabc is still very much a work
+The square notation support in lilygabc is still very much a work
 in progress, limits of what LilyPond can do haven't been reached yet.
 For supported gabc features see visual tests.
-Features not covered by tests are not supported.)
+Features not covered by tests are not supported.
+
+Please note that (as of LilyPond 2.24) square notation support in LilyPond
+has some serious limits and long-term known issues,
+so that many chant pieces can't be rendered correctly.
+See the [State of square notation in LilyPond][report] report.
 
 ### Scripts
 
@@ -203,3 +208,4 @@ check results according to instructions in the resulting documents.
 GNU GPL v3
 
 [gabc]: http://gregorio-project.github.io/gabc/index.html
+[report]: https://github.com/igneus/lilypond-square-notation
