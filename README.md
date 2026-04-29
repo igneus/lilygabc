@@ -166,6 +166,7 @@ $ ./bin/gabc2ly --vaticana gabc_file.gabc # square notation, LilyPond
 ```
 
 `rendergabc` accepts a gabc file path and renders it
+(in a very simple default layout)
 in any of the output formats supported by LilyPond.
 
 ```sh
