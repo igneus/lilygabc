@@ -1,3 +1,5 @@
+\version "2.24.1"
+
 \include "gregorian-shim.ily"
 
 % Global settings.

@@ -1,3 +1,5 @@
+\version "2.24.1"
+
 %% This makes some functions and variables defined in LilyPond code
 %% available to Scheme modules.
 

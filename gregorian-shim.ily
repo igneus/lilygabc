@@ -1,3 +1,5 @@
+\version "2.24.1"
+
 %% Features missing from LilyPond's standard "gregorian.ly"
 %% required for rendering of some gabc scores
 
