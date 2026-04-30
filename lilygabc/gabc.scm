@@ -204,7 +204,7 @@
     ("#" . sharp)
     ("y" . natural)))
 
-(define music-element-re (make-regexp "([cf]b?[1-4])|([a-m][xy#])|(-)?([a-mA-M])([n-yN-Y~<>\\._'0-9]+)?|([,;:`]+)|([!@ ]|/{1,2})|([zZ][+-]?)|\\[([^]]*)\\]|\\|(.*$)"))
+(define music-element-re (make-regexp "([cf]b?[1-4])|([a-m][xy#])|(-)?([a-mA-M])([n-yN-Y~<>\\._'0-9]+)?|(([,:`]|;[1-6]?)+)|([!@ ]|/{1,2})|([zZ][+-]?)|\\[([^]]*)\\]|\\|(.*$)"))
 
 (define (parse-music-syllable music)
   (let ((m (regexp-exec music-element-re music)))
@@ -220,10 +220,10 @@
                (note (match:substring m 4))
                (note-shape (match:substring m 5))
                (divisio (match:substring m 6))
-               (space (match:substring m 7))
-               (line-break (match:substring m 8))
-               (square-brackets (match:substring m 9))
-               (nabc (match:substring m 10)))
+               (space (match:substring m 8))
+               (line-break (match:substring m 9))
+               (square-brackets (match:substring m 10))
+               (nabc (match:substring m 11)))
           (append
            (if (not (string-null? prefixx))
                `((unrecognized ,prefixx))

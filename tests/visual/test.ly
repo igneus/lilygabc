@@ -524,6 +524,18 @@ allGabcNotes = " (a) (b) (c) (d) (e) (f) (g) (h) (i) (j) (k) (l) (m)"
     "" ""
   }
 
+  % Dominican divisiones get a reasonable replacement
+
+  \markup\fill-line{
+    % @test
+    \score { { g'4 \bar "," g' } }
+    \score { \gabc "(c4) (g) (;1) (g)" }
+
+    % @test
+    \score { { g'4 \bar "," g' } }
+    \score { \gabc "(c4) (g) (;6) (g)" }
+  }
+
   % all the supported exotic forms
 }
 

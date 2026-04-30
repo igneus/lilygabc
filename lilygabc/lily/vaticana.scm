@@ -21,7 +21,13 @@
   '(("," . divisioMinima)
     (";" . divisioMaior)
     ("::" . finalis)
-    ("`" . virgula)))
+    ("`" . virgula)
+    (";1" . lilygabcDivisioDominicanQI)
+    (";2" . lilygabcDivisioDominicanQII)
+    (";3" . lilygabcDivisioDominicanQIII)
+    (";4" . lilygabcDivisioDominicanQIV)
+    (";5" . lilygabcDivisioDominicanQV)
+    (";6" . lilygabcDivisioDominicanQVI)))
 (define default-bar 'divisioMaxima) ; used for all not explicitly mapped
 
 (define-public (make-notes score)

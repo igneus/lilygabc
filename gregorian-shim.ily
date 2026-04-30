@@ -9,6 +9,7 @@
   ((lilygabc util) #:select (alist-merge)))
 
 %% Clefs: gabc supports both c and f clef on any staff line
+
 #(add-new-clef "vaticana-do0" "clefs.vaticana.do" -3 0 0)
 #(add-new-clef "vaticana-fa0" "clefs.vaticana.fa" -3 0 4)
 #(add-new-clef "vaticana-fa3" "clefs.vaticana.fa"  3 0 4)
@@ -41,3 +42,31 @@
 
 lilygabcSemicircleUpper = #(make-articulation 'lilygabcSemicircleUpper)
 lilygabcAccentGrave = #(make-articulation 'lilygabcAccentGrave)
+
+%% Divisiones
+
+% Dominican "quarter bars"; numbering mimicks gabc, c.f. gabc ";1", ";2" etc.
+lilygabcDivisioDominicanQI = {
+  \once \override Staff.BarLine.bar-extent = #'(-1.5 . 0)
+  \bar "|"
+}
+lilygabcDivisioDominicanQII = {
+  \once \override Staff.BarLine.bar-extent = #'(-2 . -0.5)
+  \bar "|"
+}
+lilygabcDivisioDominicanQIII = {
+  \once \override Staff.BarLine.bar-extent = #'(-0.5 . 1)
+  \bar "|"
+}
+lilygabcDivisioDominicanQIV = {
+  \once \override Staff.BarLine.bar-extent = #'(-1 . 0.5)
+  \bar "|"
+}
+lilygabcDivisioDominicanQV = {
+  \once \override Staff.BarLine.bar-extent = #'(0.5 . 2)
+  \bar "|"
+}
+lilygabcDivisioDominicanQVI = {
+  \once \override Staff.BarLine.bar-extent = #'(0 . 1.5)
+  \bar "|"
+}

@@ -617,7 +617,39 @@
     "" ""
   }
 
-  % all the exotic forms supported by gabc
+  % Dominican divisiones
+
+  \markup\fill-line{
+    % @test
+    \score { \new VaticanaVoice { \clef "vaticana-do3" g \lilygabcDivisioDominicanQI g } }
+    \score { \gabc-vaticana "(c4) (g) (;1) (g)" }
+
+    % @test
+    \score { \new VaticanaVoice { \clef "vaticana-do3" g \lilygabcDivisioDominicanQII g } }
+    \score { \gabc-vaticana "(c4) (g) (;2) (g)" }
+  }
+
+  \markup\fill-line{
+    % @test
+    \score { \new VaticanaVoice { \clef "vaticana-do3" g \lilygabcDivisioDominicanQIII g } }
+    \score { \gabc-vaticana "(c4) (g) (;3) (g)" }
+
+    % @test
+    \score { \new VaticanaVoice { \clef "vaticana-do3" g \lilygabcDivisioDominicanQIV g } }
+    \score { \gabc-vaticana "(c4) (g) (;4) (g)" }
+  }
+
+  \markup\fill-line{
+    % @test
+    \score { \new VaticanaVoice { \clef "vaticana-do3" g \lilygabcDivisioDominicanQV g } }
+    \score { \gabc-vaticana "(c4) (g) (;5) (g)" }
+
+    % @test
+    \score { \new VaticanaVoice { \clef "vaticana-do3" g \lilygabcDivisioDominicanQVI g } }
+    \score { \gabc-vaticana "(c4) (g) (;6) (g)" }
+  }
+
+  % other exotic forms supported by gabc
 }
 
 \bookpart {

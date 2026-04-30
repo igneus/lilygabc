@@ -44,6 +44,10 @@
              (parse "(::)"))
  (test-equal '((((divisio "`"))))
              (parse "(`)"))
+ (test-equal '((((divisio ";1"))))
+             (parse "(;1)"))
+ (test-equal '((((divisio ";6"))))
+             (parse "(;6)"))
 
  ;; lyrics
  (test-equal '((((lyrics "la") (note "g"))))

@@ -22,4 +22,10 @@
 
    ;; gregorian-shim.ly variables
    lilygabcAccentGrave
-   lilygabcSemicircleUpper))
+   lilygabcSemicircleUpper
+   lilygabcDivisioDominicanQI
+   lilygabcDivisioDominicanQII
+   lilygabcDivisioDominicanQIII
+   lilygabcDivisioDominicanQIV
+   lilygabcDivisioDominicanQV
+   lilygabcDivisioDominicanQVI))
