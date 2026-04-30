@@ -51,7 +51,6 @@ parsed =
 
 #(use-modules
   (ice-9 string-fun)
-  (lilygabc util)
   (lilygabc gabc))
 
 #(define (gabc-rhythmic-sign? char)
@@ -67,7 +66,7 @@ parsed =
 % is not considered part of lilygabc public API and can be changed
 % without prior notice.
 #(define (gabc-remove-rhythmic-signs parsed-gabc)
-   (map3
+   (map-syl-elements
     (lambda (i)
       (cond
        ;; remove rhythmic signs
