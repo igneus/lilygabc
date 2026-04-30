@@ -76,7 +76,7 @@ parsed =
           (list-set! j 2 (string-filter (negate gabc-rhythmic-sign?) additional))
           j))
        ;; transform phonetic j to i
-       ((equal? 'lyrics (first i))
+       ((is-lyrics? i)
         (list 'lyrics
               (string-map remove-phonetic-j (second i))))
        (else i)))

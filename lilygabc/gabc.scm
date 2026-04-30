@@ -71,16 +71,20 @@
 ;; syllable predicates
 
 (define-public (syl-has-lyrics? syllable)
-  (find (lambda (x) (eq? 'lyrics (first x))) syllable))
+  (find is-lyrics? syllable))
 
 (define-public (syl-has-notes? syllable)
-  (find (lambda (x) (eq? 'note (first x))) syllable))
+  (find is-note? syllable))
 
 ;; syllable item predicates
 
 (define-public (is-note? item)
   (and (< 0 (length item))
        (eq? 'note (first item))))
+
+(define-public (is-lyrics? item)
+  (and (< 0 (length item))
+       (eq? 'lyrics (first item))))
 
 ;; clef predicates
 
