@@ -42,7 +42,7 @@
      suffix
      ".ly")))
 
-(define (generate filename setup-both setup-expected setup-actual)
+(define (generate filename setup-both setup-actual)
   (let*
       ((example-pattern (option-ref options 'example #f))
        (file (open-input-file filename))
@@ -55,7 +55,6 @@
 
     (write-both "\\version \"2.24.0\"\n")
     (write-both setup-both)
-    (put-string fw-expected setup-expected)
     (put-string fw-actual setup-actual)
 
     (do ((line (read-line file) (read-line file))) ((eof-object? line))
@@ -85,19 +84,16 @@
 
 (generate "../visual/test.ly"
           ""
-          ""
           "\\include \"../../lilygabc.ily\"\n")
 
 (generate "../visual/vaticana_test.ly"
           (string-append
            "\\include \"gregorian.ly\"\n"
            "\\include \"../../gregorian-shim.ily\"\n")
-          ""
           "\\include \"../../lilygabc.ily\"\n")
 
 (generate "../visual/lower_level_api_test.ly"
           (string-append
            "\\include \"gregorian.ly\"\n"
            "\\include \"../../lilygabc.ily\"\n")
-          ""
           "")
