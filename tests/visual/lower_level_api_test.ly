@@ -2,7 +2,7 @@
 
 \include "gregorian.ly"
 \include "../../lilygabc.ily"
-\include "helper.ily"
+\include "helper.ily" % @none
 
 \header {
   title = "lilygabc tests - the lower level API"

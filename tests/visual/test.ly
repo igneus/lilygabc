@@ -1,7 +1,10 @@
 \version "2.24.1"
 
-\include "../../lilygabc.ily"
-\include "helper.ily"
+% N.B. all the @ annotations are processed by script generate.scm
+% when preparing the automated structural tests.
+
+\include "../../lilygabc.ily" % @for-actual
+\include "helper.ily" % @none
 
 \header {
   title = "lilygabc visual tests - modern notation"

@@ -2,8 +2,9 @@
 
 \include "gregorian.ly" % it's important to include gregorian.ly BEFORE lilygabc.ily
 
-\include "../../lilygabc.ily"
-\include "helper.ily"
+\include "../../lilygabc.ily" % @for-actual
+\include "../../gregorian-shim.ily" % @for-expected
+\include "helper.ily" % @none
 
 \header {
   title = "lilygabc visual tests - square notation"

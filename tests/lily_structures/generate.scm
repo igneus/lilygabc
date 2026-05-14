@@ -8,10 +8,35 @@
 (use-modules
  (ice-9 getopt-long)
  (ice-9 rdelim)
+ (ice-9 receive)
  (ice-9 regex)
  (ice-9 textual-ports))
 
 (load "options.scm")
+
+(define (extract-settings fd)
+  (let* ((version #f)
+         (include-expected '())
+         (include-actual '())
+         (settings-finished?
+          (lambda (line)
+            (and (string-contains line "\\")
+                 (not (or (string-contains line "\\version")
+                          (string-contains line "\\include")))))))
+    (do ((line (read-line fd) (read-line fd))) ((or (eof-object? fd) (settings-finished? line)))
+      (when (string-contains line "\\version")
+        (set! version line))
+      (when (string-contains line "\\include")
+        (when (or (not (string-contains line "@"))
+                  (string-contains line "@for-expected"))
+          (set! include-expected (cons line include-expected)))
+        (when (or (not (string-contains line "@"))
+                  (string-contains line "@for-actual"))
+          (set! include-actual (cons line include-actual)))))
+    (values
+     version
+     (reverse include-expected)
+     (reverse include-actual))))
 
 (define (transform-example str)
   (let*
@@ -42,7 +67,7 @@
      suffix
      ".ly")))
 
-(define (generate filename setup-both setup-actual)
+(define (generate filename)
   (let*
       ((example-pattern (option-ref options 'example #f))
        (file (open-input-file filename))
@@ -52,10 +77,14 @@
                      (put-string fw-expected str)
                      (put-string fw-actual str)))
        (line-i 0))
-
-    (write-both "\\version \"2.24.0\"\n")
-    (write-both setup-both)
-    (put-string fw-actual setup-actual)
+    (receive (version include-expected include-actual)
+        (extract-settings file)
+      (write-both (or version "\\version \"2.24.0\""))
+      (write-both "\n")
+      (map (lambda (s) (put-string fw-expected (string-append s "\n")))
+           include-expected)
+      (map (lambda (s) (put-string fw-actual (string-append s "\n")))
+           include-actual))
 
     (do ((line (read-line file) (read-line file))) ((eof-object? line))
       (set! line-i (+ 1 line-i))
@@ -82,18 +111,6 @@
 
 
 
-(generate "../visual/test.ly"
-          ""
-          "\\include \"../../lilygabc.ily\"\n")
-
-(generate "../visual/vaticana_test.ly"
-          (string-append
-           "\\include \"gregorian.ly\"\n"
-           "\\include \"../../gregorian-shim.ily\"\n")
-          "\\include \"../../lilygabc.ily\"\n")
-
-(generate "../visual/lower_level_api_test.ly"
-          (string-append
-           "\\include \"gregorian.ly\"\n"
-           "\\include \"../../lilygabc.ily\"\n")
-          "")
+(generate "../visual/test.ly")
+(generate "../visual/vaticana_test.ly")
+(generate "../visual/lower_level_api_test.ly")
