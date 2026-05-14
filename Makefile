@@ -21,6 +21,7 @@ test-structures:
 	cd tests/lily_structures && ./test.sh --lily-only
 
 GABC2LY=bin/gabc2ly
+RENDER=bin/rendergabc
 INPUT=tests/examples/aquam_quam_ego.gabc
 
 # Smoke test gabc2ly
@@ -30,6 +31,13 @@ test-gabc2ly:
 	$(GABC2LY) --scheme $(INPUT)
 	$(GABC2LY) --vaticana $(INPUT)
 	$(GABC2LY) --vaticana --scheme $(INPUT)
+
+# Smoke test rendergabc
+test-rendergabc:
+	$(RENDER) -dcrop $(INPUT)
+	$(RENDER) --vaticana --svg -dpaper-size="\"a6\"" $(INPUT)
+
+test-scripts: test-gabc2ly test-rendergabc
 
 # All automated tests
 test: test-unit test-structures
