@@ -19,9 +19,12 @@ lilypond vaticana_test_actual.ly > vaticana_test_actual.out & pid4=$!
 lilypond lower_level_api_test_expected.ly > lower_level_api_test_expected.out & pid5=$!
 lilypond lower_level_api_test_actual.ly > lower_level_api_test_actual.out & pid6=$!
 
-bash -c 'cd ../regression && ./process.sh > actual.out' & pid7=$!
+lilypond error_test_expected.ly > error_test_expected.out & pid7=$!
+lilypond error_test_actual.ly > error_test_actual.out & pid8=$!
 
-test_files="test.ly vaticana_test.ly lower_level_api_test.ly ../regression/expected.txt:../regression/actual.out"
+bash -c 'cd ../regression && ./process.sh > actual.out' & pid9=$!
+
+test_files="test.ly vaticana_test.ly error_test.ly lower_level_api_test.ly ../regression/expected.txt:../regression/actual.out"
 
 wait "$pid1" &&
     wait "$pid2" &&
@@ -30,4 +33,6 @@ wait "$pid1" &&
     wait "$pid5" &&
     wait "$pid6" &&
     wait "$pid7" &&
+    wait "$pid8" &&
+    wait "$pid9" &&
     guile report.scm "$@" $test_files

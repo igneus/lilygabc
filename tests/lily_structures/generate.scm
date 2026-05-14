@@ -113,4 +113,5 @@
 
 (generate "../visual/test.ly")
 (generate "../visual/vaticana_test.ly")
+(generate "../visual/error_test.ly")
 (generate "../visual/lower_level_api_test.ly")
