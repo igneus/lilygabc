@@ -730,6 +730,25 @@
 
     "" ""
   }
+
+  \markup\fill-line{
+    % TODO is this expected? Shouldn't it produce LilyPond lyrics anyway?
+    % @test lyrics longer than music
+    \score { << \new VaticanaVoice = "uniqueContext0" { \clef "vaticana-do3" g4 } \new VaticanaLyrics \lyricsto "uniqueContext0" { La } >> }
+    \score { \gabc-vaticana "(c4) La(g) la" }
+
+    % @test music longer than lyrics
+    \score { << \new VaticanaVoice = "uniqueContext0" { \clef "vaticana-do3" g4 g } \new VaticanaLyrics \lyricsto "uniqueContext0" { La "" } >> }
+    \score { \gabc-vaticana "(c4) La(g) (g)" }
+  }
+
+  \markup\fill-line{
+    % @test lyrics starting later than music
+    \score { << \new VaticanaVoice = "uniqueContext0" { \clef "vaticana-do3" g4 g } \new VaticanaLyrics \lyricsto "uniqueContext0" { "" La } >> }
+    \score { \gabc-vaticana "(c4) (g) La(g)" }
+
+    "" ""
+  }
 }
 
 size-example-score = "(c4) A(ghg)men.(fg)"

@@ -616,6 +616,25 @@ allGabcNotes = " (a) (b) (c) (d) (e) (f) (g) (h) (i) (j) (k) (l) (m)"
 
     ""
   }
+
+  \markup\fill-line{
+    % TODO is this expected? Shouldn't it produce LilyPond lyrics anyway?
+    % @test lyrics longer than music
+    \score { { g'4 } \addlyrics { La } }
+    \score { \gabc "(c4) La(g) la" }
+
+    % @test music longer than lyrics
+    \score { { g'4 g' } \addlyrics { La "" } }
+    \score { \gabc "(c4) La(g) (g)" }
+  }
+
+  \markup\fill-line{
+    % @test lyrics starting later than music
+    \score { { g'4 g' } \addlyrics { "" La } }
+    \score { \gabc "(c4) (g) La(g)" }
+
+    "" ""
+  }
 }
 
 \bookpart {
