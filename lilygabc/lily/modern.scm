@@ -18,16 +18,17 @@
 
 ; mapping Gregorio divisiones -> LilyPond bars
 (define divisiones-mapping
-  `((","  . ,(l:bar "'"))
-    (";"  . ,(l:bar ","))
-    ("::" . ,(l:bar "||"))
-    ("`"  . ,(l:breathe))
-    (";1"  . ,(l:bar ","))
-    (";2"  . ,(l:bar ","))
-    (";3"  . ,(l:bar ","))
-    (";4"  . ,(l:bar ","))
-    (";5"  . ,(l:bar ","))
-    (";6"  . ,(l:bar ","))))
+  (let ((maior (l:bar ",")))
+    `((","  . ,(l:bar "'"))
+      (";"  . ,maior)
+      ("::" . ,(l:bar "||"))
+      ("`"  . ,(l:breathe))
+      (";1"  . ,maior)
+      (";2"  . ,maior)
+      (";3"  . ,maior)
+      (";4"  . ,maior)
+      (";5"  . ,maior)
+      (";6"  . ,maior))))
 (define default-bar (l:bar "|")) ; used for all not explicitly mapped
 
 ;; equivalent of gabc:syl-has-notes? operating on the results
