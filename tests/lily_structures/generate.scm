@@ -10,6 +10,7 @@
  (ice-9 rdelim)
  (ice-9 receive)
  (ice-9 regex)
+ (ice-9 string-fun)
  (ice-9 textual-ports))
 
 (load "options.scm")
@@ -61,11 +62,10 @@
        scheme-code)))))
 
 (define (suffix-filename suffix input-path)
-  (let ((bn (basename input-path)))
-    (string-append
-     (substring bn 0 (string-contains bn ".ly"))
-     suffix
-     ".ly")))
+  (string-replace-substring
+   (basename input-path)
+   ".ly"
+   (string-append suffix ".ly")))
 
 (define (generate filename)
   (let*

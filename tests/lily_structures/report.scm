@@ -61,13 +61,13 @@
 
 (let*
     ((diff-unified (option-ref options 'unified "3"))
-     (strr string-replace-substring)
      (cmdline-paths (option-ref options '() '()))
      (examples
       (append-map
        (lambda (f)
-         (load-example-pairs (strr f ".ly" "_expected.out")
-                             (strr f ".ly" "_actual.out")))
+         (load-example-pairs
+          (string-replace-substring f ".ly" "_expected.out")
+          (string-replace-substring f ".ly" "_actual.out")))
        cmdline-paths))
      (failures
       (filter
