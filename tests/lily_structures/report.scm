@@ -66,12 +66,8 @@
      (examples
       (append-map
        (lambda (f)
-         (if (string-index f #\:)
-             ;; expected_path.out:actual_path.out
-             (apply load-example-pairs (string-split f #\:))
-             ;; single .ly file path the examples have been generated from
-             (load-example-pairs (strr f ".ly" "_expected.out")
-                                 (strr f ".ly" "_actual.out"))))
+         (load-example-pairs (strr f ".ly" "_expected.out")
+                             (strr f ".ly" "_actual.out")))
        cmdline-paths))
      (failures
       (filter

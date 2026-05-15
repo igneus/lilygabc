@@ -22,9 +22,9 @@ lilypond lower_level_api_test_actual.ly > lower_level_api_test_actual.out & pid6
 lilypond error_test_expected.ly > error_test_expected.out & pid7=$!
 lilypond error_test_actual.ly > error_test_actual.out & pid8=$!
 
-bash -c 'cd ../regression && ./process.sh > actual.out' & pid9=$!
+bash -c 'cd ../regression && ./process.sh > regression_actual.out' & pid9=$!
 
-test_files="test.ly vaticana_test.ly error_test.ly lower_level_api_test.ly ../regression/expected.txt:../regression/actual.out"
+test_files="test.ly vaticana_test.ly error_test.ly lower_level_api_test.ly ../regression/regression.ly"
 
 wait "$pid1" &&
     wait "$pid2" &&

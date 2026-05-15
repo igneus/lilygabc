@@ -1,3 +1,3 @@
 #!/usr/bin/env bash
 
-./process.sh > expected.txt
+./process.sh > regression_expected.out
