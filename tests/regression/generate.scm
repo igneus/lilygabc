@@ -23,7 +23,7 @@
   (match-let
       (((structure-label . display-fn) structure)
        ((style-label . render-fn) style))
-    (display (string-append "#(display \"% test " filename ": " style-label ": " structure-label "\\n\")\n"))
+    (display (string-append "#(display \"% test regression: " filename ": " style-label ": " structure-label "\\n\")\n"))
     (display (string-append "\\void \\" display-fn " \\" render-fn " \"" filename "\"\n"))))
 
 

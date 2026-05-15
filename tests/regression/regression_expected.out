@@ -1,4 +1,4 @@
-% test ../examples/aquam_quam_ego.gabc: modern notation: LilyPond
+% test regression: ../examples/aquam_quam_ego.gabc: modern notation: LilyPond
 
 {
   c''4\episemInitium\episemFinis c''4( b'4) { {
@@ -18,7 +18,7 @@
  \addlyrics {
   A -- quam * quam e -- go dé -- de -- ro, qui bí -- be -- rit ex e -- a, non sí -- ti -- et un -- quam. 
 }
-% test ../examples/aquam_quam_ego.gabc: modern notation: Scheme
+% test regression: ../examples/aquam_quam_ego.gabc: modern notation: Scheme
 
 (make-music
   'SimultaneousMusic
@@ -578,7 +578,7 @@
                       (ly:make-duration 2))
                     (make-music 'CompletizeExtenderEvent)))))))
 
-% test ../examples/aquam_quam_ego.gabc: square notation: LilyPond
+% test regression: ../examples/aquam_quam_ego.gabc: square notation: LilyPond
 
 << \new VaticanaVoice = "uniqueContext0" {
      \clef "vaticana-do3"
@@ -603,7 +603,7 @@
    } \new VaticanaLyrics \lyricsto "uniqueContext0" {
      A -- quam * quam e -- go dé -- de -- ro, qui bí -- be -- rit ex e -- a, non sí -- ti -- et un -- quam. 
    } >>
-% test ../examples/aquam_quam_ego.gabc: square notation: Scheme
+% test regression: ../examples/aquam_quam_ego.gabc: square notation: Scheme
 
 (make-music
   'SimultaneousMusic
