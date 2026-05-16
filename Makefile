@@ -4,11 +4,11 @@ test-unit:
 
 # Build documents for visual tests
 visual_ly:
-	cd tests/visual && make ly
+	cd tests/visual && $(MAKE) ly
 
 # Build document for lilygabc vs. Gregorio visual tests
 visual_tex:
-	cd tests/visual && make tex
+	cd tests/visual && $(MAKE) tex
 
 # Run regression tests on their own
 # (they are also included in the structural test suite)
