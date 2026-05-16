@@ -65,9 +65,10 @@
      (examples
       (append-map
        (lambda (f)
-         (load-example-pairs
-          (string-replace-substring f ".ly" "_expected.out")
-          (string-replace-substring f ".ly" "_actual.out")))
+         (let ((bn (basename f)))
+           (load-example-pairs
+            (string-replace-substring bn ".ly" "_expected.out")
+            (string-replace-substring bn ".ly" "_actual.out"))))
        cmdline-paths))
      (failures
       (filter

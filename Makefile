@@ -18,7 +18,7 @@ test-regression:
 # Dump the visual test examples as LilyPond data structures
 # and compare them
 test-structures:
-	cd tests/lily_structures && ./test.sh --lily-only
+	cd tests/lily_structures && ./test.sh --lily-only ../visual/test.ly ../visual/vaticana_test.ly ../visual/error_test.ly ../visual/lower_level_api_test.ly
 
 GABC2LY=bin/gabc2ly
 RENDER=bin/rendergabc

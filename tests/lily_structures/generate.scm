@@ -111,7 +111,5 @@
 
 
 
-(generate "../visual/test.ly")
-(generate "../visual/vaticana_test.ly")
-(generate "../visual/error_test.ly")
-(generate "../visual/lower_level_api_test.ly")
+(let ((args (option-ref options '() '())))
+  (map generate args))
