@@ -1,4 +1,6 @@
 ;; Generates the Gregorio vs. lilygabc side-by-side comparison
+;;
+;; generate.scm [options] [input files]
 
 (use-modules
  ((gnutls) #:prefix gnutls:)
@@ -8,6 +10,20 @@
  (ice-9 rdelim)
  (ice-9 textual-ports)
  (srfi srfi-26))
+
+;; command line options
+(define option-spec
+  ;; --output-file -o FILE : write to a specified file instead of standard output
+  '((output-file (single-char #\o) (value #t))
+    ;; --compile -c : run lualatex
+    (compile (single-char #\c) (value #f))
+    ;; --paper -p : paper format passed to LaTeX \documentclass command
+    (paper (single-char #\p) (value #t))))
+
+(define options
+  (getopt-long (command-line) option-spec #:stop-at-first-non-option #t))
+
+
 
 (define (make-header paper)
   (string-append "\\documentclass[" paper ", 12pt]{article}
@@ -109,17 +125,6 @@
       (newline output-port) (newline output-port)))))
 
 
-
-;; command line options
-(define option-spec
-  ;; --output-file -o FILE : write to a specified file instead of standard output
-  '((output-file (single-char #\o) (value #t))
-    ;; --compile -c : run lualatex
-    (compile (single-char #\c) (value #f))
-    ;; --paper -p : paper format passed to LaTeX \documentclass command
-    (paper (single-char #\p) (value #t))))
-
-(define options (getopt-long (command-line) option-spec #:stop-at-first-non-option #t))
 
 (let* ((input-files (option-ref options '() '()))
        (compile (option-ref options 'compile #f))
