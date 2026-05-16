@@ -1,7 +1,6 @@
 ly: test.pdf vaticana_test.pdf lower_level_api_test.pdf
 
-# TODO Why on earth does this work in Frescobaldi, but fails here?
-test_pdf: test.ly
+test.pdf: test.ly
 	lilypond test.ly
 
 vaticana_test.pdf: vaticana_test.ly
