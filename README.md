@@ -1,8 +1,7 @@
 # lilygabc
 
 lilygabc is a LilyPond library allowing direct inclusion
-of chant scores encoded in the [gabc][gabc] format
-in LilyPond documents:
+of Gregorian chant scores encoded in the [gabc][gabc] format:
 
 ```lilypond
 \include "lilygabc.ily"
