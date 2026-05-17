@@ -21,7 +21,7 @@ Internally lilygabc parses the gabc format and translates it
 to LilyPond data structures, which are then engraved by LilyPond.
 The Gregorio software is not involved in the process.
 
-Creation of lilygabc was originally inspired by [this forum post](https://forum.musicasacra.com/forum/discussion/comment/256478#Comment_256478):
+Creation of lilygabc was inspired by [this forum post](https://forum.musicasacra.com/forum/discussion/comment/256478#Comment_256478):
 given the vast amount of chant transcriptions available
 in the gabc format, it makes sense to provide support
 for this music encoding format in LilyPond.
@@ -33,26 +33,26 @@ in a LilyPond document is useful.
 
 ## Prerequisites
 
-*Only LilyPond is required* for using the provided LilyPond commands.
+### End user
 
-Developed with
-LilyPond 2.24 (built with Guile 2.2).
-Status on other versions is unknown.
+There are no additional prerequisites, LilyPond is all you need.
+(lilygabc was developed with LilyPond 2.24,
+status on other versions is unknown.)
 
----
+To build the example documents in the `/examples` directory,
+free fonts "Junicode" and "Linux Libertine O" are required.
 
-For building the example documents:
-free fonts "Junicode" and "Linux Libertine O".
+### Developer
 
-For running tests:
+To run tests:
 
 - Guile
 - Bash
 - GNU Make (or compatible)
 - diff (from GNU diffutils or compatible)
-- optionally [Guile Library](https://www.nongnu.org/guile-lib/doc/) for colourful test results (Debian: `apt-get install guile-library`)
+- (optional) [Guile Library](https://www.nongnu.org/guile-lib/doc/) for colourful test results (Debian: `apt-get install guile-library`)
 
-For building the Gregorio vs. lilygabc visual test (`make visual_tex`):
+To build the Gregorio vs. lilygabc visual test (`make visual-tex`):
 
 - LuaLaTex
 - the [lyluatex](https://ctan.org/pkg/lyluatex) package
@@ -66,9 +66,9 @@ For building the Gregorio vs. lilygabc visual test (`make visual_tex`):
 [API Manual](/doc/manual.md))
 
 lilygabc supports rendering gabc scores both in modern notation
-and in square notation.
+and in square notation:
 
-### Modern notation
+### 1. Modern notation
 
 The resulting scores are by default very bare-bones.
 Two layout variables with settings suitable for chant in modern
@@ -110,7 +110,7 @@ include paths:
 
 [![Example output: modern notation](/doc/example.png)](/doc/example.ly)
 
-### Square notation
+### 2. Square notation
 
 Analogically to `\gabc` and `\gabc-file`
 there are commands `\gabc-vaticana` and `\gabc-vaticana-file`
@@ -154,7 +154,7 @@ has some serious limits and long-term known issues,
 so that many chant pieces can't be rendered correctly.
 See the [State of square notation in LilyPond][report] report.
 
-### Scripts
+## Scripts
 
 `gabc2ly` accepts path of a gabc file and dumps the music structures
 built by lilygabc as either LilyPond or Scheme code.
@@ -185,22 +185,35 @@ $ ./bin/rendergabc --vaticana -dpaper-size="\"a6\"" -dcrop gabc_file.gabc
 
 ## Running tests
 
-**Automated tests:**
+### Automated tests
 
 `$ make test`
 
 This command executes several layers of tests:
 
 - unit tests of the core Scheme modules
-- integration tests checking music structures produced by lilygabc
+- tests checking music structures produced by lilygabc
   against expected results coded manually in LilyPond
 - regression tests checking music structures of real-life scores
   against structures previously saved
 
-**Visual tests:**
+### Visual tests
 
-engrave the documents in `tests/visual/`,
-check results according to instructions in the resulting documents.
+`$ make visual-ly`
+
+then check the resulting PDF documents in `tests/visual/`
+according to instructions at the beginning of each one.
+(Most of the examples are evaluated also automatically as part
+of the structural test suite.)
+
+`$ make visual-tex` (very slow, requires working LuaLaTex and Gregorio)
+
+The resulting document contains four columns:
+
+- gabc code
+- square notation rendered by Gregorio
+- square notation rendered by LilyPond+lilygabc
+- modern notation rendered by LilyPond+lilygabc
 
 ## License
 
