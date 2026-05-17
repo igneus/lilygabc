@@ -70,9 +70,12 @@
 (define (generate filename)
   (let*
       ((example-pattern (option-ref options 'example #f))
+       (merge-batches (option-ref options 'merge-batches #f))
        (file (open-input-file filename))
-       (fw-expected (open-output-file (suffix-filename "_expected" filename)))
-       (fw-actual (open-output-file (suffix-filename "_actual" filename)))
+       (out-file-base (if merge-batches "all.ly" filename))
+       (output-mode (if merge-batches "a" "w"))
+       (fw-expected (open-file (suffix-filename "_expected" out-file-base) output-mode))
+       (fw-actual (open-file (suffix-filename "_actual" out-file-base) output-mode))
        (write-both (lambda (str)
                      (put-string fw-expected str)
                      (put-string fw-actual str)))
@@ -111,5 +114,8 @@
 
 
 
+(when (option-ref options 'merge-batches #f)
+  (map (lambda (x) (when (file-exists? x) (delete-file x)))
+       '("all_expected.ly" "all_actual.ly")))
 (let ((args (option-ref options '() '())))
   (map generate args))

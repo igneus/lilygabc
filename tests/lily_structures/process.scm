@@ -31,6 +31,8 @@
 
 (let*
     ((args (option-ref options '() '()))
+     (merge-batches (option-ref options 'merge-batches #f))
+     (source-files (if merge-batches '("all.ly") args))
      (paths
       (append-map
        (lambda (source-path)
@@ -38,7 +40,7 @@
            (list
             (string-replace-substring bn ".ly" "_expected.ly")
             (string-replace-substring bn ".ly" "_actual.ly"))))
-       args))
+       source-files))
      (processing
       (map process-file paths))
      (results

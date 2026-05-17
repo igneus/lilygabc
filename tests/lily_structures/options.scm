@@ -15,6 +15,8 @@
     ;; --unified -U NUM : output NUM (default 3) lines of unified context in diff
     (unified (single-char #\U) (value #t))
     ;; --report-add -r EXPECTED:ACTUAL : add pair of files to the final report only (without doing anything about them in the generating or processing phase)
-    (report-add (single-char #\r) (value #t))))
+    (report-add (single-char #\r) (value #t))
+    ;; --merge-batches -m : process all examples in a single batch, thus running only two LilyPond processes instead of two processes per argument
+    (merge-batches (single-char #\m) (value #f))))
 
 (define options (getopt-long (command-line) option-spec))

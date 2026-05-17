@@ -61,7 +61,11 @@
 
 (let*
     ((diff-unified (option-ref options 'unified "3"))
-     (cmdline-paths (option-ref options '() '()))
+     (merge-batches (option-ref options 'merge-batches #f))
+     (cmdline-paths
+      (if merge-batches
+          '("all.ly")
+          (option-ref options '() '())))
      (added-paths (option-ref options 'report-add #f))
      (file-pairs
       ;; files specified as arguments
