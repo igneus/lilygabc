@@ -12,7 +12,9 @@
     (lily-only (single-char #\L) (value #f))
     ;; --scheme-only -S : only check dumped Scheme code
     (scheme-only (single-char #\S) (value #f))
-    ;; --unified -U : output NUM (default 3) lines of unified context in diff
-    (unified (single-char #\U) (value #t))))
+    ;; --unified -U NUM : output NUM (default 3) lines of unified context in diff
+    (unified (single-char #\U) (value #t))
+    ;; --report-add -r EXPECTED:ACTUAL : add pair of files to the final report only (without doing anything about them in the generating or processing phase)
+    (report-add (single-char #\r) (value #t))))
 
 (define options (getopt-long (command-line) option-spec))

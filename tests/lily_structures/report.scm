@@ -62,14 +62,25 @@
 (let*
     ((diff-unified (option-ref options 'unified "3"))
      (cmdline-paths (option-ref options '() '()))
+     (added-paths (option-ref options 'report-add #f))
+     (file-pairs
+      ;; files specified as arguments
+      (append
+       (map
+        (lambda (f)
+          (let ((bn (basename f)))
+            (list
+             (string-replace-substring bn ".ly" "_expected.out")
+             (string-replace-substring bn ".ly" "_actual.out"))))
+        cmdline-paths)
+       ;; files added with --report-add
+       (if added-paths
+           (list (string-split added-paths #\:))
+           '())))
      (examples
       (append-map
-       (lambda (f)
-         (let ((bn (basename f)))
-           (load-example-pairs
-            (string-replace-substring bn ".ly" "_expected.out")
-            (string-replace-substring bn ".ly" "_actual.out"))))
-       cmdline-paths))
+       (lambda (ff) (apply load-example-pairs ff))
+       file-pairs))
      (failures
       (filter
        (lambda (x)

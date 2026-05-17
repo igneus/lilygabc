@@ -10,10 +10,10 @@ guile generate.scm "$@"
 
 echo "Dumping music structures"
 
-# TODO wire regression tests in again
-
-#bash -c 'cd ../regression && ./process.sh > regression_actual.out' & pid9=$!
+bash -c 'cd ../regression && ./process.sh > regression_actual.out' & pid9=$!
 guile process.scm "$@"
-#wait "$pid9"
+wait "$pid9"
 
-guile report.scm "$@" #../regression/regression.ly
+guile report.scm \
+      --report-add ../regression/regression_expected.out:../regression/regression_actual.out \
+      "$@"
