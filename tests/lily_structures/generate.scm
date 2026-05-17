@@ -23,8 +23,10 @@
           (lambda (line)
             (and (string-contains line "\\")
                  (not (or (string-contains line "\\version")
-                          (string-contains line "\\include")))))))
+                          (string-contains line "\\include"))))))
+         (line-i 0))
     (do ((line (read-line fd) (read-line fd))) ((or (eof-object? fd) (settings-finished? line)))
+      (set! line-i (+ 1 line-i))
       (when (string-contains line "\\version")
         (set! version line))
       (when (string-contains line "\\include")
@@ -37,7 +39,8 @@
     (values
      version
      (reverse include-expected)
-     (reverse include-actual))))
+     (reverse include-actual)
+     (+ 1 line-i))))
 
 (define (transform-example str)
   (let*
@@ -80,8 +83,9 @@
                      (put-string fw-expected str)
                      (put-string fw-actual str)))
        (line-i 0))
-    (receive (version include-expected include-actual)
+    (receive (version include-expected include-actual lines)
         (extract-settings file)
+      (set! line-i lines)
       (write-both (or version "\\version \"2.24.0\""))
       (write-both "\n")
       (for-each (lambda (s) (put-string fw-expected (string-append s "\n")))
