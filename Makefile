@@ -3,12 +3,15 @@ test-unit:
 	ls tests/unit/*_test.scm | GUILE_LOAD_PATH=. xargs -L1 guile
 
 # Build documents for visual tests
-visual_ly:
+visual-ly:
 	cd tests/visual && $(MAKE) ly
 
 # Build document for lilygabc vs. Gregorio visual tests
-visual_tex:
+visual-tex:
 	cd tests/visual && $(MAKE) tex
+
+# Build all visual tests
+visual: visual-ly visual-tex
 
 # Run regression tests on their own
 # (they are also included in the structural test suite)
@@ -43,4 +46,4 @@ test-scripts: test-gabc2ly test-rendergabc
 test: test-unit test-structures
 
 # All tests, including the particularly slow ones
-test-all: test test-gabc2ly
+test-all: test test-scripts
